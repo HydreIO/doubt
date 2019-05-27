@@ -25,7 +25,7 @@ doubt is a feather weight testing library [TAP 13](http://testanything.org/tap-v
 
 test your code and pipe the output to a [consumer](http://testanything.org/consumers.html) like [tape-spec](https://github.com/scottcorgan/tap-spec)
 
-<img align="right" width="100" height="100" src="https://i.imgur.com/HULOni8.png">
+<img align="right" width="600" src="https://i.imgur.com/HULOni8.png">
 
 ## Why
 
