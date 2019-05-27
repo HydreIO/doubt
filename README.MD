@@ -16,11 +16,9 @@
 [npmdl]: https://img.shields.io/npm/dw/@hydre/doubt.svg?color=%239C27B0&style=for-the-badge
 
 > Tester c'est douter
-
+<img align="right" width="600" src="https://i.imgur.com/HULOni8.png">
 doubt is a feather weight testing library [TAP 13](http://testanything.org/tap-version-13-specification.html) compliant
 test your code and pipe the output to a [consumer](http://testanything.org/consumers.html) like [tape-spec](https://github.com/scottcorgan/tap-spec)
-
-<img align="right" width="600" src="https://i.imgur.com/HULOni8.png">
 
 ## Why
 
