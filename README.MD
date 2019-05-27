@@ -39,6 +39,23 @@ npm i @hydre/doubt
 
 ## Use:
 
+Just import ! hulk u morron
+
+```js
+import '@hydre/doubt'
+```
+
+And now play with it like if it was an american pie
+
+```js
+// Find a nice title
+'Obama is gone'.doubt(()=> {
+
+	// write cool tests
+	'may we meet again'.because('i miss you').isTrue()
+})
+```
+
 ## Exemple:
 
 ```js
