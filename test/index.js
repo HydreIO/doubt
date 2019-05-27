@@ -1,12 +1,29 @@
-'The shire'.doubt(async () => {
-	const shire = { population: 150 }
+import Doubt from '../src'
 
-	'should contain many hobbits'.false(shire.population < 100)
-	'should have woods and fields and little rivers'.true(() => {
-		const { woods, fields, rivers } = shire
-		return woods && fields && rivers
-	})
-	await 'should always be at feast'.pass(async () => {})
-	await 'should grow pipe weed'.reject(async () => throw new Error('no CBD allowed'))
+const shire = { population: 150, hobbits: ['Frodo', 'Lobelia'] }
+const lair = { owner: 'Batman', queer: 'Robbin' }
+
+'The shire'.doubt(() => {
+
+	'should contain many hobbits'.because(shire.population > 100).isTrue()
+
+	"is Batman's lair".because(shire).isDeeplyEqualTo(lair)
 })
-                      
+
+'In the seven kingdoms'.doubt(async () => {
+
+	await (500).ms()
+
+	'Jon Snow is a Lord commander'.because('he is a virgin').isEqualTo('HE IS A VIRGIN' |> #.toLowerCase())
+
+	'Ygritte is thick af'.because('What is dead may never die'.length).isAbove(0)
+
+	'what do we say to the god of death'
+		.because(async () => {
+			await (1000).ms()
+			throw new Error('Not today')
+		})
+		.succeeds()
+
+	'The iron throne is made from a thousand swords'.because(1000).isBetween(1000, 1000)
+})

@@ -2,8 +2,8 @@ import Tap from './Tap'
 import path from 'path'
 import csite from 'callsites'
 import equal from 'fast-deep-equal'
-import 'colors'
 import util from 'util'
+import 'colors'
 
 const DOUBT = 'DOUBT'
 const IS_TRUE = 'IS_TRUE'
@@ -64,7 +64,7 @@ class Doubt {
 	}
 
 	get #set() {
-		return csite()[2]
+		return csite()[4]
 			|> #.getFileName()
 			|> path.basename
 			|> this.#map.get(#) || this.#map.set(#, new Set()).get(#)
@@ -107,19 +107,19 @@ class Doubt {
 						})
 						break
 					case IS_ABOVE:
-						yield Tap.test(title, a > b, {
+						yield Tap.test(title, t.a > t.b, {
 							why: `${`${t.a}`.bold.red} should be above ${`${t.b}`.bold.green}`,
 							at: t.err
 						})
 						break
 					case IS_BELOW:
-						yield Tap.test(title, a < b, {
+						yield Tap.test(title, t.a < t.b, {
 							why: `${`${t.a}`.bold.red} should be below ${`${t.b}`.bold.green}`,
 							at: t.err
 						})
 						break
 					case IS_BETWEEN:
-						yield Tap.test(title, a >= b && a <= c, {
+						yield Tap.test(title, t.a >= t.b && t.a <= t.c, {
 							why: `${`${t.a}`.bold.red} should be inclusively in between ${
 								`${t.b}`.bold.green
 							} and ${`${t.c}`.bold.blue}`,
@@ -144,7 +144,7 @@ class Doubt {
 						try {
 							await t.a()
 							yield Tap.test(title, false, {
-								why: `${`promise`.bold.red} didn't throwed anything`,
+								why: `${`promise`.bold.red} didn't rejected anything`,
 								at: t.err
 							})
 						} catch {
@@ -168,4 +168,11 @@ function inspect(obj) {
 	})
 }
 
-export default new Doubt()
+const doubt = new Doubt()
+
+process.on('beforeExit', async () => {
+	for await (let d of doubt.sync()) console.log(d)
+	process.exit(0)
+})
+
+export default doubt
