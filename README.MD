@@ -50,10 +50,59 @@ And now play with it like if it was an american pie
 ```js
 // Find a nice title
 'Obama is gone'.doubt(()=> {
-
 	// write cool tests
 	'may we meet again'.because('i miss you').isTrue()
 })
+```
+
+val is truthy
+```js
+because(val).isTrue()
+```
+
+val is falsy
+```js
+because(val).isFalse()
+```
+
+val === x
+```js
+because(val).isEqualTo(x)
+```
+
+equal(val,x)
+```js
+because(val).isDeeplyEqualTo(x)
+```
+
+val > x
+```js
+because(val).isAbove(x)
+```
+
+val < x
+```js
+because(val).isBelow(x)
+```
+
+val >= x && val <= y
+```js
+because(val).isBetween(x,y)
+```
+
+val is a succeeding promise
+```js
+because(val).succeeds()
+```
+
+val is a failing promise
+```js
+because(val).fails()
+```
+
+waiting helper
+```js
+await (Number).ms()
 ```
 
 ## Exemple:
