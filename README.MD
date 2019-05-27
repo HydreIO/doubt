@@ -17,8 +17,15 @@
 
 > Tester c'est douter
 
-doubt is a feather weight testing library ![TAP 13](http://testanything.org/tap-version-13-specification.html) compliant.
-test your code and pipe the output to a ![consumer](http://testanything.org/consumers.html)
+doubt is a feather weight testing library [TAP 13](http://testanything.org/tap-version-13-specification.html) compliant
+
+<p align=center>
+<img src="https://i.imgur.com/tiASZxi.png">
+</p>
+
+test your code and pipe the output to a [consumer](http://testanything.org/consumers.html) like [tape-spec](https://github.com/scottcorgan/tap-spec)
+
+<img align="right" width="100" height="100" src="https://i.imgur.com/HULOni8.png">
 
 ## Why
 
@@ -33,8 +40,6 @@ Testing should be dead simple, sexy, and **FAST**
 ```
 npm i @hydre/doubt
 ```
-
-<img src="https://i.imgur.com/HULOni8.png" align=right/>
 
 ## Use:
 
