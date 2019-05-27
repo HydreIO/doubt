@@ -7,7 +7,7 @@ const lair = { owner: 'Batman', queer: 'Robbin' }
 
 	'should contain many hobbits'.because(shire.population > 100).isTrue()
 
-	"is Batman's lair".because(shire).isDeeplyEqualTo(lair)
+	// "is Batman's lair".because(shire).isDeeplyEqualTo(lair)
 })
 
 'In the seven kingdoms'.doubt(async () => {
@@ -23,7 +23,7 @@ const lair = { owner: 'Batman', queer: 'Robbin' }
 			await (1000).ms()
 			throw new Error('Not today')
 		})
-		.succeeds()
+		.fails()
 
 	'The iron throne is made from a thousand swords'.because(1000).isBetween(1000, 1000)
 })
