@@ -4,8 +4,6 @@
 
 [![][discord]][discordlink] [![][twitter]][twitterlink]
 
-<iframe src="https://discordapp.com/widget?id=398114799776694272&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0"></iframe>
-
 [licence]: https://img.shields.io/github/license/HydreIO/doubt.svg?style=for-the-badge
 [npm]: https://img.shields.io/npm/v/@hydre/doubt.svg?logo=npm&style=for-the-badge
 [npmlink]: https://www.npmjs.com/package/@hydre/doubt
@@ -21,7 +19,7 @@
 
 ## Why
 
-Testing should be dead simple, sexy, and *FAST*
+Testing should be dead simple, sexy, and **FAST**
 
 - I like to make my own soap
 - I like simple things
