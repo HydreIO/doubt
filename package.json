@@ -10,7 +10,8 @@
 		"prepack": "npm run build",
 		"build": "babel src -d lib",
 		"dev": "babel-node src/index.js",
-		"test": "babel-node test/index.js | tap-spec"
+		"test": "babel-node test/index.js | tap-spec",
+		"postversion": "git push && git push --tags"
 	},
 	"repository": {
 		"type": "git",
