@@ -34,7 +34,7 @@ Testing should be dead simple, sexy, and **FAST**
 ## Install
 
 ```
-npm i @hydre/doubt
+npm i -D @hydre/doubt
 ```
 
 ## Use:
