@@ -4,7 +4,7 @@
 	"description": "Testing made trivial",
 	"main": "lib/index.js",
 	"bin": {
-		"doubt": "src/cli.js"
+		"doubt": "lib/cli.js"
 	},
 	"scripts": {
 		"prepack": "npm run build",
