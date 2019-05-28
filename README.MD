@@ -113,7 +113,7 @@ Or follow these 4 steps
 	├── sometest.js
 	└── testsome.js
 	```
-3. just import the current folder `import * as _ from './'`
+3. just import the current folder inside the `index.js` file by pasting `import * as _ from './'`
 4. the wildcard plugin will do the rest by importing all your test files
 
 ## Api
