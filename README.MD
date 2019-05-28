@@ -103,7 +103,7 @@ doubt 'test/**/*.js' | tap-spec
 ```
 
 Using babel ? me too! since directly transforming the code then evaluating it just do weird shit, you'll have to import your files manually.
-Or follow these 3 steps
+Or follow these 4 steps
 
 1. install the [babel-plugin-wildcard](https://github.com/vihanb/babel-plugin-wildcard)
 2. create an index.js file in your test folder such as
