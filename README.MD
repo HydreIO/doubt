@@ -89,6 +89,19 @@ const lair = { owner: 'Batman', queer: 'Robbin' }
 })
 ```
 
+## Glob
+
+Run multiple test files all at once by including a script in your `package.json`
+```
+"test": "doubt 'test/**/*.js' | tap-spec"
+```
+
+You can also install it globally to run manually
+```
+npm i -g @hydre/doubt
+doubt 'test/**/*.js' | tap-spec
+```
+
 ## Api
 
 * val is truthy
