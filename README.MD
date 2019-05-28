@@ -92,7 +92,7 @@ const lair = { owner: 'Batman', queer: 'Robbin' }
 ## Glob
 
 Run multiple test files all at once by including a script in your `package.json`
-> (it even support babel with your `babel.config.js`)
+> it even support babel with your `babel.config.js`
 ```
 "test": "doubt 'test/**/*.js' | tap-spec"
 ```
