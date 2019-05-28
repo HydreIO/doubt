@@ -7,7 +7,7 @@ const lair = { owner: 'Batman', queer: 'Robbin' }
 	await (500).ms()
 	'should contain many hobbits'.because(shire.population > 100).isTrue()
 
-	"is Batman's lair".because(shire).isDeeplyEqualTo(lair)
+	// "is Batman's lair".because(shire).isDeeplyEqualTo(lair)
 })
 
 'In the seven kingdoms'.doubt(async () => {

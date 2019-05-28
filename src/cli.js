@@ -5,9 +5,5 @@ import path from 'path'
 const [, , regex] = process.argv
 
 glob(regex, {}, (err, files) => {
-	for (let file of files) {
-		console.log('require', path.resolve(file))
-		require(path.resolve(file))
-		// import(path.resolve(file))
-	}
+	for (let file of files) require(path.resolve(file))
 })

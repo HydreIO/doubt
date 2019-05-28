@@ -86,7 +86,8 @@ class Doubt {
 	async *run() {
 		yield Tap.version
 		for (let [file, set] of this.#tests.entries()) {
-			yield `\n${'RUN..'.bold.black.bgYellow} ${file.white.bold.underline}`
+			yield `# ${'___________________________________________'.yellow}
+${'RUN..'.bold.black.bgYellow} ${file.white.bold.underline}`
 			for (let t of set) {
 				const { title, type } = t
 				switch (type) {
