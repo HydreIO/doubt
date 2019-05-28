@@ -45,7 +45,7 @@ Just import ! hulk u morron
 import '@hydre/doubt'
 ```
 
-And now play with it like if it was an american pie
+And now play with it
 
 ```js
 // Find a nice title

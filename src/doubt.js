@@ -148,7 +148,7 @@ class Doubt {
 						} catch (e) {
 							yield Tap.test(title, false, {
 								why: `${`promise`.bold.red} rejected with an error`,
-								cause: e?.message.magenta.bold ?? '',
+								cause: e?.message.magenta.bold ?? '¯\_(ツ)_/¯',
 								at: t.err
 							})
 						}
