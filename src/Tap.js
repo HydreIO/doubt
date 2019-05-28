@@ -3,26 +3,28 @@ class Tap {
 	#pass = 0
 	#failed
 
-	version = 'TAP version 13'
+	version() {
+		console.log('TAP version 13')
+	}
 
 	title(h1) {
-		return `# ${h1}`
+		console.log(`# ${h1}`)
 	}
 
 	test(title, ok, err) {
 		this.#tests++
 		const msg = `${this.#tests} ${title}`
-		if (ok) return `ok ${msg}`
+		if (ok) console.log(`ok ${msg}`)
 		else {
 			this.#failed = true
-			return `not ok ${msg}
-  ---${err |> Object.entries |> toLines |> toLiteral}
-  ...`
+			console.log(`not ok ${msg}
+---${err |> Object.entries |> toLines |> toLiteral}
+...`)
 		}
 	}
 
-	get end() {
-		return `1..${this.#tests}`
+	end() {
+		console.log(`1..${this.#tests}`)
 	}
 
 	get shouldFail() {

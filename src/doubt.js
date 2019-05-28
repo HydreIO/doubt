@@ -17,167 +17,110 @@ const SUCCEEDS = 'SUCCEEDS'
 const FAILS = 'FAILS'
 
 class Doubt {
-	#tests = new Map()
-	#doubts = new Set()
+	#doubts = new Map()
 
 	constructor() {
-		const getSet = ::this.#getSet
 		const doubts = this.#doubts
 
 		String.prototype.doubt = async function(fn) {
-			const file = csite()[1] 
-				|> #.getFileName()
-				|> path.basename
-
-			doubts.add({ 
-				fn, 
-				title: this, 
-				file
-			})
+			const file = csite()[1].getFileName() |> path.basename
+			const set = doubts.get(file) || doubts.set(file, new Set()).get(file)
+			set.add({ fn, title: this })
 		}
 
 		String.prototype.because = function(a) {
-			const s = csite()[1] 
-				|> #.getFileName()
-				|> path.basename 
-				|> getSet
-			const add = payload => 
-				({ title: this, a, err: new Error().stack.split('at ')[3].trim() })
-				|> Object.assign(#, payload)
-				|> s.add
+			const at = new Error().stack.split('at ')[3].trim()
+			const self = this
 			return {
 				isTrue() {
-					add({ type: IS_TRUE })
+					Tap.test(self, !!a, {
+						why: `${`${!!a}`.bold.red} should be strictly true`,
+						at
+					})
 				},
 				isFalse() {
-					add({ type: IS_FALSE })
+					Tap.test(self, !a, {
+						why: `${`${!a}`.bold.red} should be strictly false`,
+						at
+					})
 				},
 				isEqualTo(b) {
-					add({ type: IS_EQUAL, b })
+					Tap.test(self, a === b, {
+						why: `${`${a}`.red.bold} should be strictly equal to ${(b + '').green.bold}`,
+						at
+					})
 				},
 				isDeeplyEqualTo(b) {
-					add({ type: IS_DEEPLY_EQUAL, b })
+					Tap.test(self, equal(a, b), {
+						why: `${'actual'.red.bold} should be deeply equal to ${'expect'.green.bold}`,
+						actual: inspect(a).bold,
+						expect: inspect(b).bold,
+						at
+					})
 				},
 				isAbove(b) {
-					add({ type: IS_ABOVE, b })
+					Tap.test(self, a > b, {
+						why: `${`${a}`.bold.red} should be above ${`${b}`.bold.green}`,
+						at
+					})
 				},
 				isBelow(b) {
-					add({ type: IS_BELOW, b })
+					Tap.test(self, a < b, {
+						why: `${`${a}`.bold.red} should be below ${`${b}`.bold.green}`,
+						at
+					})
 				},
 				isBetween(b, c) {
-					add({ type: IS_BETWEEN, b, c })
+					Tap.test(self, a >= b && a <= c, {
+						why: `${`${a}`.bold.red} should be inclusively in between ${`${b}`.bold.green} and ${
+							`${c}`.bold.blue
+						}`,
+						at
+					})
 				},
-				succeeds() {
-					add({ type: SUCCEEDS })
+				async succeeds() {
+					if (!a instanceof Promise) throw new Error(`${a} is not a promise`)
+					try {
+						if (typeof a === 'function') await a()
+						else await a
+						Tap.test(self, true)
+					} catch (e) {
+						Tap.test(self, false, {
+							why: `${`promise`.bold.red} rejected with an error`,
+							cause: e?.message.magenta.bold ?? '¯_(ツ)_/¯',
+							a
+						})
+					}
 				},
-				fails() {
-					add({ type: FAILS })
+				async fails() {
+					if (!a instanceof Promise) throw new Error(`${a} is not a promise`)
+					try {
+						if (typeof a === 'function') await a()
+						else await a
+						Tap.test(self, false, {
+							why: `${`promise`.bold.red} didn't rejected anything`,
+							at
+						})
+					} catch (e) {
+						Tap.test(self, true)
+					}
 				}
 			}
 		}
 	}
 
-	#getSet(filename) {
-		return this.#tests.get(filename) || this.#tests.set(filename, new Set()).get(filename)
-	}
-
-	async execute() {
-		for (let { fn, title, file } of this.#doubts) {
-			this.#getSet(file).add({ type: DOUBT, title })
-			await fn()
-		}
-	}
-
-	async *run() {
-		yield Tap.version
-		for (let [file, set] of this.#tests.entries()) {
-			yield `# ${'___________________________________________'.yellow}
-${'RUN..'.bold.black.bgYellow} ${file.white.bold.underline}`
-			for (let t of set) {
-				const { title, type } = t
-				switch (type) {
-					case DOUBT:
-						yield Tap.title(title)
-						break
-					case IS_TRUE:
-						yield Tap.test(title, !!t.a, {
-							why: `${`${!!t.a}`.bold.red} should be strictly true`,
-							at: t.err
-						})
-						break
-					case IS_FALSE:
-						yield Tap.test(title, !t.a, {
-							why: `${`${!t.a}`.bold.red} should be strictly false`,
-							at: t.err
-						})
-						break
-					case IS_EQUAL:
-						yield Tap.test(title, t.a === t.b, {
-							why: `${`${t.a}`.red.bold} should be strictly equal to ${(t.b + '').green.bold}`,
-							at: t.err
-						})
-						break
-					case IS_DEEPLY_EQUAL:
-						yield Tap.test(title, equal(t.a, t.b), {
-							why: `${'actual'.red.bold} should be deeply equal to ${'expect'.green.bold}`,
-							actual: inspect(t.a).bold,
-							expect: inspect(t.b).bold,
-							at: t.err
-						})
-						break
-					case IS_ABOVE:
-						yield Tap.test(title, t.a > t.b, {
-							why: `${`${t.a}`.bold.red} should be above ${`${t.b}`.bold.green}`,
-							at: t.err
-						})
-						break
-					case IS_BELOW:
-						yield Tap.test(title, t.a < t.b, {
-							why: `${`${t.a}`.bold.red} should be below ${`${t.b}`.bold.green}`,
-							at: t.err
-						})
-						break
-					case IS_BETWEEN:
-						yield Tap.test(title, t.a >= t.b && t.a <= t.c, {
-							why: `${`${t.a}`.bold.red} should be inclusively in between ${
-								`${t.b}`.bold.green
-							} and ${`${t.c}`.bold.blue}`,
-							at: t.err
-						})
-						break
-					case SUCCEEDS:
-						if (!t.a instanceof Promise) throw new Error(`${t.a} is not a promise`)
-						try {
-							if (typeof t.a === 'function') await t.a()
-							else await t.a
-							yield Tap.test(title, true)
-						} catch (e) {
-							yield Tap.test(title, false, {
-								why: `${`promise`.bold.red} rejected with an error`,
-								cause: e?.message.magenta.bold ?? '¯\_(ツ)_/¯',
-								at: t.err
-							})
-						}
-						break
-					case FAILS:
-						if (!t.a instanceof Promise) throw new Error(`${t.a} is not a promise`)
-						try {
-							if (typeof t.a === 'function') await t.a()
-							else await t.a
-							yield Tap.test(title, false, {
-								why: `${`promise`.bold.red} didn't rejected anything`,
-								at: t.err
-							})
-						} catch (e) {
-							yield Tap.test(title, true)
-						}
-						break
-				}
+	async run() {
+		Tap.version()
+		for (let [file, set] of this.#doubts.entries()) {
+			;`# ${'___________________________________________'.yellow}
+${'RUN..'.bold.black.bgYellow} ${file.white.bold.underline}` |> console.log
+			for (let { fn, title } of set) {
+				Tap.title(title)
+				await fn()
 			}
 		}
-		yield Tap.end
+		Tap.end()
 	}
-
 }
 
 function inspect(obj) {
@@ -191,8 +134,7 @@ function inspect(obj) {
 const doubt = new Doubt()
 
 process.on('beforeExit', async () => {
-	await doubt.execute()
-	for await (let d of doubt.run()) d |> console.log
+	await doubt.run()
 	process.exit(Tap.shouldFail ? 1 : 0)
 })
 

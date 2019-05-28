@@ -8,7 +8,7 @@ const lair = { owner: 'Batman', queer: 'Robbin' }
 
 	'Ygritte is thick af'.because('What is dead may never die'.length).isAbove(0)
 
-	'what do we say to the god of death'
+	await 'what do we say to the god of death'
 		.because(async () => {
 			await 1000 .ms()
 			throw new Error('Not today')
