@@ -1,6 +1,5 @@
 #!/usr/bin/env node
-import glob from 'glob'
-import Doubt from './doubt'
+const glob = require('glob')
 
 const [, , path] = process.argv
 
