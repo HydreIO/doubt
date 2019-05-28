@@ -55,56 +55,6 @@ And now play with it
 })
 ```
 
-val is truthy
-```js
-because(val).isTrue()
-```
-
-val is falsy
-```js
-because(val).isFalse()
-```
-
-val === x
-```js
-because(val).isEqualTo(x)
-```
-
-equal(val,x)
-```js
-because(val).isDeeplyEqualTo(x)
-```
-
-val > x
-```js
-because(val).isAbove(x)
-```
-
-val < x
-```js
-because(val).isBelow(x)
-```
-
-val >= x && val <= y
-```js
-because(val).isBetween(x,y)
-```
-
-val is a succeeding promise
-```js
-because(val).succeeds()
-```
-
-val is a failing promise
-```js
-because(val).fails()
-```
-
-waiting helper
-```js
-await (Number).ms()
-```
-
 ## Exemple:
 
 ```js
@@ -137,4 +87,56 @@ const lair = { owner: 'Batman', queer: 'Robbin' }
 
 	'The iron throne is made from a thousand swords'.because(1000).isBetween(1000, 1000)
 })
+```
+
+## Api
+
+* val is truthy
+```js
+because(val).isTrue()
+```
+
+* val is falsy
+```js
+because(val).isFalse()
+```
+
+* val === x
+```js
+because(val).isEqualTo(x)
+```
+
+* equal(val,x)
+```js
+because(val).isDeeplyEqualTo(x)
+```
+
+* val > x
+```js
+because(val).isAbove(x)
+```
+
+* val < x
+```js
+because(val).isBelow(x)
+```
+
+* val >= x && val <= y
+```js
+because(val).isBetween(x,y)
+```
+
+* val is a succeeding promise
+```js
+because(val).succeeds()
+```
+
+* val is a failing promise
+```js
+because(val).fails()
+```
+
+* waiting helper
+```js
+await (Number).ms()
 ```
