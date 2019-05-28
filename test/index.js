@@ -3,17 +3,14 @@ import Doubt from '../src'
 const shire = { population: 150, hobbits: ['Frodo', 'Lobelia'] }
 const lair = { owner: 'Batman', queer: 'Robbin' }
 
-'The shire'.doubt(() => {
-
+'The shire'.doubt(async () => {
+	await (500).ms()
 	'should contain many hobbits'.because(shire.population > 100).isTrue()
 
 	// "is Batman's lair".because(shire).isDeeplyEqualTo(lair)
 })
 
 'In the seven kingdoms'.doubt(async () => {
-
-	await (500).ms()
-
 	'Jon Snow is a Lord commander'.because('he is a virgin').isEqualTo('HE IS A VIRGIN' |> #.toLowerCase())
 
 	'Ygritte is thick af'.because('What is dead may never die'.length).isAbove(0)

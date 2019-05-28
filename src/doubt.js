@@ -16,21 +16,30 @@ const IS_BETWEEN = 'IS_BETWEEN'
 const SUCCEEDS = 'SUCCEEDS'
 const FAILS = 'FAILS'
 
+// TODO
+// INSTEAD OF AWAIT DIRECT DANS DOUBT LA CALLBACK QUI INIT LES TESTS
+// LA SAVE AVEC FN EN TANT QUE KEY ET AVEC LE TITRE POUR DISPLAY PLUS TARD
+// CA POURRA AUSSI SERVIR POUR L'ASYNC MODE
+// CAR LA LES TESTS ASYNC SONT SHOWN AU MAUVAIS ENDROIT
+
 class Doubt {
-	#map = new Map()
+	#tests = new Map()
+	#doubts = new Set()
 
 	constructor() {
-		const s = this.#set
+		const getSet = ::this.#getSet
+		const doubts = this.#doubts
 
 		String.prototype.doubt = async function(fn) {
-			s.add({ type: DOUBT, title: this })
-			await fn()
+			doubts.add({ fn, title: this, file: csite()[1] |> #.getFileName() |> path.basename })
 		}
 
 		String.prototype.because = function(a) {
-			const add = payload =>
+			const s = csite()[1] |> #.getFileName() |> path.basename |> getSet
+			const add = payload => 
 				({ title: this, a, err: new Error().stack.split('at ')[3].trim() })
-				|> Object.assign(#, payload) |> s.add
+				|> Object.assign(#, payload)
+				|> s.add
 			return {
 				isTrue() {
 					add({ type: IS_TRUE })
@@ -63,16 +72,20 @@ class Doubt {
 		}
 	}
 
-	get #set() {
-		return csite()[4]
-			|> #.getFileName()
-			|> path.basename
-			|> this.#map.get(#) || this.#map.set(#, new Set()).get(#)
+	#getSet(filename) {
+		return this.#tests.get(filename) || this.#tests.set(filename, new Set()).get(filename)
 	}
 
-	async *sync() {
+	async execute() {
+		for (let { fn, title, file } of this.#doubts) {
+			this.#getSet(file).add({ type: DOUBT, title })
+			await fn()
+		}
+	}
+
+	async *run() {
 		yield Tap.version
-		for (let [file, set] of this.#map.entries()) {
+		for (let [file, set] of this.#tests.entries()) {
 			yield `\n${'RUN..'.bold.black.bgYellow} ${file.white.bold.underline}`
 			for (let t of set) {
 				const { title, type } = t
@@ -127,27 +140,29 @@ class Doubt {
 						})
 						break
 					case SUCCEEDS:
-						if(!t.a instanceof Promise) throw new Error(`${t.a} is not a promise`)
+						if (!t.a instanceof Promise) throw new Error(`${t.a} is not a promise`)
 						try {
-							await t.a()
+							if (typeof t.a === 'function') await t.a()
+							else await t.a
 							yield Tap.test(title, true)
-						} catch(e) {
+						} catch (e) {
 							yield Tap.test(title, false, {
 								why: `${`promise`.bold.red} rejected with an error`,
-								cause: e.message.magenta.bold,
+								cause: e?.message.magenta.bold ?? '',
 								at: t.err
 							})
 						}
 						break
 					case FAILS:
-						if(!t.a instanceof Promise) throw new Error(`${t.a} is not a promise`)
+						if (!t.a instanceof Promise) throw new Error(`${t.a} is not a promise`)
 						try {
-							await t.a()
+							if (typeof t.a === 'function') await t.a()
+							else await t.a
 							yield Tap.test(title, false, {
 								why: `${`promise`.bold.red} didn't rejected anything`,
 								at: t.err
 							})
-						} catch {
+						} catch (e) {
 							yield Tap.test(title, true)
 						}
 						break
@@ -157,7 +172,6 @@ class Doubt {
 		yield Tap.end
 	}
 
-	*async() {}
 }
 
 function inspect(obj) {
@@ -171,8 +185,9 @@ function inspect(obj) {
 const doubt = new Doubt()
 
 process.on('beforeExit', async () => {
-	for await (let d of doubt.sync()) console.log(d)
-	process.exit(0)
+	await doubt.execute()
+	for await (let d of doubt.run()) d |> console.log
+	process.exit()
 })
 
 export default doubt
