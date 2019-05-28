@@ -29,13 +29,25 @@ class Doubt {
 	constructor() {
 		const getSet = ::this.#getSet
 		const doubts = this.#doubts
+		const self = this
 
 		String.prototype.doubt = async function(fn) {
-			doubts.add({ fn, title: this, file: csite()[1] |> #.getFileName() |> path.basename })
+			const file = csite()[1] 
+				|> #.getFileName() || self.nextfile 
+				|> path.basename
+
+			doubts.add({ 
+				fn, 
+				title: this, 
+				file
+			})
 		}
 
 		String.prototype.because = function(a) {
-			const s = csite()[1] |> #.getFileName() |> path.basename |> getSet
+			const s = csite()[1] 
+				|> #.getFileName() || self.nextfile 
+				|> path.basename 
+				|> getSet
 			const add = payload => 
 				({ title: this, a, err: new Error().stack.split('at ')[3].trim() })
 				|> Object.assign(#, payload)
@@ -79,6 +91,7 @@ class Doubt {
 	async execute() {
 		for (let { fn, title, file } of this.#doubts) {
 			this.#getSet(file).add({ type: DOUBT, title })
+			this.nextfile = file |> path.basename
 			await fn()
 		}
 	}
