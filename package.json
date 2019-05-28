@@ -10,7 +10,7 @@
 		"prepack": "npm run build",
 		"build": "babel src -d lib",
 		"dev": "babel-node src/index.js",
-		"test": "doubt 'test/**/*.js' | tap-spec",
+		"test": "babel-node src/cli.js 'test/**/*.js'",
 		"postversion": "git push && git push --tags"
 	},
 	"repository": {

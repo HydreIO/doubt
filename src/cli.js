@@ -1,8 +1,13 @@
 #!/usr/bin/env node
-const glob = require('glob')
+import glob from 'glob'
+import path from 'path'
 
-const [, , path] = process.argv
+const [, , regex] = process.argv
 
-glob(path, {}, (err, files) => {
-	for (let file of files) import(file)
+glob(regex, {}, (err, files) => {
+	for (let file of files) {
+		console.log('require', path.resolve(file))
+		require(path.resolve(file))
+		// import(path.resolve(file))
+	}
 })

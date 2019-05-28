@@ -187,7 +187,7 @@ const doubt = new Doubt()
 process.on('beforeExit', async () => {
 	await doubt.execute()
 	for await (let d of doubt.run()) d |> console.log
-	process.exit()
+	process.exit(Tap.shouldFail ? 1 : 0)
 })
 
 export default doubt

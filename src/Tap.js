@@ -1,7 +1,7 @@
 class Tap {
 	#tests = 0
 	#pass = 0
-	#fail = 0
+	#failed
 
 	version = 'TAP version 13'
 
@@ -13,14 +13,20 @@ class Tap {
 		this.#tests++
 		const msg = `${this.#tests} ${title}`
 		if (ok) return `ok ${msg}`
-		else
+		else {
+			this.#failed = true
 			return `not ok ${msg}
   ---${err |> Object.entries |> toLines |> toLiteral}
   ...`
+		}
 	}
 
 	get end() {
 		return `1..${this.#tests}`
+	}
+
+	get shouldFail() {
+		return this.#failed
 	}
 }
 
