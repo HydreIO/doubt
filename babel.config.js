@@ -22,6 +22,7 @@ module.exports = {
     ["@babel/plugin-proposal-nullish-coalescing-operator"],
     ["@babel/plugin-proposal-logical-assignment-operators"],
     ["@babel/plugin-proposal-pipeline-operator", { "proposal": "smart" }],
-    ["@babel/plugin-proposal-throw-expressions"]
+    ["@babel/plugin-proposal-throw-expressions"],
+    ["wildcard"]
 	]
 }

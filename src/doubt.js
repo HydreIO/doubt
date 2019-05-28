@@ -16,12 +16,6 @@ const IS_BETWEEN = 'IS_BETWEEN'
 const SUCCEEDS = 'SUCCEEDS'
 const FAILS = 'FAILS'
 
-// TODO
-// INSTEAD OF AWAIT DIRECT DANS DOUBT LA CALLBACK QUI INIT LES TESTS
-// LA SAVE AVEC FN EN TANT QUE KEY ET AVEC LE TITRE POUR DISPLAY PLUS TARD
-// CA POURRA AUSSI SERVIR POUR L'ASYNC MODE
-// CAR LA LES TESTS ASYNC SONT SHOWN AU MAUVAIS ENDROIT
-
 class Doubt {
 	#tests = new Map()
 	#doubts = new Set()
@@ -29,11 +23,10 @@ class Doubt {
 	constructor() {
 		const getSet = ::this.#getSet
 		const doubts = this.#doubts
-		const self = this
 
 		String.prototype.doubt = async function(fn) {
 			const file = csite()[1] 
-				|> #.getFileName() || self.nextfile 
+				|> #.getFileName()
 				|> path.basename
 
 			doubts.add({ 
@@ -45,7 +38,7 @@ class Doubt {
 
 		String.prototype.because = function(a) {
 			const s = csite()[1] 
-				|> #.getFileName() || self.nextfile 
+				|> #.getFileName()
 				|> path.basename 
 				|> getSet
 			const add = payload => 
@@ -91,7 +84,6 @@ class Doubt {
 	async execute() {
 		for (let { fn, title, file } of this.#doubts) {
 			this.#getSet(file).add({ type: DOUBT, title })
-			this.nextfile = file |> path.basename
 			await fn()
 		}
 	}
