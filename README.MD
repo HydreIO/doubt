@@ -89,6 +89,14 @@ const lair = { owner: 'Batman', queer: 'Robbin' }
 })
 ```
 
+Hey pipelines are so cool :shrug:
+
+![](https://i.imgur.com/y3CcGSH.png)
+
+in async too !
+
+![](https://i.imgur.com/QPLaL0m.png)
+
 ## Glob
 
 Run multiple test files all at once by including a script in your `package.json`
