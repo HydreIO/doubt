@@ -89,9 +89,9 @@ const lair = { owner: 'Batman', queer: 'Robbin' }
 })
 ```
 
-Hey pipelines are so cool :shrug:
+Hey pipelines are so cool **¯\_(ツ)_/¯**
 
-![](https://i.imgur.com/y3CcGSH.png)
+![](https://i.imgur.com/IQiB9RR.png)
 
 in async too !
 
