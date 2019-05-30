@@ -49,7 +49,7 @@ And now play with it
 
 ```js
 // Find a nice title
-'Obama is gone'.doubt(()=> {
+'Obama is gone'.doubt(() => {
 	// write cool tests
 	'may we meet again'.because('i miss you').isTrue()
 })
@@ -110,11 +110,13 @@ Damn bugs.. run only one set of tests
 ## Glob
 
 Run multiple test files all at once by including a script in your `package.json`
+
 ```
 "test": "doubt 'test/**/*.js' | tap-spec"
 ```
 
 You can also install it globally to run manually
+
 ```
 npm i -g @hydre/doubt
 doubt 'test/**/*.js' | tap-spec
@@ -125,82 +127,103 @@ Or follow these 5 steps
 
 1. install the [babel-plugin-wildcard](https://github.com/vihanb/babel-plugin-wildcard)
 2. create an index.js file in your test folder such as
-	```
-	test/
-	├── index.js
-	├── sometest.js
-	└── testsome.js
-	```
+   ```
+   test/
+   ├── index.js
+   ├── sometest.js
+   └── testsome.js
+   ```
 3. just import the current folder inside the `index.js` file by pasting `import * as _ from './'`
 4. the wildcard plugin will do the rest by importing all your test files
 5. you can now `babel-node test | tap-spec`
 
 ## Api
 
-* val is truthy
+### Tests
+
+```js
+''.doubt(() => {})
+''.only(() => {})
+```
+
+- val is truthy
+
 ```js
 because(val).isTrue()
 ```
 
-* val is falsy
+- val is falsy
+
 ```js
 because(val).isFalse()
 ```
 
-* val === x
+- val === x
+
 ```js
 because(val).isEqualTo(x)
 ```
 
-* equal(val,x)
+- equal(val,x)
+
 ```js
 because(val).isDeeplyEqualTo(x)
 ```
 
-* val > x
+- val > x
+
 ```js
 because(val).isAbove(x)
 ```
 
-* val < x
+- val < x
+
 ```js
 because(val).isBelow(x)
 ```
 
-* val >= x && val <= y
+- val >= x && val <= y
+
 ```js
-because(val).isBetween(x,y)
+because(val).isBetween(x, y)
 ```
 
-* isNaN(val)
+- isNaN(val)
+
 ```js
 because(val).isNaN()
 ```
 
-* typeof val === x
+- typeof val === x
+
 ```js
 because(val).isTypeOf(x)
 ```
 
-* val instanceof x
+- val instanceof x
+
 ```js
 because(val).isInstanceOf(x)
 ```
 
 ### Promises
+
 Don't forget to await those ones
 
-* val is a succeeding promise
+- val is a succeeding promise
+
 ```js
 await because(val).succeeds()
 ```
 
-* val is a failing promise
+- val is a failing promise
+
 ```js
 await because(val).fails()
 ```
 
-* waiting helper
+- waiting helper
+
 ```js
-await (Number).ms()
+await Number.ms()
 ```
