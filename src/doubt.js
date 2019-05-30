@@ -34,7 +34,12 @@ class Doubt {
 						at
 					})
 				},
-
+				exist() {
+					Tap.test(self, a !== undefined, {
+						why: `${`${!!a}`.bold.red} should be defined`,
+						at
+					})
+				},
 				isFalse() {
 					Tap.test(self, !a, {
 						why: `${`${!a}`.bold.red} should be strictly false`,
@@ -126,7 +131,6 @@ class Doubt {
 
 	async run() {
 		Tap.version()
-
 		if (only) {
 			const { file, fn, title } = only
 			;`# ${'___________________________________________'.yellow}

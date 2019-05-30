@@ -146,13 +146,19 @@ Or follow these 5 steps
 ''.only(() => {})
 ```
 
-- val is truthy
+- !!val
 
 ```js
 because(val).isTrue()
 ```
 
-- val is falsy
+- val !== undefined
+
+```js
+because(val).exist()
+```
+
+- !val
 
 ```js
 because(val).isFalse()
