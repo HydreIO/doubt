@@ -30,7 +30,7 @@ class Doubt {
 			return {
 				isTrue() {
 					Tap.test(self, !!a, {
-						why: `${`${!!a}`.bold.red} should be strictly true`,
+						why: `${`${a}`.bold.red} should be truthy`,
 						at
 					})
 				},
@@ -48,7 +48,7 @@ class Doubt {
 				},
 				isFalse() {
 					Tap.test(self, !a, {
-						why: `${`${!a}`.bold.red} should be strictly false`,
+						why: `${`${a}`.bold.red} should be falsy`,
 						at
 					})
 				},
