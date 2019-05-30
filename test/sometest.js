@@ -10,7 +10,7 @@ const lair = { owner: 'Batman', queer: 'Robbin' }
 	// "is Batman's lair".because(shire).isDeeplyEqualTo(lair)
 })
 
-'Oh Боже'.only(()=> {
+'Oh Боже'.doubt(()=> {
 	NaN
 		|> 'is not a number'.because(#)
 		|> #.isNaN()
