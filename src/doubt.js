@@ -25,7 +25,7 @@ class Doubt {
 		}
 
 		String.prototype.because = function(a) {
-			const at = new Error().stack.split('at ')[3].trim()
+			const at = new Error().stack.split('at ')[2].trim()
 			const self = this
 			return {
 				isTrue() {
@@ -127,7 +127,7 @@ class Doubt {
 							why: `${`promise`.bold.red} didn't rejected anything`,
 							at
 						})
-					} catch (e) {
+					} catch {
 						Tap.test(self, true)
 					}
 				}
