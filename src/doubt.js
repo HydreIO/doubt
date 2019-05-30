@@ -5,16 +5,7 @@ import equal from 'fast-deep-equal'
 import util from 'util'
 import 'colors'
 
-const DOUBT = 'DOUBT'
-const IS_TRUE = 'IS_TRUE'
-const IS_FALSE = 'IS_FALSE'
-const IS_EQUAL = 'IS_EQUAL'
-const IS_DEEPLY_EQUAL = 'IS_DEEPLY_EQUAL'
-const IS_ABOVE = 'IS_ABOVE'
-const IS_BELOW = 'IS_BELOW'
-const IS_BETWEEN = 'IS_BETWEEN'
-const SUCCEEDS = 'SUCCEEDS'
-const FAILS = 'FAILS'
+let only
 
 class Doubt {
 	#doubts = new Map()
@@ -28,6 +19,11 @@ class Doubt {
 			set.add({ fn, title: this })
 		}
 
+		String.prototype.only = async function(fn) {
+			const file = csite()[1].getFileName() |> path.basename
+			only = { file, fn, title: this }
+		}
+
 		String.prototype.because = function(a) {
 			const at = new Error().stack.split('at ')[3].trim()
 			const self = this
@@ -38,6 +34,7 @@ class Doubt {
 						at
 					})
 				},
+
 				isFalse() {
 					Tap.test(self, !a, {
 						why: `${`${!a}`.bold.red} should be strictly false`,
@@ -78,6 +75,24 @@ class Doubt {
 						at
 					})
 				},
+				isNaN() {
+					Tap.test(self, isNaN(a), {
+						why: `${`${a}`.bold.red} is a number`,
+						at
+					})
+				},
+				isTypeOf(b) {
+					Tap.test(self, (typeof a === b), {
+						why: `${`${a}`.bold.red} isn't typeOf ${`${b}`.bold.green}`,
+						at
+					})
+				},
+				isInstanceOf(b) {
+					Tap.test(self, (a instanceof b), {
+						why: `${`${a}`.bold.red} isn't an instance of ${`${b}`.bold.green}`,
+						at
+					})
+				},
 				async succeeds() {
 					if (!a instanceof Promise) throw new Error(`${a} is not a promise`)
 					try {
@@ -111,12 +126,22 @@ class Doubt {
 
 	async run() {
 		Tap.version()
-		for (let [file, set] of this.#doubts.entries()) {
+
+		if (only) {
+			const { file, fn, title } = only
 			;`# ${'___________________________________________'.yellow}
+${'RUN..'.bold.black.bgYellow} (only) ${file.white.bold.underline}/${title.white.bold}`
+				|> console.log
+			Tap.title(title)
+			await fn()
+		} else {
+			for (let [file, set] of this.#doubts.entries()) {
+				;`# ${'___________________________________________'.yellow}
 ${'RUN..'.bold.black.bgYellow} ${file.white.bold.underline}` |> console.log
-			for (let { fn, title } of set) {
-				Tap.title(title)
-				await fn()
+				for (let { fn, title } of set) {
+					Tap.title(title)
+					await fn()
+				}
 			}
 		}
 		Tap.end()

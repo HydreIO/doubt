@@ -1,6 +1,6 @@
 import Doubt from '../src'
 
-const shire = { population: 150, hobbits: ['Frodo', 'Lobelia'] }
+const shire = { population: 1, hobbits: ['Frodo', 'Lobelia'] }
 const lair = { owner: 'Batman', queer: 'Robbin' }
 
 'The shire'.doubt(async () => {
@@ -8,4 +8,10 @@ const lair = { owner: 'Batman', queer: 'Robbin' }
 	'should contain many hobbits'.because(shire.population > 100).isTrue()
 
 	// "is Batman's lair".because(shire).isDeeplyEqualTo(lair)
+})
+
+'Oh Боже'.only(()=> {
+	NaN
+		|> 'is not a number'.because(#)
+		|> #.isNaN()
 })

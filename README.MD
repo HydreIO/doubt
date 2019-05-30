@@ -97,6 +97,16 @@ in async too !
 
 ![](https://i.imgur.com/QPLaL0m.png)
 
+Damn bugs.. run only one set of tests
+
+```js
+'Oh Боже'.only(()=> {
+	NaN
+		|> 'is not a number'.because(#)
+		|> #.isNan()
+})
+```
+
 ## Glob
 
 Run multiple test files all at once by including a script in your `package.json`
@@ -160,6 +170,21 @@ because(val).isBelow(x)
 * val >= x && val <= y
 ```js
 because(val).isBetween(x,y)
+```
+
+* isNaN(val)
+```js
+because(val).isNaN()
+```
+
+* typeof val === x
+```js
+because(val).isTypeOf(x)
+```
+
+* val instanceof x
+```js
+because(val).isInstanceOf(x)
 ```
 
 ### Promises
