@@ -103,7 +103,7 @@ Damn bugs.. run only one set of tests
 'Oh Боже'.only(()=> {
 	NaN
 		|> 'is not a number'.because(#)
-		|> #.isNan()
+		|> #.isNaN()
 })
 ```
 
