@@ -139,12 +139,14 @@ Or follow these 5 steps
 
 ## Api
 
-### Tests
+### Describe
 
 ```js
 ''.doubt(() => {})
 ''.only(() => {})
 ```
+
+### Test
 
 - !!val
 
@@ -152,10 +154,16 @@ Or follow these 5 steps
 because(val).isTrue()
 ```
 
+- val === undefined
+
+```js
+because(val).isUndefined()
+```
+
 - val !== undefined
 
 ```js
-because(val).exist()
+because(val).isDefined()
 ```
 
 - !val

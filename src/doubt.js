@@ -34,9 +34,15 @@ class Doubt {
 						at
 					})
 				},
-				exist() {
+				isUndefined() {
+					Tap.test(self, a === undefined, {
+						why: `${`${a}`.bold.red} should be undefined`,
+						at
+					})
+				}
+				isDefined() {
 					Tap.test(self, a !== undefined, {
-						why: `${`${!!a}`.bold.red} should be defined`,
+						why: `${`${a}`.bold.red} should be defined`,
 						at
 					})
 				},
