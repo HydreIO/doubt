@@ -39,7 +39,7 @@ class Doubt {
 						why: `${`${a}`.bold.red} should be undefined`,
 						at
 					})
-				}
+				},
 				isDefined() {
 					Tap.test(self, a !== undefined, {
 						why: `${`${a}`.bold.red} should be defined`,
@@ -88,18 +88,18 @@ class Doubt {
 				},
 				isNaN() {
 					Tap.test(self, isNaN(a), {
-						why: `${`${a}`.bold.red} is a number`,
+						why: `${`${a}`.bold.red} is not NaN`,
 						at
 					})
 				},
 				isTypeOf(b) {
-					Tap.test(self, (typeof a === b), {
+					Tap.test(self, typeof a === b, {
 						why: `${`${a}`.bold.red} isn't typeOf ${`${b}`.bold.green}`,
 						at
 					})
 				},
 				isInstanceOf(b) {
-					Tap.test(self, (a instanceof b), {
+					Tap.test(self, a instanceof b, {
 						why: `${`${a}`.bold.red} isn't an instance of ${`${b}`.bold.green}`,
 						at
 					})
@@ -136,25 +136,30 @@ class Doubt {
 	}
 
 	async run() {
-		Tap.version()
-		if (only) {
-			const { file, fn, title } = only
-			;`# ${'___________________________________________'.yellow}
-${'RUN..'.bold.black.bgYellow} (only) ${file.white.bold.underline}/${title.white.bold}`
-				|> console.log
-			Tap.title(title)
-			await fn()
-		} else {
-			for (let [file, set] of this.#doubts.entries()) {
+		try {
+			Tap.version()
+			if (only) {
+				const { file, fn, title } = only
 				;`# ${'___________________________________________'.yellow}
-${'RUN..'.bold.black.bgYellow} ${file.white.bold.underline}` |> console.log
-				for (let { fn, title } of set) {
-					Tap.title(title)
-					await fn()
+	${'RUN..'.bold.black.bgYellow} (only) ${file.white.bold.underline}/${title.white.bold}`
+					|> console.log
+				Tap.title(title)
+				await fn()
+			} else {
+				for (let [file, set] of this.#doubts.entries()) {
+					;`# ${'___________________________________________'.yellow}
+	${'RUN..'.bold.black.bgYellow} ${file.white.bold.underline}` |> console.log
+					for (let { fn, title } of set) {
+						Tap.title(title)
+						await fn()
+					}
 				}
 			}
+			Tap.end()
+		} catch (e) {
+			console.error(e)
+			process.exit(1)
 		}
-		Tap.end()
 	}
 }
 
