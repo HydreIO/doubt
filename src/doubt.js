@@ -30,31 +30,31 @@ class Doubt {
 			return {
 				isTrue() {
 					Tap.test(self, !!a, {
-						why: `${`${a}`.bold.red} should be truthy`,
+						why: `${`${inspect(a)}`.bold.red} should be truthy`,
 						at
 					})
 				},
 				isUndefined() {
 					Tap.test(self, a === undefined, {
-						why: `${`${a}`.bold.red} should be undefined`,
+						why: `${`${inspect(a)}`.bold.red} should be undefined`,
 						at
 					})
 				},
 				isDefined() {
 					Tap.test(self, a !== undefined, {
-						why: `${`${a}`.bold.red} should be defined`,
+						why: `${`${inspect(a)}`.bold.red} should be defined`,
 						at
 					})
 				},
 				isFalse() {
 					Tap.test(self, !a, {
-						why: `${`${a}`.bold.red} should be falsy`,
+						why: `${`${inspect(a)}`.bold.red} should be falsy`,
 						at
 					})
 				},
 				isEqualTo(b) {
 					Tap.test(self, a === b, {
-						why: `${`${a}`.red.bold} should be strictly equal to ${(b + '').green.bold}`,
+						why: `${`${inspect(a)}`.red.bold} should be strictly equal to ${(inspect(b) + '').green.bold}`,
 						at
 					})
 				},
@@ -68,39 +68,39 @@ class Doubt {
 				},
 				isAbove(b) {
 					Tap.test(self, a > b, {
-						why: `${`${a}`.bold.red} should be above ${`${b}`.bold.green}`,
+						why: `${`${inspect(a)}`.bold.red} should be above ${`${inspect(b)}`.bold.green}`,
 						at
 					})
 				},
 				isBelow(b) {
 					Tap.test(self, a < b, {
-						why: `${`${a}`.bold.red} should be below ${`${b}`.bold.green}`,
+						why: `${`${inspect(a)}`.bold.red} should be below ${`${inspect(b)}`.bold.green}`,
 						at
 					})
 				},
 				isBetween(b, c) {
 					Tap.test(self, a >= b && a <= c, {
-						why: `${`${a}`.bold.red} should be inclusively in between ${`${b}`.bold.green} and ${
-							`${c}`.bold.blue
+						why: `${`${inspect(a)}`.bold.red} should be inclusively in between ${`${inspect(b)}`.bold.green} and ${
+							`${inspect(c)}`.bold.blue
 						}`,
 						at
 					})
 				},
 				isNaN() {
 					Tap.test(self, isNaN(a), {
-						why: `${`${a}`.bold.red} is not NaN`,
+						why: `${`${inspect(a)}`.bold.red} is not NaN`,
 						at
 					})
 				},
 				isTypeOf(b) {
 					Tap.test(self, typeof a === b, {
-						why: `${`${a}`.bold.red} isn't typeOf ${`${b}`.bold.green}`,
+						why: `${`${inspect(a)}`.bold.red} isn't typeOf ${`${inspect(b)}`.bold.green}`,
 						at
 					})
 				},
 				isInstanceOf(b) {
 					Tap.test(self, a instanceof b, {
-						why: `${`${a}`.bold.red} isn't an instance of ${`${b}`.bold.green}`,
+						why: `${`${inspect(a)}`.bold.red} isn't an instance of ${`${inspect(b)}`.bold.green}`,
 						at
 					})
 				},
