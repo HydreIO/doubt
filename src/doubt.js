@@ -167,7 +167,8 @@ function inspect(obj) {
 	return util.inspect(obj, {
 		showHidden: false,
 		depth: 2,
-		colors: true
+		colors: true,
+		compact: true
 	})
 }
 
