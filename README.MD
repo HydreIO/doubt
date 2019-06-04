@@ -214,6 +214,12 @@ because(val).isNaN()
 because(val).isTypeOf(x)
 ```
 
+- keys(val) contained in x
+
+```js
+because(val).hasKeys([x])
+```
+
 - val instanceof x
 
 ```js

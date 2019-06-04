@@ -104,6 +104,15 @@ class Doubt {
 						at
 					})
 				},
+				hasKeys(b) {
+					let missing = []
+					for (let k of b) 
+						if (!a.hasOwnProperty(k)) missing.push(k)
+					Tap.test(self, !missing.length, {
+						why: `${`${inspect(a)}`.bold.red} is missing properties ${inspect(missing)}`,
+						at
+					})
+				},
 				async succeeds() {
 					if (!a instanceof Promise) throw new Error(`${a} is not a promise`)
 					try {

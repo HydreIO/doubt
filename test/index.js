@@ -13,10 +13,11 @@ import Doubt from '../src'
 	'isBetween'.because(0).isBetween(0, 1)
 	'isNaN'.because(NaN).isNaN()
 	'isTypeOf'.because(1).isTypeOf('number')
+	'hasKeys'.because({ e: NaN, b: 1 }).hasKeys(['e'])
 
 	class A {}
 	'isInstanceOf'.because(new A()).isInstanceOf(A)
-	
+
 	await 'succeeds'.because(async () => {}).succeeds()
 	await 'fails'.because(async () => throw new Error()).fails()
 })
