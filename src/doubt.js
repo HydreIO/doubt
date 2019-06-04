@@ -58,6 +58,12 @@ class Doubt {
 						at
 					})
 				},
+				isNotEqualTo(b) {
+					Tap.test(self, a !== b, {
+						why: `${`${inspect(a)}`.red.bold} should not be equal to ${(inspect(b) + '').green.bold}`,
+						at
+					})
+				},
 				isDeeplyEqualTo(b) {
 					Tap.test(self, equal(a, b), {
 						why: `${'actual'.red.bold} should be deeply equal to ${'expect'.green.bold}`,

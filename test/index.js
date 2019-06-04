@@ -7,6 +7,7 @@ import Doubt from '../src'
 	'isDefined'.because('').isDefined()
 	'isFalse'.because(false).isFalse()
 	'isEqualTo'.because(1).isEqualTo(1)
+	'isNotEqualTo'.because(0).isNotEqualTo(1)
 	'isDeeplyEqualTo'.because({ a: { a: 1 } }).isDeeplyEqualTo({ a: { a: 1 } })
 	'isAbove'.because(1).isAbove(0)
 	'isBelow'.because(0).isBelow(1)

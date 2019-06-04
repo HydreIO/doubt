@@ -178,6 +178,12 @@ because(val).isFalse()
 because(val).isEqualTo(x)
 ```
 
+- val !== x
+
+```js
+because(val).isNotEqualTo(x)
+```
+
 - equal(val,x)
 
 ```js
