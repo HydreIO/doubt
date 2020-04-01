@@ -1,6 +1,6 @@
 {
 	"name": "@hydre/doubt",
-	"version": "1.5.1",
+	"version": "1.5.2",
 	"description": "Testing made trivial",
 	"main": "lib/index.js",
 	"bin": {
