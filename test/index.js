@@ -10,7 +10,7 @@ import Doubt from '../src'
 	'0 isNotEqualTo 1'.because(0).isNotEqualTo(1)
 	'{ a: { a: 1 } } isDeeplyEqualTo { a: { a: 1 } }'.because({ a: { a: 1 } }).isDeeplyEqualTo({ a: { a: 1 } })
 	'1 isAbove 0'.because(1).isAbove(0)
-	'0 isBelow 1'.because(2).isBelow(1)
+	'0 isBelow 1'.because(0).isBelow(1)
 	'0 isBetween 0 and 1'.because(0).isBetween(0, 1)
 	'NaN isNaN'.because(NaN).isNaN()
 	'1 isTypeOf number'.because(1).isTypeOf('number')
