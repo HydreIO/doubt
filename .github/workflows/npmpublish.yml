@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: 13.10
           scope: "@hydre"
-      - run: npm ci
+      - run: npm i
       - run: npm test
 
   publish-npm:
@@ -44,7 +44,7 @@ jobs:
           node-version: 13.10
           registry-url: https://npm.pkg.github.com/
           scope: "@hydre"
-      - run: npm ci
+      - run: npm i
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
