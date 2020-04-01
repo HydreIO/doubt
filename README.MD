@@ -1,4 +1,4 @@
-![][licence] [![][npm]][npmlink] [![][travis]][travislink] [![][npmdl]][npmlink]
+![][licence] [![][npm]][npmlink] [![][npmdl]][npmlink]
 
 <h1 align=center>@hydre/doubt</h1>
 
@@ -7,8 +7,6 @@
 [licence]: https://img.shields.io/github/license/HydreIO/doubt.svg?style=for-the-badge
 [npm]: https://img.shields.io/npm/v/@hydre/doubt.svg?logo=npm&style=for-the-badge
 [npmlink]: https://www.npmjs.com/package/@hydre/doubt
-[travis]: https://img.shields.io/travis/com/HydreIO/doubt.svg?logo=travis&style=for-the-badge
-[travislink]: https://travis-ci.com/HydreIO/doubt
 [twitter]: https://img.shields.io/badge/follow-us-blue.svg?logo=twitter&style=for-the-badge
 [twitterlink]: https://twitter.com/hydreio
 [discord]: https://img.shields.io/discord/398114799776694272.svg?logo=discord&style=for-the-badge

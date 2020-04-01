@@ -43,7 +43,6 @@ jobs:
         with:
           node-version: 13.8
           registry-url: https://npm.pkg.github.com/
-          scope: "@hydre"
       - run: npm i
       - run: npm publish
         env:
