@@ -18,7 +18,7 @@ class Tap {
 		else {
 			this.#failed = true
 			console.log(`not ok ${msg}
-  ---${err |> Object.entries |> toLines |> toLiteral}
+  ---${toLiteral(toLines(Object.entries(err)))}
   ...`)
 		}
 	}

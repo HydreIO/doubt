@@ -72,15 +72,15 @@ const lair = { owner: 'Batman', queer: 'Robbin' }
 
 'In the seven kingdoms'.doubt(async () => {
 
-	await (500).ms()
+	await 500..ms()
 
-	'Jon Snow is a Lord commander'.because('he is a virgin').isEqualTo('HE IS A VIRGIN' |> #.toLowerCase())
+	'Jon Snow is a Lord commander'.because('he is a virgin').isEqualTo('HE IS A VIRGIN'.toLowerCase())
 
 	'Ygritte is thick af'.because('What is dead may never die'.length).isAbove(0)
 
 	await 'what do we say to the god of death'
 		.because(async () => {
-			await (1000).ms()
+			await 1000..ms()
 			throw new Error('Not today')
 		})
 		.succeeds()
@@ -89,23 +89,14 @@ const lair = { owner: 'Batman', queer: 'Robbin' }
 })
 ```
 
-Hey pipelines are so cool **¯\\\_(ツ)\_/¯**
-
-![](https://i.imgur.com/IQiB9RR.png)
-
-in async too !
-
-![](https://i.imgur.com/QPLaL0m.png)
-
 Damn bugs.. run only one set of tests
 
 ```js
 'Oh Боже'.only(()=> {
-	NaN
-		|> 'is not a number'.because(#)
-		|> #.isNaN()
+	'is not a number'.because(NaN).isNaN()
 })
 ```
+> it's a bad practice to use global isNaN instead of Number.isNaN but for the sake of simplicity we here use the global isNaN has it less strict than the Number.isNaN
 
 ## Glob
 

@@ -1,24 +1,24 @@
 import * as _ from './'
 import Doubt from '../src'
 
-'Because'.doubt(async () => {
-	'isTrue'.because(true).isTrue()
-	'isUndefined'.because(undefined).isUndefined()
-	'isDefined'.because('').isDefined()
-	'isFalse'.because(false).isFalse()
-	'isEqualTo'.because(1).isEqualTo(1)
-	'isNotEqualTo'.because(0).isNotEqualTo(1)
-	'isDeeplyEqualTo'.because({ a: { a: 1 } }).isDeeplyEqualTo({ a: { a: 1 } })
-	'isAbove'.because(1).isAbove(0)
-	'isBelow'.because(0).isBelow(1)
-	'isBetween'.because(0).isBetween(0, 1)
-	'isNaN'.because(NaN).isNaN()
-	'isTypeOf'.because(1).isTypeOf('number')
-	'hasKeys'.because({ e: NaN, b: 1 }).hasKeys(['e'])
+'hydre/doubt is awesome'.doubt(async () => {
+	'true isTrue'.because(true).isTrue()
+	'undefined isUndefined'.because(undefined).isUndefined()
+	'"" isDefined'.because('').isDefined()
+	'false isFalse'.because(false).isFalse()
+	'1 isEqualTo 1'.because(1).isEqualTo(1)
+	'0 isNotEqualTo 1'.because(0).isNotEqualTo(1)
+	'{ a: { a: 1 } } isDeeplyEqualTo { a: { a: 1 } }'.because({ a: { a: 1 } }).isDeeplyEqualTo({ a: { a: 1 } })
+	'1 isAbove 0'.because(1).isAbove(0)
+	'0 isBelow 1'.because(2).isBelow(1)
+	'0 isBetween 0 and 1'.because(0).isBetween(0, 1)
+	'NaN isNaN'.because(NaN).isNaN()
+	'1 isTypeOf number'.because(1).isTypeOf('number')
+	'{ e: NaN, b: 1 } hasKeys ["e"]'.because({ e: NaN, b: 1 }).hasKeys(['e'])
 
 	class A {}
-	'isInstanceOf'.because(new A()).isInstanceOf(A)
+	'new A() isInstanceOf class A {}'.because(new A()).isInstanceOf(A)
 
-	await 'succeeds'.because(async () => {}).succeeds()
-	await 'fails'.because(async () => throw new Error()).fails()
+	await 'a promise succeeds'.because(async () => {}).succeeds()
+	await 'a throw fails'.because(async () => {throw new Error()}).fails()
 })

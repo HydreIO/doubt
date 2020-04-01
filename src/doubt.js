@@ -14,13 +14,13 @@ class Doubt {
 		const doubts = this.#doubts
 
 		String.prototype.doubt = async function(fn) {
-			const file = csite()[1].getFileName() |> path.basename
+			const file = path.basename(csite()[1].getFileName())
 			const set = doubts.get(file) || doubts.set(file, new Set()).get(file)
 			set.add({ fn, title: this })
 		}
 
 		String.prototype.only = async function(fn) {
-			const file = csite()[1].getFileName() |> path.basename
+			const file = path.basename(csite()[1].getFileName())
 			only = { file, fn, title: this }
 		}
 
@@ -88,7 +88,7 @@ class Doubt {
 					Tap.test(self, a >= b && a <= c, {
 						why: `${`${inspect(a)}`.bold.red} should be inclusively in between ${`${inspect(b)}`.bold.green} and ${
 							`${inspect(c)}`.bold.blue
-						}`,
+							}`,
 						at
 					})
 				},
@@ -112,7 +112,7 @@ class Doubt {
 				},
 				hasKeys(b) {
 					let missing = []
-					for (let k of b) 
+					for (let k of b)
 						if (!a.hasOwnProperty(k)) missing.push(k)
 					Tap.test(self, !missing.length, {
 						why: `${`${inspect(a)}`.bold.red} is missing properties ${inspect(missing)}`,
@@ -128,7 +128,7 @@ class Doubt {
 					} catch (e) {
 						Tap.test(self, false, {
 							why: `${`promise`.bold.red} rejected with an error`,
-							cause: e?.message.magenta.bold ?? '¯_(ツ)_/¯',
+							cause: e?.message.magenta.bold ?? '¯\\_(ツ)_/¯',
 							a
 						})
 					}
@@ -155,15 +155,14 @@ class Doubt {
 			Tap.version()
 			if (only) {
 				const { file, fn, title } = only
-				;`# ${'___________________________________________'.yellow}
-	${'RUN..'.bold.black.bgYellow} (only) ${file.white.bold.underline}/${title.white.bold}`
-					|> console.log
+				console.log(`# ${'___________________________________________'.yellow}
+${'RUN..'.bold.black.bgYellow} (only) ${file.white.bold.underline}/${title.white.bold}`)
 				Tap.title(title)
 				await fn()
 			} else {
 				for (let [file, set] of this.#doubts.entries()) {
-					;`# ${'___________________________________________'.yellow}
-	${'RUN..'.bold.black.bgYellow} ${file.white.bold.underline}` |> console.log
+					console.log(`# ${'___________________________________________'.yellow}
+${'RUN..'.bold.black.bgYellow} ${file.white.bold.underline}`)
 					for (let { fn, title } of set) {
 						Tap.title(title)
 						await fn()
