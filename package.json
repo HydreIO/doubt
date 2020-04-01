@@ -5,7 +5,7 @@
 	"main": "src/index.js",
 	"type": "module",
 	"bin": {
-		"doubt": "lib/cli.js"
+		"doubt": "src/cli.js"
 	},
 	"scripts": {
 		"test": "node --harmony --experimental-specifier-resolution=node test/index.js | tap-spec",
