@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: latest
+          node-version: 13.8
           registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: npm publish
