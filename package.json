@@ -8,7 +8,6 @@
 		"doubt": "lib/cli.js"
 	},
 	"scripts": {
-		"prepack": "npm run build",
 		"test": "node --harmony --experimental-specifier-resolution=node test/index.js | tap-spec",
 		"postversion": "git push && git push --tags"
 	},
