@@ -3,6 +3,7 @@ dependencies:
   colors: 1.4.0
   fast-deep-equal: 3.1.1
   glob: 7.1.6
+  through: 2.3.8
 devDependencies:
   tap-spec: 5.0.0
 lockfileVersion: 5.1
@@ -285,7 +286,6 @@ packages:
     resolution:
       integrity: sha512-zMDVJiE5I6Y4XGjlueGXJIX2YIkbDN44broZlnypT38Hj/czfOXrszHNNJBF/DXR8n+x6gbfSx68x04kIEHdrw==
   /through/2.3.8:
-    dev: true
     resolution:
       integrity: sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU=
   /through2/2.0.5:
@@ -319,3 +319,4 @@ specifiers:
   fast-deep-equal: ^3.1.1
   glob: ^7.1.6
   tap-spec: ^5.0.0
+  through: ^2.3.8

@@ -1,5 +1,8 @@
 import * as _ from './'
 import Doubt from '../src'
+import tap_spec from 'tap-spec'
+
+Doubt.createStream().pipe(tap_spec()).pipe(process.stdout)
 
 'hydre/doubt is awesome'.doubt(async () => {
 	'true isTrue'.because(true).isTrue()

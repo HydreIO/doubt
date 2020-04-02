@@ -2,13 +2,18 @@ class Tap {
 	tests = 0
 	pass = 0
 	#failed
+	stream = process.stdout
+
+	log(str) {
+		this.stream.write(`${str}\n`)
+	}
 
 	version() {
-		console.log('TAP version 13')
+		this.log('TAP version 13')
 	}
 
 	title(h1) {
-		console.log(`# ${h1}`)
+		this.log(`# ${h1}`)
 	}
 
 	test(title, ok, err) {
@@ -16,17 +21,17 @@ class Tap {
 		const msg = `${this.tests} ${title}`
 		if (ok) {
 			this.pass++
-			console.log(`ok ${msg}`)
-		}		else {
+			this.log(`ok ${msg}`)
+		} else {
 			this.#failed = true
-			console.log(`not ok ${msg}
+			this.log(`not ok ${msg}
   ---${toLiteral(toLines(Object.entries(err)))}
   ...`)
 		}
 	}
 
 	end() {
-		console.log(`1..${this.tests}`)
+		this.log(`1..${this.tests}`)
 	}
 
 	get shouldFail() {

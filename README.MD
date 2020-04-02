@@ -111,6 +111,22 @@ doubt.onEnd(async ({ total, passed }) => {
 })
 ```
 
+## Custom output
+
+instead of piping at the console level with your favorite tap compliant beautifier
+```
+npm run test | tape-spec
+```
+
+you can set it in code by creating a stream
+```js
+import doubt from '@hydre/doubt'
+import tapSpec from 'tap-spec'
+doubt.createStream().pipe(tapSpec()).pipe(process.stdout)
+
+'test me'.doubt(()=>{})
+```
+
 ## Glob
 
 Run multiple test files all at once by including a script in your `package.json`

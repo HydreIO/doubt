@@ -4,13 +4,14 @@ import csite from 'callsites'
 import equal from 'fast-deep-equal'
 import util from 'util'
 import 'colors'
+import through from 'through'
 
 let only
 
 class Doubt {
 	#doubts = new Map()
 
-	constructor() {
+	constructor(stream = process.stdout) {
 		const doubts = this.#doubts
 
 		String.prototype.doubt = async function(fn) {
@@ -150,18 +151,23 @@ class Doubt {
 		}
 	}
 
+	createStream() {
+		Tap.stream = through()
+		return Tap.stream
+	}
+
 	async run() {
 		try {
 			Tap.version()
 			if (only) {
 				const { file, fn, title } = only
-				console.log(`# ${'___________________________________________'.yellow}
+				Tap.log(`# ${'___________________________________________'.yellow}
 ${'RUN..'.bold.black.bgYellow} (only) ${file.white.bold.underline}/${title.white.bold}`)
 				Tap.title(title)
 				await fn()
 			} else {
 				for (let [file, set] of this.#doubts.entries()) {
-					console.log(`# ${'___________________________________________'.yellow}
+					Tap.log(`# ${'___________________________________________'.yellow}
 ${'RUN..'.bold.black.bgYellow} ${file.white.bold.underline}`)
 					for (let { fn, title } of set) {
 						Tap.title(title)
