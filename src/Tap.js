@@ -1,6 +1,6 @@
 class Tap {
-	#tests = 0
-	#pass = 0
+	tests = 0
+	pass = 0
 	#failed
 
 	version() {
@@ -12,10 +12,12 @@ class Tap {
 	}
 
 	test(title, ok, err) {
-		this.#tests++
-		const msg = `${this.#tests} ${title}`
-		if (ok) console.log(`ok ${msg}`)
-		else {
+		this.tests++
+		const msg = `${this.tests} ${title}`
+		if (ok) {
+			this.pass++
+			console.log(`ok ${msg}`)
+		}		else {
 			this.#failed = true
 			console.log(`not ok ${msg}
   ---${toLiteral(toLines(Object.entries(err)))}
@@ -24,7 +26,7 @@ class Tap {
 	}
 
 	end() {
-		console.log(`1..${this.#tests}`)
+		console.log(`1..${this.tests}`)
 	}
 
 	get shouldFail() {

@@ -16,9 +16,11 @@ import Doubt from '../src'
 	'1 isTypeOf number'.because(1).isTypeOf('number')
 	'{ e: NaN, b: 1 } hasKeys ["e"]'.because({ e: NaN, b: 1 }).hasKeys(['e'])
 
-	class A {}
+	class A { }
 	'new A() isInstanceOf class A {}'.because(new A()).isInstanceOf(A)
 
-	await 'a promise succeeds'.because(async () => {}).succeeds()
-	await 'a throw fails'.because(async () => {throw new Error()}).fails()
+	await 'a promise succeeds'.because(async () => { }).succeeds()
+	await 'a throw fails'.because(async () => { throw new Error() }).fails()
 })
+
+Doubt.onEnd(() => { console.log('onEnd called!') })

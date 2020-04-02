@@ -175,6 +175,10 @@ ${'RUN..'.bold.black.bgYellow} ${file.white.bold.underline}`)
 			process.exit(1)
 		}
 	}
+
+	async onEnd(fn) {
+		this.on_end = async () => fn()
+	}
 }
 
 function inspect(obj) {
@@ -190,6 +194,7 @@ const doubt = new Doubt()
 
 process.on('beforeExit', async () => {
 	await doubt.run()
+	await doubt?.on_end({ total: Tap.tests, passed: Tap.pass })
 	process.exit(Tap.shouldFail ? 1 : 0)
 })
 

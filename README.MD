@@ -96,6 +96,21 @@ Damn bugs.. run only one set of tests
 ```
 > it's a bad practice to use global isNaN instead of Number.isNaN but for the sake of simplicity we here use the global isNaN has it less strict than the Number.isNaN
 
+As doubt records your tests then run beforeExit, you have the possibility to run some actions after all tests have been executed
+```js
+import doubt from '@hydre/doubt'
+doubt.onEnd(({ total, passed }) => { console.log(`just ran ${total} tests!`) })
+```
+You can also pass an async function
+```js
+import doubt from '@hydre/doubt'
+
+doubt.onEnd(async ({ total, passed }) => {
+	const failed = total - passed
+	if (failed) await slack.notify('Some tests have failed!')
+})
+```
+
 ## Glob
 
 Run multiple test files all at once by including a script in your `package.json`
