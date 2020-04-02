@@ -22,8 +22,6 @@ Doubt.createStream().pipe(tap_spec()).pipe(process.stdout)
 	class A { }
 	'new A() isInstanceOf class A {}'.because(new A()).isInstanceOf(A)
 
-	await 'a promise succeeds'.because(async () => { }).succeeds()
+	await 'a promise succeeds'.because(async () => { await 1..ms() }).succeeds()
 	await 'a throw fails'.because(async () => { throw new Error() }).fails()
 })
-
-Doubt.onEnd(() => { console.log('onEnd called!') })

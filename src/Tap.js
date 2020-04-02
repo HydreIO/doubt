@@ -32,6 +32,7 @@ class Tap {
 
 	end() {
 		this.log(`1..${this.tests}`)
+		this.stream.end()
 	}
 
 	get shouldFail() {

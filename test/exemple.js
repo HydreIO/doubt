@@ -17,7 +17,7 @@ const lair = { owner: 'Batman', queer: 'Robbin' }
 
 	await 'what do we say to the god of death'
 		.because(async () => {
-			await 10.ms()
+			await 10..ms()
 			throw new Error('Not today')
 		})
 		.fails()

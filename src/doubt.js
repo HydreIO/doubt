@@ -4,7 +4,7 @@ import csite from 'callsites'
 import equal from 'fast-deep-equal'
 import util from 'util'
 import 'colors'
-import through from 'through'
+import through2 from 'through2'
 
 let only
 
@@ -152,7 +152,7 @@ class Doubt {
 	}
 
 	createStream() {
-		Tap.stream = through()
+		Tap.stream = through2()
 		return Tap.stream
 	}
 
@@ -176,6 +176,7 @@ ${'RUN..'.bold.black.bgYellow} ${file.white.bold.underline}`)
 				}
 			}
 			Tap.end()
+			await 100..ms()
 		} catch (e) {
 			console.error(e)
 			process.exit(1)
@@ -200,7 +201,7 @@ const doubt = new Doubt()
 
 process.on('beforeExit', async () => {
 	await doubt.run()
-	await doubt?.on_end({ total: Tap.tests, passed: Tap.pass })
+	await doubt?.on_end?.({ total: Tap.tests, passed: Tap.pass })
 	process.exit(Tap.shouldFail ? 1 : 0)
 })
 
