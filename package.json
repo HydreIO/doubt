@@ -31,14 +31,14 @@
 	"bugs": {
 		"url": "https://github.com/HydreIO/doubt/issues"
 	},
-	"devDependencies": {
-		"tap-spec": "^5.0.0"
-	},
 	"dependencies": {
 		"callsites": "^3.1.0",
 		"colors": "^1.4.0",
 		"fast-deep-equal": "^3.1.1",
 		"glob": "^7.1.6",
 		"through2": "^3.0.1"
+	},
+	"devDependencies": {
+		"tap-spec-emoji": "^6.0.6"
 	}
 }

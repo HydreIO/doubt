@@ -19,7 +19,7 @@
 
 Doubt is a feather weight testing library [TAP 13](http://testanything.org/tap-version-13-specification.html) compliant.
 
-Test your code and pipe the output to a [consumer](http://testanything.org/consumers.html) like [tape-spec](https://github.com/scottcorgan/tap-spec)
+Test your code and pipe the output to a [consumer](http://testanything.org/consumers.html) like [tape-spec-emoji](https://github.com/Sceat/tap-spec-emoji)
 
 ## Why
 
@@ -121,7 +121,7 @@ npm run test | tape-spec
 you can set it in code by creating a stream
 ```js
 import doubt from '@hydre/doubt'
-import tapSpec from 'tap-spec'
+import tapSpec from 'tap-spec-emoji'
 doubt.createStream().pipe(tapSpec()).pipe(process.stdout)
 
 'test me'.doubt(()=>{})
@@ -132,14 +132,14 @@ doubt.createStream().pipe(tapSpec()).pipe(process.stdout)
 Run multiple test files all at once by including a script in your `package.json`
 
 ```
-"test": "doubt 'test/**/*.js' | tap-spec"
+"test": "doubt 'test/**/*.js' | tap-spec-emoji"
 ```
 
 You can also install it globally to run manually
 
 ```
 npm i -g @hydre/doubt
-doubt 'test/**/*.js' | tap-spec
+doubt 'test/**/*.js' | tap-spec-emoji
 ```
 
 Using babel ? me too! since directly transforming the code then evaluating it just do weird shit, you'll have to import your files manually.
@@ -155,7 +155,7 @@ Or follow these 5 steps
    ```
 3. just import the current folder inside the `index.js` file by pasting `import * as _ from './'`
 4. the wildcard plugin will do the rest by importing all your test files
-5. you can now `babel-node test | tap-spec`
+5. you can now `babel-node test | tap-spec-emoji`
 
 ## Api
 
