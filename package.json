@@ -36,6 +36,7 @@
 		"colors": "^1.4.0",
 		"fast-deep-equal": "^3.1.1",
 		"glob": "^7.1.6",
+		"supports-color": "^7.1.0",
 		"through2": "^3.0.1"
 	},
 	"devDependencies": {
