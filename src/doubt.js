@@ -44,7 +44,7 @@ class Doubt {
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
-                  cause: `${e?.message}`.magenta.bold ?? '¯\\_(ツ)_/¯',
+                  cause: `${e?.message}`.magenta.bold ?? '¯_(ツ)_/¯',
                   a
                 })
               }
@@ -68,7 +68,7 @@ class Doubt {
                 console.error(e)
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
-                  cause: `${e?.message}`.magenta.bold ?? '¯\\_(ツ)_/¯',
+                  cause: `${e?.message}`.magenta.bold ?? '¯_(ツ)_/¯',
                   value
                 })
               }
@@ -91,7 +91,7 @@ class Doubt {
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
-                  cause: `${e?.message}`.magenta.bold ?? '¯\\_(ツ)_/¯',
+                  cause: `${e?.message}`.magenta.bold ?? '¯_(ツ)_/¯',
                   value
                 })
               }
@@ -114,7 +114,7 @@ class Doubt {
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
-                  cause: `${e?.message}`.magenta.bold ?? '¯\\_(ツ)_/¯',
+                  cause: `${e?.message}`.magenta.bold ?? '¯_(ツ)_/¯',
                   value
                 })
               }
@@ -138,7 +138,7 @@ class Doubt {
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promises`.bold.red} rejected with an error`,
-                  cause: `${e?.message}`.magenta.bold ?? '¯\\_(ツ)_/¯',
+                  cause: `${e?.message}`.magenta.bold ?? '¯_(ツ)_/¯',
                   value
                 })
               }
@@ -162,7 +162,7 @@ class Doubt {
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
-                  cause: `${e?.message}`.magenta.bold ?? '¯\\_(ツ)_/¯',
+                  cause: `${e?.message}`.magenta.bold ?? '¯_(ツ)_/¯',
                   value
                 })
               }
@@ -188,7 +188,7 @@ class Doubt {
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
-                  cause: `${e?.message}`.magenta.bold ?? '¯\\_(ツ)_/¯',
+                  cause: `${e?.message}`.magenta.bold ?? '¯_(ツ)_/¯',
                   value
                 })
               }
@@ -214,7 +214,7 @@ class Doubt {
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
-                  cause: `${e?.message}`.magenta.bold ?? '¯\\_(ツ)_/¯',
+                  cause: `${e?.message}`.magenta.bold ?? '¯_(ツ)_/¯',
                   value
                 })
               }
@@ -238,7 +238,7 @@ class Doubt {
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
-                  cause: `${e?.message}`.magenta.bold ?? '¯\\_(ツ)_/¯',
+                  cause: `${e?.message}`.magenta.bold ?? '¯_(ツ)_/¯',
                   value
                 })
               }
@@ -263,7 +263,7 @@ class Doubt {
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
-                  cause: `${e?.message}`.magenta.bold ?? '¯\\_(ツ)_/¯',
+                  cause: `${e?.message}`.magenta.bold ?? '¯_(ツ)_/¯',
                   value
                 })
               }
@@ -286,7 +286,7 @@ class Doubt {
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
-                  cause: `${e?.message}`.magenta.bold ?? '¯\\_(ツ)_/¯',
+                  cause: `${e?.message}`.magenta.bold ?? '¯_(ツ)_/¯',
                   value
                 })
               }
@@ -310,7 +310,7 @@ class Doubt {
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
-                  cause: `${e?.message}`.magenta.bold ?? '¯\\_(ツ)_/¯',
+                  cause: `${e?.message}`.magenta.bold ?? '¯_(ツ)_/¯',
                   value
                 })
               }
@@ -334,7 +334,7 @@ class Doubt {
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
-                  cause: `${e?.message}`.magenta.bold ?? '¯\\_(ツ)_/¯',
+                  cause: `${e?.message}`.magenta.bold ?? '¯_(ツ)_/¯',
                   value
                 })
               }
@@ -361,7 +361,7 @@ class Doubt {
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
-                  cause: `${e?.message}`.magenta.bold ?? '¯\\_(ツ)_/¯',
+                  cause: `${e?.message}`.magenta.bold ?? '¯_(ツ)_/¯',
                   value
                 })
               }
@@ -383,7 +383,7 @@ class Doubt {
           } catch (e) {
             Tap.test(self, false, {
               why: `${`promise`.bold.red} rejected with an error`,
-              cause: `${e?.message}`.magenta.bold ?? '¯\\_(ツ)_/¯',
+              cause: `${e?.message}`.magenta.bold ?? '¯_(ツ)_/¯',
               value
             })
           }
