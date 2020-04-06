@@ -43,7 +43,7 @@ Just import ! hulk u morron
 import '@hydre/doubt'
 ```
 
-> **I DON'T USE BABEL ANYMORE SO MAKE SURE YOU GET THOSE TASTY LATEST NODE VERSIONS AND RUN WITH `--harmony --experimental-specifier-resolution=node`**
+> !! **RUN WITH `--harmony --experimental-specifier-resolution=node`**
 
 And now play with it
 
