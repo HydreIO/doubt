@@ -194,6 +194,7 @@ Or follow these 5 steps
 
 
 - isTrue
+
 !!val
 
 ```js
@@ -202,6 +203,7 @@ await because(async () => val).isTrue()
 ```
 
 - isUndefined
+
 val === undefined
 
 ```js
@@ -210,6 +212,7 @@ await because(async () => val).isUndefined()
 ```
 
 - isDefined
+
 val !== undefined
 
 ```js
@@ -218,6 +221,7 @@ await because(async () => val).isDefined()
 ```
 
 - isFalse
+
 !val
 
 ```js
@@ -226,6 +230,7 @@ await because(async () => val).isFalse()
 ```
 
 - isEqualTo
+
 val === x
 
 ```js
@@ -238,6 +243,7 @@ await because(async () => val).isEqualTo(async () => x)
 ```
 
 - isNotEqualTo
+
 val !== x
 
 ```js
@@ -248,6 +254,7 @@ await because(async () => val).isNotEqualTo(async () => x)
 ```
 
 - isDeeplyEqualTo
+
 equal(val,x)
 
 ```js
@@ -258,6 +265,7 @@ await because(async () => val).isDeeplyEqualTo(async () => x)
 ```
 
 - isAbove
+
 val > x
 
 ```js
@@ -268,6 +276,7 @@ await because(async () => val).isAbove(async () => x)
 ```
 
 - isBelow
+
 val < x
 
 ```js
@@ -278,6 +287,7 @@ await because(async () => val).isBelow(async () => x)
 ```
 
 - isBetween
+
 val >= x && val <= y
 
 ```js
@@ -289,6 +299,7 @@ await because(async () => val).isBetween(async () => x, y)
 ```
 
 - isNaN
+
 isNaN(val)
 
 ```js
@@ -297,6 +308,7 @@ await because(async () => val).isNaN()
 ```
 
 - isTypeOf
+
 typeof val === x
 
 ```js
@@ -307,6 +319,7 @@ await because(async () => val).isTypeOf(async () => x)
 ```
 
 - hasKeys
+
 x in val
 
 ```js
@@ -317,6 +330,7 @@ await because(async () => val).hasKeys(async () => [x])
 ```
 
 - isInstanceOf
+
 val instanceof x
 
 ```js
@@ -327,6 +341,7 @@ await because(async () => val).isInstanceOf(async () => x)
 ```
 
 - succeeds
+
 val succeed
 
 ```js
@@ -334,6 +349,7 @@ await because(async () => val).succeeds()
 ```
 
 - fails
+
 val fails
 
 ```js
