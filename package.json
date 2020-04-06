@@ -9,6 +9,7 @@
 	},
 	"scripts": {
 		"test": "node --harmony --experimental-specifier-resolution=node test/index.js",
+		"test:exemple": "node --harmony --experimental-specifier-resolution=node test/exemple.js",
 		"postversion": "git push && git push --tags"
 	},
 	"repository": {

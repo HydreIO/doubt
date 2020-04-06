@@ -15,7 +15,7 @@
 
 > Tester c'est douter
 
-<img align="right" width="600" src="https://i.imgur.com/HULOni8.png">
+<img align="right" width="600" src="https://i.imgur.com/7W0Nnua.png">
 
 Doubt is a feather weight testing library [TAP 13](http://testanything.org/tap-version-13-specification.html) compliant.
 
@@ -43,6 +43,8 @@ Just import ! hulk u morron
 import '@hydre/doubt'
 ```
 
+> **I DON'T USE BABEL ANYMORE SO MAKE SURE YOU GET THOSE TASTY LATEST NODE VERSIONS AND RUN WITH `--harmony --experimental-specifier-resolution=node`**
+
 And now play with it
 
 ```js
@@ -50,6 +52,22 @@ And now play with it
 'Obama is gone'.doubt(() => {
 	// write cool tests
 	'may we meet again'.because('i miss you').isTrue()
+})
+```
+
+You can either pass values, or async functions to resolve values ! awesome
+> to use the async version you **have** to `await` your test !
+
+```js
+// Find a nice title
+'Obama is gone'.doubt(async () => {
+	// write cool tests
+	'may we meet again'.because('i miss you').isTrue()
+
+	await 'may we meet again later'.because(async ()=> {
+		await 50..ms()
+		return 'i miss you'
+	}).isTrue()
 })
 ```
 
@@ -81,20 +99,20 @@ const lair = { owner: 'Batman', queer: 'Robbin' }
 			await 1000..ms()
 			throw new Error('Not today')
 		})
-		.succeeds()
+		.fails()
 
-	'The iron throne is made from a thousand swords'.because(1000).isBetween(1000, 1000)
+	await 'The iron throne is made from a thousand swords'.because(1000).isBetween(1000, async () => 1000)
 })
 ```
 
 Damn bugs.. run only one set of tests
+> it's a bad practice to use global isNaN instead of Number.isNaN but for the sake of simplicity we here use the global isNaN as it less strict than the Number.isNaN
 
 ```js
 'Oh Боже'.only(()=> {
 	'is not a number'.because(NaN).isNaN()
 })
 ```
-> it's a bad practice to use global isNaN instead of Number.isNaN but for the sake of simplicity we here use the global isNaN has it less strict than the Number.isNaN
 
 As doubt records your tests then run beforeExit, you have the possibility to run some actions after all tests have been executed
 ```js
@@ -115,7 +133,7 @@ doubt.onEnd(async ({ total, passed }) => {
 
 instead of piping at the console level with your favorite tap compliant beautifier
 ```
-npm run test | tape-spec
+npm run test | tape-spec-emoji
 ```
 
 you can set it in code by creating a stream
@@ -142,7 +160,7 @@ npm i -g @hydre/doubt
 doubt 'test/**/*.js' | tap-spec-emoji
 ```
 
-Using babel ? me too! since directly transforming the code then evaluating it just do weird shit, you'll have to import your files manually.
+Using babel ? since directly transforming the code then evaluating it just do weird shit, you'll have to import your files manually.
 Or follow these 5 steps
 
 1. install the [babel-plugin-wildcard](https://github.com/vihanb/babel-plugin-wildcard)
@@ -164,111 +182,148 @@ Or follow these 5 steps
 ```js
 ''.doubt(() => {})
 ''.only(() => {})
+
+
+''.doubt(async () => {})
+''.only(async () => {})
 ```
 
 ### Test
+
+> remember to `await` everytime you use an async function instead of a value in `because()`
 
 - !!val
 
 ```js
 because(val).isTrue()
+await because(async () => val).isTrue()
 ```
 
 - val === undefined
 
 ```js
 because(val).isUndefined()
+await because(async () => val).isUndefined()
 ```
 
 - val !== undefined
 
 ```js
 because(val).isDefined()
+await because(async () => val).isDefined()
 ```
 
 - !val
 
 ```js
 because(val).isFalse()
+await because(async () => val).isFalse()
 ```
 
 - val === x
 
 ```js
 because(val).isEqualTo(x)
+await because(async () => val).isEqualTo(x)
+
+// it works for every cases even
+await because(val).isEqualTo(async () => x)
+await because(async () => val).isEqualTo(async () => x)
 ```
 
 - val !== x
 
 ```js
 because(val).isNotEqualTo(x)
+await because(async () => val).isNotEqualTo(x)
+await because(val).isNotEqualTo(async () => x)
+await because(async () => val).isNotEqualTo(async () => x)
 ```
 
 - equal(val,x)
 
 ```js
 because(val).isDeeplyEqualTo(x)
+await because(async () => val).isDeeplyEqualTo(x)
+await because(val).isDeeplyEqualTo(async () => x)
+await because(async () => val).isDeeplyEqualTo(async () => x)
 ```
 
 - val > x
 
 ```js
 because(val).isAbove(x)
+await because(async () => val).isAbove(x)
+await because(val).isAbove(async () => x)
+await because(async () => val).isAbove(async () => x)
 ```
 
 - val < x
 
 ```js
 because(val).isBelow(x)
+await because(async () => val).isBelow(x)
+await because(val).isBelow(async () => x)
+await because(async () => val).isBelow(async () => x)
 ```
 
 - val >= x && val <= y
 
 ```js
 because(val).isBetween(x, y)
+await because(async () => val).isBetween(x, y)
+await because(val).isBetween(x, async () => y)
+await because(async () => val).isBetween(async () => x, y)
+// not writing all cases for this one as you're probably not that dumb if you found my lib
 ```
 
 - isNaN(val)
 
 ```js
 because(val).isNaN()
+await because(async () => val).isNaN()
 ```
 
 - typeof val === x
 
 ```js
 because(val).isTypeOf(x)
+await because(async () => val).isTypeOf(x)
+await because(val).isTypeOf(async () => x)
+await because(async () => val).isTypeOf(async () => x)
 ```
 
 - keys(val) contained in x
 
 ```js
 because(val).hasKeys([x])
+await because(async () => val).hasKeys([x])
+await because(val).hasKeys(async () => [x])
+await because(async () => val).hasKeys(async () => [x])
 ```
 
 - val instanceof x
 
 ```js
 because(val).isInstanceOf(x)
+await because(async () => val).isInstanceOf(x)
+await because(val).isInstanceOf(async () => x)
+await because(async () => val).isInstanceOf(async () => x)
 ```
-
-### Promises
-
-Don't forget to await those ones
 
 - val is a succeeding promise
 
 ```js
-await because(val).succeeds()
+await because(async () => val).succeeds()
 ```
 
 - val is a failing promise
 
 ```js
-await because(val).fails()
+await because(async () => val).fails()
 ```
 
-- waiting helper
+### waiting helper
 
 ```js
 await Number.ms()
