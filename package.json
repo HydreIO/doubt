@@ -40,6 +40,6 @@
 		"through2": "^3.0.1"
 	},
 	"devDependencies": {
-		"tap-spec-emoji": "^6.0.6"
+		"tap-spec-emoji": "^6.0.7"
 	}
 }
