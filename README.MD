@@ -192,35 +192,41 @@ Or follow these 5 steps
 
 > remember to `await` everytime you use an async function instead of a value in `because()`
 
-- !!val
+
+- isTrue
+!!val
 
 ```js
 because(val).isTrue()
 await because(async () => val).isTrue()
 ```
 
-- val === undefined
+- isUndefined
+val === undefined
 
 ```js
 because(val).isUndefined()
 await because(async () => val).isUndefined()
 ```
 
-- val !== undefined
+- isDefined
+val !== undefined
 
 ```js
 because(val).isDefined()
 await because(async () => val).isDefined()
 ```
 
-- !val
+- isFalse
+!val
 
 ```js
 because(val).isFalse()
 await because(async () => val).isFalse()
 ```
 
-- val === x
+- isEqualTo
+val === x
 
 ```js
 because(val).isEqualTo(x)
@@ -231,7 +237,8 @@ await because(val).isEqualTo(async () => x)
 await because(async () => val).isEqualTo(async () => x)
 ```
 
-- val !== x
+- isNotEqualTo
+val !== x
 
 ```js
 because(val).isNotEqualTo(x)
@@ -240,7 +247,8 @@ await because(val).isNotEqualTo(async () => x)
 await because(async () => val).isNotEqualTo(async () => x)
 ```
 
-- equal(val,x)
+- isDeeplyEqualTo
+equal(val,x)
 
 ```js
 because(val).isDeeplyEqualTo(x)
@@ -249,7 +257,8 @@ await because(val).isDeeplyEqualTo(async () => x)
 await because(async () => val).isDeeplyEqualTo(async () => x)
 ```
 
-- val > x
+- isAbove
+val > x
 
 ```js
 because(val).isAbove(x)
@@ -258,7 +267,8 @@ await because(val).isAbove(async () => x)
 await because(async () => val).isAbove(async () => x)
 ```
 
-- val < x
+- isBelow
+val < x
 
 ```js
 because(val).isBelow(x)
@@ -267,7 +277,8 @@ await because(val).isBelow(async () => x)
 await because(async () => val).isBelow(async () => x)
 ```
 
-- val >= x && val <= y
+- isBetween
+val >= x && val <= y
 
 ```js
 because(val).isBetween(x, y)
@@ -277,14 +288,16 @@ await because(async () => val).isBetween(async () => x, y)
 // not writing all cases for this one as you're probably not that dumb if you found my lib
 ```
 
-- isNaN(val)
+- isNaN
+isNaN(val)
 
 ```js
 because(val).isNaN()
 await because(async () => val).isNaN()
 ```
 
-- typeof val === x
+- isTypeOf
+typeof val === x
 
 ```js
 because(val).isTypeOf(x)
@@ -293,7 +306,8 @@ await because(val).isTypeOf(async () => x)
 await because(async () => val).isTypeOf(async () => x)
 ```
 
-- keys(val) contained in x
+- hasKeys
+x in val
 
 ```js
 because(val).hasKeys([x])
@@ -302,7 +316,8 @@ await because(val).hasKeys(async () => [x])
 await because(async () => val).hasKeys(async () => [x])
 ```
 
-- val instanceof x
+- isInstanceOf
+val instanceof x
 
 ```js
 because(val).isInstanceOf(x)
@@ -311,13 +326,15 @@ await because(val).isInstanceOf(async () => x)
 await because(async () => val).isInstanceOf(async () => x)
 ```
 
-- val is a succeeding promise
+- succeeds
+val succeed
 
 ```js
 await because(async () => val).succeeds()
 ```
 
-- val is a failing promise
+- fails
+val fails
 
 ```js
 await because(async () => val).fails()
