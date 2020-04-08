@@ -28,9 +28,8 @@ class Doubt {
     }
 
     String.prototype.because = function(value) {
-      const at = new Error().stack.split('at ')[2].trim()
+      const where = new Error().stack.split('at ')[2].trim()
       const self = this
-      console.log('at =', at)
       return {
         isTrue() {
           if (is_async(value)) {
@@ -39,20 +38,20 @@ class Doubt {
                 value = await value()
                 Tap.test(self, !!value, {
                   why: `${`${inspect(value)}`.bold.red} should be truthy`,
-                  at
+                  where
                 })
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
                   cause: e?.message?.magenta?.bold ?? '¯\\_(ツ)_/¯',
-                  at
+                  where
                 })
               }
             })
           }
           Tap.test(self, !!value, {
             why: `${`${inspect(value)}`.bold.red} should be truthy`,
-            at
+            where
           })
         },
         isUndefined() {
@@ -62,21 +61,21 @@ class Doubt {
                 value = await value()
                 Tap.test(self, value === undefined, {
                   why: `${`${inspect(value)}`.bold.red} should be undefined`,
-                  at
+                  where
                 })
               } catch (e) {
                 console.error(e)
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
                   cause: e?.message?.magenta?.bold ?? '¯\\_(ツ)_/¯',
-                  at
+                  where
                 })
               }
             })
           }
           Tap.test(self, value === undefined, {
             why: `${`${inspect(value)}`.bold.red} should be undefined`,
-            at
+            where
           })
         },
         isDefined() {
@@ -86,20 +85,20 @@ class Doubt {
                 value = await value()
                 Tap.test(self, value !== undefined, {
                   why: `${`${inspect(value)}`.bold.red} should be defined`,
-                  at
+                  where
                 })
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
                   cause: e?.message?.magenta?.bold ?? '¯\\_(ツ)_/¯',
-                  at
+                  where
                 })
               }
             })
           }
           Tap.test(self, value !== undefined, {
             why: `${`${inspect(value)}`.bold.red} should be defined`,
-            at
+            where
           })
         },
         isFalse() {
@@ -109,20 +108,20 @@ class Doubt {
                 value = await value()
                 Tap.test(self, !value, {
                   why: `${`${inspect(value)}`.bold.red} should be falsy`,
-                  at
+                  where
                 })
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
                   cause: e?.message?.magenta?.bold ?? '¯\\_(ツ)_/¯',
-                  at
+                  where
                 })
               }
             })
           }
           Tap.test(self, !value, {
             why: `${`${inspect(value)}`.bold.red} should be falsy`,
-            at
+            where
           })
         },
         isEqualTo(b) {
@@ -133,20 +132,20 @@ class Doubt {
                 if (is_async(b)) b = await b()
                 Tap.test(self, value === b, {
                   why: `${`${inspect(value)}`.red.bold} should be strictly equal to ${(inspect(b) + '').green.bold}`,
-                  at
+                  where
                 })
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promises`.bold.red} rejected with an error`,
                   cause: e?.message?.magenta?.bold ?? '¯\\_(ツ)_/¯',
-                  at
+                  where
                 })
               }
             })
           }
           Tap.test(self, value === b, {
             why: `${`${inspect(value)}`.red.bold} should be strictly equal to ${(inspect(b) + '').green.bold}`,
-            at
+            where
           })
         },
         isNotEqualTo(b) {
@@ -157,20 +156,20 @@ class Doubt {
                 if (is_async(b)) b = await b()
                 Tap.test(self, value !== b, {
                   why: `${`${inspect(value)}`.red.bold} should not be equal to ${(inspect(b) + '').green.bold}`,
-                  at
+                  where
                 })
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
                   cause: e?.message?.magenta?.bold ?? '¯\\_(ツ)_/¯',
-                  at
+                  where
                 })
               }
             })
           }
           Tap.test(self, value !== b, {
             why: `${`${inspect(value)}`.red.bold} should not be equal to ${(inspect(b) + '').green.bold}`,
-            at
+            where
           })
         },
         isDeeplyEqualTo(b) {
@@ -183,13 +182,13 @@ class Doubt {
                   why: `${'actual'.red.bold} should be deeply equal to ${'expect'.green.bold}`,
                   actual: inspect(value).bold,
                   expect: inspect(b).bold,
-                  at
+                  where
                 })
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
                   cause: e?.message?.magenta?.bold ?? '¯\\_(ツ)_/¯',
-                  at
+                  where
                 })
               }
             })
@@ -198,7 +197,7 @@ class Doubt {
             why: `${'actual'.red.bold} should be deeply equal to ${'expect'.green.bold}`,
             actual: inspect(value).bold,
             expect: inspect(b).bold,
-            at
+            where
           })
         },
         isAbove(b) {
@@ -209,20 +208,20 @@ class Doubt {
                 if (is_async(b)) b = await b()
                 Tap.test(self, value > b, {
                   why: `${`${inspect(value)}`.bold.red} should be above ${`${inspect(b)}`.bold.green}`,
-                  // at
+                  where
                 })
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
                   cause: e?.message?.magenta?.bold ?? '¯\\_(ツ)_/¯',
-                  at
+                  where
                 })
               }
             })
           }
           Tap.test(self, value > b, {
             why: `${`${inspect(value)}`.bold.red} should be above ${`${inspect(b)}`.bold.green}`,
-            at
+            where
           })
         },
         isBelow(b) {
@@ -233,20 +232,20 @@ class Doubt {
                 if (is_async(b)) b = await b()
                 Tap.test(self, value < b, {
                   why: `${`${inspect(value)}`.bold.red} should be below ${`${inspect(b)}`.bold.green}`,
-                  at
+                  where
                 })
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
                   cause: e?.message?.magenta?.bold ?? '¯\\_(ツ)_/¯',
-                  at
+                  where
                 })
               }
             })
           }
           Tap.test(self, value < b, {
             why: `${`${inspect(value)}`.bold.red} should be below ${`${inspect(b)}`.bold.green}`,
-            at
+            where
           })
         },
         isBetween(b, c) {
@@ -258,20 +257,20 @@ class Doubt {
                 if (is_async(c)) c = await c()
                 Tap.test(self, value >= b && value <= c, {
                   why: `${`${inspect(value)}`.bold.red} should be inclusively in between ${`${inspect(b)}`.bold.green} and ${`${inspect(c)}`.bold.blue}`,
-                  at
+                  where
                 })
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
                   cause: e?.message?.magenta?.bold ?? '¯\\_(ツ)_/¯',
-                  at
+                  where
                 })
               }
             })
           }
           Tap.test(self, value >= b && value <= c, {
             why: `${`${inspect(value)}`.bold.red} should be inclusively in between ${`${inspect(b)}`.bold.green} and ${`${inspect(c)}`.bold.blue}`,
-            at
+            where
           })
         },
         isNaN() {
@@ -281,20 +280,20 @@ class Doubt {
                 value = await value()
                 Tap.test(self, isNaN(value), {
                   why: `${`${inspect(value)}`.bold.red} is not NaN`,
-                  at
+                  where
                 })
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
                   cause: e?.message?.magenta?.bold ?? '¯\\_(ツ)_/¯',
-                  at
+                  where
                 })
               }
             })
           }
           Tap.test(self, isNaN(value), {
             why: `${`${inspect(value)}`.bold.red} is not NaN`,
-            at
+            where
           })
         },
         isTypeOf(b) {
@@ -305,20 +304,20 @@ class Doubt {
                 if (is_async(b)) b = await b()
                 Tap.test(self, typeof value === b, {
                   why: `${`${inspect(value)}`.bold.red} isn't typeOf ${`${inspect(b)}`.bold.green}`,
-                  at
+                  where
                 })
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
                   cause: e?.message?.magenta?.bold ?? '¯\\_(ツ)_/¯',
-                  at
+                  where
                 })
               }
             })
           }
           Tap.test(self, typeof value === b, {
             why: `${`${inspect(value)}`.bold.red} isn't typeOf ${`${inspect(b)}`.bold.green}`,
-            at
+            where
           })
         },
         isInstanceOf(b) {
@@ -329,20 +328,20 @@ class Doubt {
                 if (is_async(b)) b = await b()
                 Tap.test(self, value instanceof b, {
                   why: `${`${inspect(value)}`.bold.red} isn't an instance of ${`${inspect(b)}`.bold.green}`,
-                  at
+                  where
                 })
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
                   cause: e?.message?.magenta?.bold ?? '¯\\_(ツ)_/¯',
-                  at
+                  where
                 })
               }
             })
           }
           Tap.test(self, value instanceof b, {
             why: `${`${inspect(value)}`.bold.red} isn't an instance of ${`${inspect(b)}`.bold.green}`,
-            at
+            where
           })
         },
         hasKeys(b) {
@@ -356,13 +355,13 @@ class Doubt {
                   if (!value.hasOwnProperty(k)) missing.push(k)
                 Tap.test(self, !missing.length, {
                   why: `${`${inspect(value)}`.bold.red} is missing properties ${inspect(missing)}`,
-                  at
+                  where
                 })
               } catch (e) {
                 Tap.test(self, false, {
                   why: `${`promise`.bold.red} rejected with an error`,
                   cause: e?.message?.magenta?.bold ?? '¯\\_(ツ)_/¯',
-                  at
+                  where
                 })
               }
             })
@@ -372,7 +371,7 @@ class Doubt {
             if (!value.hasOwnProperty(k)) missing.push(k)
           Tap.test(self, !missing.length, {
             why: `${`${inspect(value)}`.bold.red} is missing properties ${inspect(missing)}`,
-            at
+            where
           })
         },
         async succeeds() {
@@ -384,7 +383,7 @@ class Doubt {
             Tap.test(self, false, {
               why: `${'promise'.bold.red} rejected with an error`,
               cause: e?.message?.magenta?.bold ?? '¯\\_(ツ)_/¯',
-              at
+              where
             })
           }
         },
@@ -394,7 +393,7 @@ class Doubt {
             await value()
             Tap.test(self, false, {
               why: `${`promise`.bold.red} didn't rejected anything`,
-              at
+              where
             })
           } catch {
             Tap.test(self, true)

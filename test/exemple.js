@@ -6,7 +6,7 @@ Doubt.createStream().pipe(tap_spec()).pipe(process.stdout)
 const shire = { population: 150, hobbits: ['Frodo', 'Lobelia'] }
 const lair = { owner: 'Batman', queer: 'Robbin' }
 
-'The shire'.doubt(() => {
+'The shire'.doubt(function testing() {
 
 	'should contain many hobbits'.because(shire.population > 100).isTrue()
 
