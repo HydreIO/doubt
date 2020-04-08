@@ -25,7 +25,7 @@ class Tap {
 		} else {
 			this.#failed = true
 			this.log(`not ok ${msg}
-  ---${toLiteral(toLines(Object.entries(err).filter(([k, v]) => k !== undefined && v !== undefined))}
+  ---${toLiteral(toLines(Object.entries(err).filter(([k, v]) => k !== undefined && v !== undefined)))}
   ...`)
 		}
 	}
