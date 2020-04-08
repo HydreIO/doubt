@@ -30,7 +30,7 @@ class Doubt {
     String.prototype.because = function(value) {
       const at = new Error().stack.split('at ')[2].trim()
       const self = this
-
+      console.log('at =', at)
       return {
         isTrue() {
           if (is_async(value)) {
