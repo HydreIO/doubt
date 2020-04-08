@@ -45,7 +45,7 @@ const identity = value => async () => value
 	await 'isDeeplyEqualTo::2'.because(identity({ a: { a: 1 } })).isDeeplyEqualTo(identity({ a: { a: 1 } }))
 
 	await 'isAbove'.because(1).isAbove(0)
-	await 'isAbove::1'.because(identity(1)).isAbove(0)
+	await 'isAbove::1'.because(identity(undefined)).isAbove(0)
 	await 'isAbove::2'.because(identity(1)).isAbove(identity(0))
 
 	await 'isBelow'.because(identity(0)).isBelow(1)
