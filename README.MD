@@ -1,23 +1,21 @@
-![][licence] [![][npm]][npmlink] [![][npmdl]][npmlink]
-
 <h1 align=center>@hydre/doubt</h1>
+<p align=center>
+  <img src="https://img.shields.io/github/license/HydreIO/doubt.svg?style=for-the-badge" />
+  <a href="https://discord.gg/bRSpRpD">
+    <img src="https://img.shields.io/discord/398114799776694272.svg?logo=discord&style=for-the-badge" />
+  </a>
+	<a href="https://www.npmjs.com/package/@hydre/doubt">
+    <img src="https://img.shields.io/npm/v/@hydre/doubt.svg?logo=npm&style=for-the-badge" />
+  </a>
+  <img src="https://img.shields.io/npm/dw/@hydre/doubt?logo=npm&style=for-the-badge" />
+  <img src="https://img.shields.io/github/workflow/status/@hyde/doubt/CI?logo=Github&style=for-the-badge" />
+</p>
 
-[![][discord]][discordlink] [![][twitter]][twitterlink]
-
-[licence]: https://img.shields.io/github/license/HydreIO/doubt.svg?style=for-the-badge
-[npm]: https://img.shields.io/npm/v/@hydre/doubt.svg?logo=npm&style=for-the-badge
-[npmlink]: https://www.npmjs.com/package/@hydre/doubt
-[twitter]: https://img.shields.io/badge/follow-us-blue.svg?logo=twitter&style=for-the-badge
-[twitterlink]: https://twitter.com/hydreio
-[discord]: https://img.shields.io/discord/398114799776694272.svg?logo=discord&style=for-the-badge
-[discordlink]: https://discord.gg/bRSpRpD
-[npmdl]: https://img.shields.io/npm/dw/@hydre/doubt.svg?color=%239C27B0&style=for-the-badge
+<h3 align=center>A feather weight testing library <a href="http://testanything.org/tap-version-13-specification.html">TAP 13</a> compliant</h3>
 
 > Tester c'est douter
 
 <img align="right" width="600" src="https://i.imgur.com/7W0Nnua.png">
-
-Doubt is a feather weight testing library [TAP 13](http://testanything.org/tap-version-13-specification.html) compliant.
 
 Test your code and pipe the output to a [consumer](http://testanything.org/consumers.html) like [tape-spec-emoji](https://github.com/Sceat/tap-spec-emoji)
 

@@ -1,4 +1,4 @@
-name: Npm release
+name: CI
 
 on:
   create:
