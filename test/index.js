@@ -27,8 +27,8 @@ Doubt.createStream().pipe(tap_spec()).pipe(process.stdout)
 const identity = value => async () => value
 
 'hydre/doubt is async'.doubt(async () => {
-	await 'isTrue'.because(identity(true)).isTrue()
-	await 'isUndefined'.because(identity(undefined)).isUndefined()
+	await 'isTrue'.because(Promise.resolve(true)).isTrue()
+	await 'isUndefined'.because(Promise.resolve(undefined)).isUndefined()
 	await 'isDefined'.because(identity('')).isDefined()
 	await 'isFalse'.because(identity(false)).isFalse()
 
