@@ -191,7 +191,7 @@ Or follow these 5 steps
 > remember to `await` everytime you use an async function instead of a value in `because()`
 
 
-- isTrue
+## isTrue
 
 !!val
 
@@ -200,7 +200,7 @@ because(val).isTrue()
 await because(async () => val).isTrue()
 ```
 
-- isUndefined
+## isUndefined
 
 val === undefined
 
@@ -209,7 +209,7 @@ because(val).isUndefined()
 await because(async () => val).isUndefined()
 ```
 
-- isDefined
+## isDefined
 
 val !== undefined
 
@@ -218,7 +218,7 @@ because(val).isDefined()
 await because(async () => val).isDefined()
 ```
 
-- isFalse
+## isFalse
 
 !val
 
@@ -227,7 +227,7 @@ because(val).isFalse()
 await because(async () => val).isFalse()
 ```
 
-- isEqualTo
+## isEqualTo
 
 val === x
 
@@ -240,7 +240,7 @@ await because(val).isEqualTo(async () => x)
 await because(async () => val).isEqualTo(async () => x)
 ```
 
-- isNotEqualTo
+## isNotEqualTo
 
 val !== x
 
@@ -251,7 +251,7 @@ await because(val).isNotEqualTo(async () => x)
 await because(async () => val).isNotEqualTo(async () => x)
 ```
 
-- isDeeplyEqualTo
+## isDeeplyEqualTo
 
 equal(val,x)
 
@@ -262,7 +262,7 @@ await because(val).isDeeplyEqualTo(async () => x)
 await because(async () => val).isDeeplyEqualTo(async () => x)
 ```
 
-- isAbove
+## isAbove
 
 val > x
 
@@ -273,7 +273,7 @@ await because(val).isAbove(async () => x)
 await because(async () => val).isAbove(async () => x)
 ```
 
-- isBelow
+## isBelow
 
 val < x
 
@@ -284,7 +284,7 @@ await because(val).isBelow(async () => x)
 await because(async () => val).isBelow(async () => x)
 ```
 
-- isBetween
+## isBetween
 
 val >= x && val <= y
 
@@ -296,7 +296,7 @@ await because(async () => val).isBetween(async () => x, y)
 // not writing all cases for this one as you're probably not that dumb if you found my lib
 ```
 
-- isNaN
+## isNaN
 
 isNaN(val)
 
@@ -305,7 +305,7 @@ because(val).isNaN()
 await because(async () => val).isNaN()
 ```
 
-- isTypeOf
+## isTypeOf
 
 typeof val === x
 
@@ -316,7 +316,7 @@ await because(val).isTypeOf(async () => x)
 await because(async () => val).isTypeOf(async () => x)
 ```
 
-- hasKeys
+## hasKeys
 
 x in val
 
@@ -327,7 +327,7 @@ await because(val).hasKeys(async () => [x])
 await because(async () => val).hasKeys(async () => [x])
 ```
 
-- isInstanceOf
+## isInstanceOf
 
 val instanceof x
 
@@ -338,7 +338,7 @@ await because(val).isInstanceOf(async () => x)
 await because(async () => val).isInstanceOf(async () => x)
 ```
 
-- succeeds
+## succeeds
 
 val succeed
 
@@ -346,7 +346,7 @@ val succeed
 await because(async () => val).succeeds()
 ```
 
-- fails
+## fails
 
 val fails
 
