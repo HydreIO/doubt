@@ -53,8 +53,10 @@ And now play with it
 })
 ```
 
-You can either pass values, or async functions to resolve values ! awesome
+You can either pass values, promises, or async functions to resolve values ! awesome
 > to use the async version you **have** to `await` your test !
+
+**Beware while using promise instead of async functions as any rejection will not be handled**
 
 ```js
 // Find a nice title
