@@ -7,7 +7,7 @@ import 'colors'
 import through2 from 'through2'
 
 let only
-const is_async = fn => fn?.constructor?.name === "AsyncFunction"
+const is_async = fn => fn?.constructor?.name === "AsyncFunction" || Promise.resolve(fn) === fn
 const to_promise = fn => new Promise(res => { fn().then(res) })
 
 class Doubt {
