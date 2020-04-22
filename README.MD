@@ -8,7 +8,7 @@
     <img src="https://img.shields.io/npm/v/@hydre/doubt.svg?logo=npm&style=for-the-badge" />
   </a>
   <img src="https://img.shields.io/npm/dw/@hydre/doubt?logo=npm&style=for-the-badge" />
-  <img src="https://img.shields.io/github/workflow/status/@hydreio/doubt/CI?logo=Github&style=for-the-badge" />
+  <img src="https://img.shields.io/github/workflow/status/hydreio/doubt/CI?logo=Github&style=for-the-badge" />
 </p>
 
 <h3 align=center>A feather weight testing library <a href="http://testanything.org/tap-version-13-specification.html">TAP 13</a> compliant</h3>
