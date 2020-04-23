@@ -19,6 +19,7 @@
 
 Test your code and pipe the output to a [consumer](http://testanything.org/consumers.html) like [tape-spec-emoji](https://github.com/Sceat/tap-spec-emoji)
 
+<!-- omit in toc -->
 ## Why
 
 Testing should be dead simple, sexy, and **FAST**
@@ -26,6 +27,37 @@ Testing should be dead simple, sexy, and **FAST**
 - I like to make my own soap
 - I like hype driven development
 - I like train
+
+<!-- omit in toc -->
+## TOC
+
+- [Install](#install)
+- [Use:](#use)
+- [Exemple:](#exemple)
+- [Custom output](#custom-output)
+- [Glob](#glob)
+- [Api](#api)
+	- [Describe](#describe)
+	- [Test](#test)
+	- [isTrue](#istrue)
+	- [isUndefined](#isundefined)
+	- [isDefined](#isdefined)
+	- [isFalse](#isfalse)
+	- [isEqualTo](#isequalto)
+	- [isNotEqualTo](#isnotequalto)
+	- [isDeeplyEqualTo](#isdeeplyequalto)
+	- [isAbove](#isabove)
+	- [isBelow](#isbelow)
+	- [isBetween](#isbetween)
+	- [isNaN](#isnan)
+	- [isTypeOf](#istypeof)
+	- [hasKeys](#haskeys)
+	- [isInstanceOf](#isinstanceof)
+	- [pass](#pass)
+	- [fails](#fails)
+	- [failsWith](#failswith)
+	- [failsWithMessage](#failswithmessage)
+- [waiting helper](#waiting-helper)
 
 ## Install
 
@@ -159,10 +191,11 @@ npm run test | tape-spec-emoji
 
 you can set it in code by creating a stream
 > `Doubt.stream()` basically just stop the default piping to stdout, and return the internal asyncIterator
+
 ```js
 import { pipeline } from 'stream'
 import doubt from '@hydre/doubt'
-import tapSpec from 'tap-spec-emoji'
+import tap_spec from 'tap-spec-emoji'
 
 pipeline(Doubt.stream(), tap_spec(), process.stdout, error => { if (error) console.log(error) })
 
@@ -214,173 +247,146 @@ Or follow these 5 steps
 
 ### Test
 
-> remember to `await` everytime you use an async function instead of a value in `because()`
+Any input can be an `asyncFunction` or a `promise`, just remember to `await` the line for theses
 
-
-## isTrue
-
-!!val
+Ex:
 
 ```js
+const foo = async () => 1
+const bar = foo()
+await 'foo'.because(foo).isEqualTo(bar)
+await 'bar'.because(1).isEqualTo(async () => bar)
+```
+
+### isTrue
+
+```js
+// !!val
 because(val).isTrue()
-await because(async () => val).isTrue()
 ```
 
-## isUndefined
-
-val === undefined
+### isUndefined
 
 ```js
+// val === undefined
 because(val).isUndefined()
-await because(async () => val).isUndefined()
 ```
 
-## isDefined
-
-val !== undefined
+### isDefined
 
 ```js
+// val !== undefined
 because(val).isDefined()
-await because(async () => val).isDefined()
 ```
 
-## isFalse
-
-!val
+### isFalse
 
 ```js
+// !val
 because(val).isFalse()
-await because(async () => val).isFalse()
 ```
 
-## isEqualTo
-
-val === x
+### isEqualTo
 
 ```js
+// val === x
 because(val).isEqualTo(x)
-await because(async () => val).isEqualTo(x)
-
-// it works for every cases even
-await because(val).isEqualTo(async () => x)
-await because(async () => val).isEqualTo(async () => x)
 ```
 
-## isNotEqualTo
-
-val !== x
+### isNotEqualTo
 
 ```js
+// val !== x
 because(val).isNotEqualTo(x)
-await because(async () => val).isNotEqualTo(x)
-await because(val).isNotEqualTo(async () => x)
-await because(async () => val).isNotEqualTo(async () => x)
 ```
 
-## isDeeplyEqualTo
-
-equal(val,x)
+### isDeeplyEqualTo
 
 ```js
+// deepEqual(val, x)
 because(val).isDeeplyEqualTo(x)
-await because(async () => val).isDeeplyEqualTo(x)
-await because(val).isDeeplyEqualTo(async () => x)
-await because(async () => val).isDeeplyEqualTo(async () => x)
 ```
 
-## isAbove
-
-val > x
+### isAbove
 
 ```js
+// val > x
 because(val).isAbove(x)
-await because(async () => val).isAbove(x)
-await because(val).isAbove(async () => x)
-await because(async () => val).isAbove(async () => x)
 ```
 
-## isBelow
-
-val < x
+### isBelow
 
 ```js
+// val < x
 because(val).isBelow(x)
-await because(async () => val).isBelow(x)
-await because(val).isBelow(async () => x)
-await because(async () => val).isBelow(async () => x)
 ```
 
-## isBetween
-
-val >= x && val <= y
+### isBetween
 
 ```js
+// val >= x && val <= y
 because(val).isBetween(x, y)
-await because(async () => val).isBetween(x, y)
-await because(val).isBetween(x, async () => y)
-await because(async () => val).isBetween(async () => x, y)
-// not writing all cases for this one as you're probably not that dumb if you found my lib
 ```
 
-## isNaN
-
-isNaN(val)
+### isNaN
 
 ```js
+// isNaN(val)
 because(val).isNaN()
-await because(async () => val).isNaN()
 ```
 
-## isTypeOf
-
-typeof val === x
+### isTypeOf
 
 ```js
+// typeof val === x
 because(val).isTypeOf(x)
-await because(async () => val).isTypeOf(x)
-await because(val).isTypeOf(async () => x)
-await because(async () => val).isTypeOf(async () => x)
 ```
 
-## hasKeys
-
-x in val
+### hasKeys
 
 ```js
+// x in val
 because(val).hasKeys([x])
-await because(async () => val).hasKeys([x])
-await because(val).hasKeys(async () => [x])
-await because(async () => val).hasKeys(async () => [x])
 ```
 
-## isInstanceOf
-
-val instanceof x
+### isInstanceOf
 
 ```js
+// val instanceof x
 because(val).isInstanceOf(x)
-await because(async () => val).isInstanceOf(x)
-await because(val).isInstanceOf(async () => x)
-await because(async () => val).isInstanceOf(async () => x)
 ```
 
-## succeeds
-
-val succeed
+### pass
 
 ```js
-await because(async () => val).succeeds()
+// function succeeds
+because(() => {}).pass()
 ```
 
-## fails
-
-val fails
+### fails
 
 ```js
-await because(async () => val).fails()
+// function fails
+because(() => { throw 0 }).fails()
 ```
 
-### waiting helper
+### failsWith
+
+```js
+// function fails with a strict value (the constructor name is used for any errors)
+because(() => { throw 0 }).failsWith(0)
+```
+
+### failsWithMessage
+
+```js
+// function fails
+because(() => { throw new Error('0') }).failsWithMessage('0')
+```
+
+---
+
+## waiting helper
 
 ```js
 await Number.ms()
