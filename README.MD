@@ -32,8 +32,8 @@ Testing should be dead simple, sexy, and **FAST**
 ## TOC
 
 - [Install](#install)
-- [Use:](#use)
-- [Exemple:](#exemple)
+- [Use](#use)
+- [Exemple](#exemple)
 - [Custom output](#custom-output)
 - [Glob](#glob)
 - [Api](#api)
@@ -65,7 +65,7 @@ Testing should be dead simple, sexy, and **FAST**
 npm i -D @hydre/doubt
 ```
 
-## Use:
+## Use
 
 Just import ! hulk u morron
 
@@ -124,7 +124,7 @@ You can either pass values, promises, or async functions to resolve values ! awe
 })
 ```
 
-## Exemple:
+## Exemple
 
 ```js
 import '@hydre/doubt'
