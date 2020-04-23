@@ -78,7 +78,7 @@ You can either pass values, promises, or async functions to resolve values ! awe
 
 	'may we meet again'.because(() => { throw new Error() }).failsWith(new Error())
 
-	'may we meet loosely'.because(() => { throw new Error() }).failsWith('Error')
+	await 'may we meet loosely'.because(() => { throw new Error() }).failsWith(async () => 'Error')
 
 	'may we hack you mind'.because(() => { throw 'oh no' }).failsWith('oh no')
 
