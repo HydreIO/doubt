@@ -28,6 +28,8 @@ Testing should be dead simple, sexy, and **FAST**
 - I like hype driven development
 - I like train
 
+> Node 13.10 minimum
+
 <!-- omit in toc -->
 ## TOC
 <img align="right" width="600" src="https://i.imgur.com/YkdDZIh.png">
