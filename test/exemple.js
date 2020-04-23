@@ -1,7 +1,8 @@
 import Doubt from '../src'
 import tap_spec from 'tap-spec-emoji'
+import { pipeline } from 'stream'
 
-Doubt.createStream().pipe(tap_spec()).pipe(process.stdout)
+pipeline(Doubt.stream(), tap_spec(), process.stdout, error => { if (error) console.log(error) })
 
 const shire = { population: 150, hobbits: ['Frodo', 'Lobelia'] }
 const lair = { owner: 'Batman', queer: 'Robbin' }

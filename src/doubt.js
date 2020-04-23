@@ -4,9 +4,10 @@ import csite from 'callsites'
 import equal from 'fast-deep-equal'
 import util from 'util'
 import 'colors'
-import through2 from 'through2'
+import stream from 'stream'
 
 let only
+const pipeline = util.promisify(stream.pipeline)
 const AsyncFunction = Object.getPrototypeOf(async function() { }).constructor
 const is_promise = fn => Promise.resolve(fn) === fn
 const is_async = fn => fn instanceof AsyncFunction || is_promise(fn)
@@ -14,8 +15,9 @@ const to_promise = fn => new Promise(res => { fn().then(res) })
 
 class Doubt {
   #doubts = new Map()
+  stdout = true
 
-  constructor(stream = process.stdout) {
+  constructor() {
     const doubts = this.#doubts
 
     String.prototype.doubt = async function(fn) {
@@ -413,9 +415,9 @@ class Doubt {
     }
   }
 
-  createStream() {
-    Tap.stream = through2()
-    return Tap.stream
+  stream() {
+    this.stdout = false
+    return Tap
   }
 
   async run() {
@@ -465,7 +467,8 @@ const doubt = new Doubt()
 
 process.on('beforeExit', async () => {
   await doubt.run()
-  await doubt?.on_end?.({ total: Tap.tests, passed: Tap.pass })
+  if (doubt.stdout) await pipeline(Tap, process.stdout)
+  await doubt.on_end?.({ total: Tap.tests, passed: Tap.pass })
   process.exit(Tap.shouldFail ? 1 : 0)
 })
 

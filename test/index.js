@@ -1,8 +1,9 @@
 import * as _ from './'
 import Doubt from '../src'
 import tap_spec from 'tap-spec-emoji'
+import { pipeline } from 'stream'
 
-Doubt.createStream().pipe(tap_spec()).pipe(process.stdout)
+pipeline(Doubt.stream(), tap_spec(), process.stdout, error => { if (error) console.log(error) })
 
 'hydre/doubt is awesome'.doubt(async () => {
   'isTrue'.because(true).isTrue()

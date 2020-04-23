@@ -158,16 +158,13 @@ npm run test | tape-spec-emoji
 ```
 
 you can set it in code by creating a stream
+> `Doubt.stream()` basically just stop the default piping to stdout, and return the internal asyncIterator
 ```js
 import { pipeline } from 'stream'
 import doubt from '@hydre/doubt'
 import tapSpec from 'tap-spec-emoji'
 
-pipeline(
-	doubt.createStream(),
-	tapSpec(),
-	process.stdout
-)
+pipeline(Doubt.stream(), tap_spec(), process.stdout, error => { if (error) console.log(error) })
 
 'test me'.doubt(()=>{})
 ```
