@@ -10,8 +10,8 @@ class Tap {
     this.#stream.write(`${str}\n`)
   }
 
-  [Symbol.asyncIterator]() {
-    return this.#stream[Symbol.asyncIterator]()
+  async *[Symbol.asyncIterator]() {
+    yield* this.#stream
   }
 
   version() {
