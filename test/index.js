@@ -23,7 +23,7 @@ Doubt.createStream().pipe(tap_spec()).pipe(process.stdout)
   'fails'.because(() => { throw 'something' }).fails()
 
   class NiggaError extends Error { }
-  'failsWith'.because(() => { throw new NiggaError() }).failsWith(new NiggaError())
+  'failsWith'.because(() => { throw 'NiggaError' }).failsWith(new NiggaError())
   'failsWithMessage'.because(() => { throw new Error() }).failsWithMessage('')
 
   class A { }

@@ -71,6 +71,7 @@ You can either pass values, promises, or async functions to resolve values ! awe
 ```
 
 ***new in 3.0*** expect to fail precisely !
+> Any errors are converted to their constructor name, thus you are able to just throw their names
 
 ```js
 'Obama is gone'.doubt(async () => {
@@ -80,6 +81,9 @@ You can either pass values, promises, or async functions to resolve values ! awe
 	'may we meet loosely'.because(() => { throw new Error() }).failsWith('Error')
 
 	'may we hack you mind'.because(() => { throw 'oh no' }).failsWith('oh no')
+
+	class NiggaError extends Error { }
+  'failsWith'.because(() => { throw 'NiggaError' }).failsWith(new NiggaError())
 
 	await 'may we hack you mind later'.because(async ()=> {
 		await 50..ms()
