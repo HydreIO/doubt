@@ -15,7 +15,7 @@
 
 > Tester c'est douter
 
-<img align="right" width="600" src="https://i.imgur.com/7W0Nnua.png">
+<img align="right" width="600" src="https://i.imgur.com/YkdDZIh.png">
 
 Test your code and pipe the output to a [consumer](http://testanything.org/consumers.html) like [tape-spec-emoji](https://github.com/Sceat/tap-spec-emoji)
 
@@ -24,7 +24,7 @@ Test your code and pipe the output to a [consumer](http://testanything.org/consu
 Testing should be dead simple, sexy, and **FAST**
 
 - I like to make my own soap
-- I like simple things
+- I like hype driven development
 - I like train
 
 ## Install
@@ -40,9 +40,9 @@ Just import ! hulk u morron
 ```js
 import '@hydre/doubt'
 ```
-
-> !! **RUN WITH `--harmony --experimental-specifier-resolution=node`**
-
+```sh
+node --harmony --experimental-specifier-resolution=node test.js
+```
 And now play with it
 
 ```js
@@ -56,18 +56,35 @@ And now play with it
 You can either pass values, promises, or async functions to resolve values ! awesome
 > to use the async version you **have** to `await` your test !
 
-**Beware while using promise instead of async functions as any rejection will not be handled**
+**Beware while using promises instead of async functions as any rejection will not be handled**
 
 ```js
-// Find a nice title
 'Obama is gone'.doubt(async () => {
-	// write cool tests
+
 	'may we meet again'.because('i miss you').isTrue()
 
 	await 'may we meet again later'.because(async ()=> {
 		await 50..ms()
 		return 'i miss you'
 	}).isTrue()
+})
+```
+
+***new in 3.0*** expect to fail precisely !
+
+```js
+'Obama is gone'.doubt(async () => {
+
+	'may we meet again'.because(() => { throw new Error() }).failsWith(new Error())
+
+	'may we meet loosely'.because(() => { throw new Error() }).failsWith('Error')
+
+	'may we hack you mind'.because(() => { throw 'oh no' }).failsWith('oh no')
+
+	await 'may we hack you mind later'.because(async ()=> {
+		await 50..ms()
+		throw new Error()
+	}).failsWithMessage('')
 })
 ```
 
@@ -138,9 +155,15 @@ npm run test | tape-spec-emoji
 
 you can set it in code by creating a stream
 ```js
+import { pipeline } from 'stream'
 import doubt from '@hydre/doubt'
 import tapSpec from 'tap-spec-emoji'
-doubt.createStream().pipe(tapSpec()).pipe(process.stdout)
+
+pipeline(
+	doubt.createStream(),
+	tapSpec(),
+	process.stdout
+)
 
 'test me'.doubt(()=>{})
 ```

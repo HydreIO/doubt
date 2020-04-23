@@ -6,6 +6,12 @@ Doubt.createStream().pipe(tap_spec()).pipe(process.stdout)
 const shire = { population: 150, hobbits: ['Frodo', 'Lobelia'] }
 const lair = { owner: 'Batman', queer: 'Robbin' }
 
+'Hydre/doubt'.doubt(() => {
+	'is not vegan'.because(1).isEqualTo(1)
+	'can fly'.because(1).isEqualTo('1')
+	"is no diabeetus cat".because(() => { throw new Error('diabeetus intensifies') }).failsWith('hate sugar')
+})
+
 'The shire'.doubt(function testing() {
 
 	'should contain many hobbits'.because(shire.population > 100).isTrue()

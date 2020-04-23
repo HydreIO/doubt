@@ -7,8 +7,9 @@ import 'colors'
 import through2 from 'through2'
 
 let only
-const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor
-const is_async = fn => fn instanceof AsyncFunction || Promise.resolve(fn) === fn
+const AsyncFunction = Object.getPrototypeOf(async function() { }).constructor
+const is_promise = fn => Promise.resolve(fn) === fn
+const is_async = fn => fn instanceof AsyncFunction || is_promise(fn)
 const to_promise = fn => new Promise(res => { fn().then(res) })
 
 class Doubt {
@@ -31,9 +32,10 @@ class Doubt {
     String.prototype.because = function(value) {
       const where = new Error().stack.split('at ')[2].trim()
       const self = this
-      const async_tap_fail = error => {
+      const tap_fail = error => {
+        if (!error.message) error.message = '~~this error has no message ¯\\_(ツ)_/¯'
         Tap.test(self, false, {
-          why: `${`promise`.bold.red} rejected with an error`,
+          why: `${'an error'.bold.red} was thrown`,
           cause: error?.message?.magenta?.bold ?? '¯\\_(ツ)_/¯',
           where
         })
@@ -48,7 +50,7 @@ class Doubt {
                   why: `${`${inspect(value)}`.bold.red} should be truthy`,
                   where
                 })
-              } catch (e) { async_tap_fail(e) }
+              } catch (e) { tap_fail(e) }
             })
           }
           Tap.test(self, !!value, {
@@ -65,7 +67,7 @@ class Doubt {
                   why: `${`${inspect(value)}`.bold.red} should be undefined`,
                   where
                 })
-              } catch (e) { async_tap_fail(e) }
+              } catch (e) { tap_fail(e) }
             })
           }
           Tap.test(self, value === undefined, {
@@ -82,7 +84,7 @@ class Doubt {
                   why: `${`${inspect(value)}`.bold.red} should be defined`,
                   where
                 })
-              } catch (e) { async_tap_fail(e) }
+              } catch (e) { tap_fail(e) }
             })
           }
           Tap.test(self, value !== undefined, {
@@ -99,7 +101,7 @@ class Doubt {
                   why: `${`${inspect(value)}`.bold.red} should be falsy`,
                   where
                 })
-              } catch (e) { async_tap_fail(e) }
+              } catch (e) { tap_fail(e) }
             })
           }
           Tap.test(self, !value, {
@@ -117,7 +119,7 @@ class Doubt {
                   why: `${`${inspect(value)}`.red.bold} should be strictly equal to ${(inspect(b) + '').green.bold}`,
                   where
                 })
-              } catch (e) { async_tap_fail(e) }
+              } catch (e) { tap_fail(e) }
             })
           }
           Tap.test(self, value === b, {
@@ -135,7 +137,7 @@ class Doubt {
                   why: `${`${inspect(value)}`.red.bold} should not be equal to ${(inspect(b) + '').green.bold}`,
                   where
                 })
-              } catch (e) { async_tap_fail(e) }
+              } catch (e) { tap_fail(e) }
             })
           }
           Tap.test(self, value !== b, {
@@ -155,7 +157,7 @@ class Doubt {
                   expect: inspect(b).bold,
                   where
                 })
-              } catch (e) { async_tap_fail(e) }
+              } catch (e) { tap_fail(e) }
             })
           }
           Tap.test(self, equal(value, b), {
@@ -175,7 +177,7 @@ class Doubt {
                   why: `${`${inspect(value)}`.bold.red} should be above ${`${inspect(b)}`.bold.green}`,
                   where
                 })
-              } catch (e) { async_tap_fail(e) }
+              } catch (e) { tap_fail(e) }
             })
           }
           Tap.test(self, value > b, {
@@ -193,7 +195,7 @@ class Doubt {
                   why: `${`${inspect(value)}`.bold.red} should be below ${`${inspect(b)}`.bold.green}`,
                   where
                 })
-              } catch (e) { async_tap_fail(e) }
+              } catch (e) { tap_fail(e) }
             })
           }
           Tap.test(self, value < b, {
@@ -212,7 +214,7 @@ class Doubt {
                   why: `${`${inspect(value)}`.bold.red} should be inclusively in between ${`${inspect(b)}`.bold.green} and ${`${inspect(c)}`.bold.blue}`,
                   where
                 })
-              } catch (e) { async_tap_fail(e) }
+              } catch (e) { tap_fail(e) }
             })
           }
           Tap.test(self, value >= b && value <= c, {
@@ -229,7 +231,7 @@ class Doubt {
                   why: `${`${inspect(value)}`.bold.red} is not NaN`,
                   where
                 })
-              } catch (e) { async_tap_fail(e) }
+              } catch (e) { tap_fail(e) }
             })
           }
           Tap.test(self, isNaN(value), {
@@ -247,7 +249,7 @@ class Doubt {
                   why: `${`${inspect(value)}`.bold.red} isn't typeOf ${`${inspect(b)}`.bold.green}`,
                   where
                 })
-              } catch (e) { async_tap_fail(e) }
+              } catch (e) { tap_fail(e) }
             })
           }
           Tap.test(self, typeof value === b, {
@@ -265,7 +267,7 @@ class Doubt {
                   why: `${`${inspect(value)}`.bold.red} isn't an instance of ${`${inspect(b)}`.bold.green}`,
                   where
                 })
-              } catch (e) { async_tap_fail(e) }
+              } catch (e) { tap_fail(e) }
             })
           }
           Tap.test(self, value instanceof b, {
@@ -286,7 +288,7 @@ class Doubt {
                   why: `${`${inspect(value)}`.bold.red} is missing properties ${inspect(missing)}`,
                   where
                 })
-              } catch (e) { async_tap_fail(e) }
+              } catch (e) { tap_fail(e) }
             })
           }
           let missing = []
@@ -297,25 +299,116 @@ class Doubt {
             where
           })
         },
-        async succeeds() {
-          if (!is_async(value)) throw new Error(`${value} is not an async function`)
+        pass() {
+          if (typeof value !== 'function') throw new Error(`${value} is not a function`)
+          if (is_async(value)) {
+            return to_promise(async () => {
+              try {
+                await (value instanceof AsyncFunction ? value() : value)
+                Tap.test(self, true)
+              } catch (e) { tap_fail(e) }
+            })
+          }
           try {
-            await (value instanceof AsyncFunction ? value() : value)
+            value()
             Tap.test(self, true)
-          } catch (e) { async_tap_fail(e) }
+          } catch (e) { tap_fail(e) }
         },
-        async fails() {
-          if (!is_async(value)) throw new Error(`${value} is not an async function`)
+        fails() {
+          if (typeof value !== 'function') throw new Error(`${value} is not a function`)
+          if (is_async(value)) {
+            return to_promise(async () => {
+              try {
+                await value()
+                Tap.test(self, false, {
+                  why: `${`nothing`.bold.red} was thrown`,
+                  where
+                })
+              } catch (e) { Tap.test(self, true) }
+            })
+          }
           try {
-            await (value instanceof AsyncFunction ? value() : value)
+            value()
             Tap.test(self, false, {
-              why: `${`promise`.bold.red} didn't rejected anything`,
+              why: `${`nothing`.bold.red} was thrown`,
               where
             })
-          } catch {
-            Tap.test(self, true)
+          } catch { Tap.test(self, true) }
+        },
+        failsWith(b) {
+          if (typeof value !== 'function') throw new Error(`${value} is not a function`)
+          if (is_async(value) || is_async(b)) {
+            return to_promise(async () => {
+              try {
+                // here it's always an async function
+                await value()
+                Tap.test(self, false, {
+                  why: `${'nothing'.bold.red} was thrown`,
+                  where
+                })
+              } catch (e) {
+                if (is_async(b)) b = await b()
+                if (e instanceof Error) e = e.constructor.name
+                if (b instanceof Error) b = b.constructor.name
+                Tap.test(self, e === b, {
+                  why: `${`${inspect(e)}`.bold.magenta} is different from ${`${inspect(b)}`.bold.green}`,
+                  where
+                })
+              }
+            })
           }
-        }
+          try {
+            value()
+            Tap.test(self, false, {
+              why: `${'nothing'.bold.red} was thrown`,
+              where
+            })
+          } catch (e) {
+            if (e instanceof Error) e = e.constructor.name
+            if (b instanceof Error) b = b.constructor.name
+            Tap.test(self, e === b, {
+              why: `${`${inspect(e)}`.bold.magenta} is different from ${`${inspect(b)}`.bold.green}`,
+              where
+            })
+          }
+        },
+        failsWithMessage(b) {
+          if (typeof value !== 'function') throw new Error(`${value} is not a function`)
+          if (is_async(value) || is_async(b)) {
+            return to_promise(async () => {
+              try {
+                // here it's always an async function
+                await value()
+                Tap.test(self, false, {
+                  why: `${`nothing`.bold.red} was thrown`,
+                  where
+                })
+              } catch (e) {
+                if (is_async(b)) b = await b()
+                Tap.test(self, e?.message === b, {
+                  why: 'Messages are different',
+                  found: `${inspect(e.message)}`.magenta.bold,
+                  expect: `${b}`.green,
+                  where
+                })
+              }
+            })
+          }
+          try {
+            value()
+            Tap.test(self, false, {
+              why: `${`nothing`.bold.red} was thrown`,
+              where
+            })
+          } catch (e) {
+            Tap.test(self, e?.message === b, {
+              why: 'Messages are different',
+              found: `${inspect(e.message)}`.magenta.bold,
+              expect: `${b}`.green,
+              where
+            })
+          }
+        },
       }
     }
   }
