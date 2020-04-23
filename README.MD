@@ -15,8 +15,6 @@
 
 > Tester c'est douter
 
-<img align="right" width="600" src="https://i.imgur.com/YkdDZIh.png">
-
 Test your code and pipe the output to a [consumer](http://testanything.org/consumers.html) like [tape-spec-emoji](https://github.com/Sceat/tap-spec-emoji)
 
 <!-- omit in toc -->
@@ -30,6 +28,7 @@ Testing should be dead simple, sexy, and **FAST**
 
 <!-- omit in toc -->
 ## TOC
+<img align="right" width="600" src="https://i.imgur.com/YkdDZIh.png">
 
 - [Install](#install)
 - [Use](#use)
