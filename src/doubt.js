@@ -449,6 +449,10 @@ ${'RUN..'.bold.black.bgYellow} ${file.white.bold.underline}`)
     }
   }
 
+  async onStart(fn) {
+    this.on_start = async () => fn()
+  }
+
   async onEnd(fn) {
     this.on_end = async () => fn()
   }
@@ -466,6 +470,7 @@ function inspect(obj) {
 const doubt = new Doubt()
 
 process.on('beforeExit', async () => {
+  await doubt.on_start?.()
   await doubt.run()
   if (doubt.stdout) await pipeline(Tap, process.stdout)
   await doubt.on_end?.({ total: Tap.tests, passed: Tap.pass })

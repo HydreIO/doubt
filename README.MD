@@ -37,6 +37,8 @@ Testing should be dead simple, sexy, and **FAST**
 - [Install](#install)
 - [Use](#use)
 - [Exemple](#exemple)
+- [Once](#once)
+- [Hooks (http servers)](#hooks-http-servers)
 - [Custom output](#custom-output)
 - [Glob](#glob)
 - [Api](#api)
@@ -161,6 +163,8 @@ const lair = { owner: 'Batman', queer: 'Robbin' }
 })
 ```
 
+## Once
+
 Damn bugs.. run only one set of tests
 > it's a bad practice to use global isNaN instead of Number.isNaN but for the sake of simplicity we here use the global isNaN as it less strict than the Number.isNaN
 
@@ -170,9 +174,16 @@ Damn bugs.. run only one set of tests
 })
 ```
 
-As doubt records your tests then run beforeExit, you have the possibility to run some actions after all tests have been executed
+## Hooks (http servers)
+
+As doubt records your tests then run beforeExit, you have the possibility to run some actions before and after all tests have been executed
 ```js
 import doubt from '@hydre/doubt'
+
+// if you use an http server and listen before the tests then no tests will run as node will never exit
+// you must use a hook
+doubt.onStart(async ()=> { server.listen() })
+
 doubt.onEnd(({ total, passed }) => { console.log(`just ran ${total} tests!`) })
 ```
 You can also pass an async function
