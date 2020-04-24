@@ -34,6 +34,7 @@ Testing should be dead simple, sexy, and **FAST**
 
 <!-- omit in toc -->
 ## TOC
+*(looks better on github 😬)*
 <img align="right" width="600" src="https://i.imgur.com/YkdDZIh.png">
 
 - [Install](#install)
