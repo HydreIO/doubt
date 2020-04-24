@@ -7,7 +7,9 @@
 	<a href="https://www.npmjs.com/package/@hydre/doubt">
     <img src="https://img.shields.io/npm/v/@hydre/doubt.svg?logo=npm&style=for-the-badge" />
   </a>
-  <img src="https://img.shields.io/npm/dw/@hydre/doubt?logo=npm&style=for-the-badge" />
+	<a href="https://www.npmjs.com/package/@hydre/doubt">
+    <img src="https://img.shields.io/npm/dw/@hydre/doubt?logo=npm&style=for-the-badge" />
+  </a>
 	<a href="https://github.com/HydreIO/doubt/actions?query=workflow%3ACI">
   	<img src="https://img.shields.io/github/workflow/status/hydreio/doubt/CI?logo=Github&style=for-the-badge" />
 	<a/>
