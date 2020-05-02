@@ -1,4 +1,4 @@
-#!/usr/bin/env node --harmony --experimental-specifier-resolution=node
+#!/usr/bin/env node
 import glob from 'glob'
 import path from 'path'
 

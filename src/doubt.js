@@ -1,4 +1,4 @@
-import Tap from './Tap'
+import Tap from './Tap.js'
 import path from 'path'
 import csite from 'callsites'
 import equal from 'fast-deep-equal'

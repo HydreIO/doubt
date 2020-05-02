@@ -30,7 +30,7 @@ Testing should be dead simple, sexy, and **FAST**
 - I like hype driven development
 - I like train
 
-> Node 13.10 minimum
+> Node 14 required
 
 <!-- omit in toc -->
 ## TOC
@@ -81,7 +81,7 @@ Just import ! hulk u morron
 import '@hydre/doubt'
 ```
 ```sh
-node --harmony --experimental-specifier-resolution=node test.js
+node test.js
 ```
 And now play with it
 

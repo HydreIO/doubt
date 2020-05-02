@@ -8,8 +8,8 @@
 		"doubt": "src/cli.js"
 	},
 	"scripts": {
-		"test": "node --harmony --experimental-specifier-resolution=node test/index.js",
-		"test:exemple": "node --harmony --experimental-specifier-resolution=node test/exemple.js",
+		"test": "node test/index.js",
+		"test:exemple": "node test/exemple.js",
 		"postversion": "git push && git push --tags"
 	},
 	"repository": {
@@ -40,6 +40,6 @@
 		"supports-color": "^7.1.0"
 	},
 	"devDependencies": {
-		"tap-spec-emoji": "^6.0.7"
+		"tap-spec-emoji": "^6.1.1"
 	}
 }

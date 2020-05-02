@@ -1,4 +1,4 @@
-import Doubt from '../src'
+import Doubt from '../src/index.js'
 import tap_spec from 'tap-spec-emoji'
 import { pipeline } from 'stream'
 
