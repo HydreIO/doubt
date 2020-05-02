@@ -2,6 +2,8 @@ name: CI
 
 on:
   create:
+    branches:
+      - master
     tags:
       - v*
 
@@ -26,7 +28,7 @@ jobs:
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
-      - run: npm i
+      - run: npm ci
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
