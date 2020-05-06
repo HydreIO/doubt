@@ -37,8 +37,7 @@ class Tap {
       this.log(`not ok ${ message }
   ---
   ${ Object.entries(error)
-      .map(([key, value]) =>
-        `${ `${ key }:`.white.italic } ${ value }\n  `)
+      .map(([key, value]) => `${ `${ key }:`.white.italic } ${ value }\n  `)
       .join('')
       .trim() }
   ...`)

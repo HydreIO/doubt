@@ -70,31 +70,28 @@ class Doubt {
   }
 
   async run() {
-    try {
-      tap.version()
-      if (this.only) {
-        const {
-          fn, title,
-        } = this.only
-        tap.title(title)
-        await fn()
-      } else {
-        for (const {
-          fn, title,
-        } of this.#suites) {
-          tap.title(title)
-          await fn()
-        }
-      }
-
-      tap.end()
-      await new Promise(resolve => setTimeout(resolve, WAIT_BEFORE_EXIT))
-    } catch (error) {
-      console.error(error)
-      // it's a cli
-      // eslint-disable-next-line unicorn/no-process-exit
-      process.exit(1)
+    tap.version()
+    if (this.only) {
+      this.#suites.clear()
+      this.#suites.add(this.only)
     }
+
+    for (const suite of this.#suites) {
+      const {
+        fn, title,
+      } = suite
+      tap.title(title)
+      try {
+        await fn()
+      } catch (error) {
+        tap.test(
+            'Unexpected error while executing the suite', false, error,
+        )
+      }
+    }
+
+    tap.end()
+    await new Promise(resolve => setTimeout(resolve, WAIT_BEFORE_EXIT))
   }
 
   async onStart(fn) {
@@ -108,7 +105,16 @@ class Doubt {
 
 const doubt = new Doubt()
 
+let ran = 0
+
 process.on('beforeExit', async () => {
+  if (ran !== 0) {
+    console.error(`[doubt] infinite loop detected, exiting. \
+    The node beforeExit event can't be called multiple times! beware`)
+    process.exit(1)
+  }
+
+  ran++
   await doubt.on_start?.()
   await doubt.run()
   if (doubt.stdout) await pipeline(tap.stream(), process.stdout)

@@ -9,7 +9,8 @@
 	},
 	"scripts": {
 		"test": "node test/index.js",
-		"test:exemple": "node test/exemple.js",
+    "format": "prettier-eslint $PWD/\"**/*.js\" --write",
+    "format:check": "prettier-eslint $PWD/\"**/*.js\" --list-different",
 		"postversion": "git push && git push --tags"
 	},
 	"repository": {
