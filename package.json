@@ -33,7 +33,6 @@
 		"url": "https://github.com/HydreIO/doubt/issues"
 	},
 	"dependencies": {
-		"callsites": "^3.1.0",
 		"colors": "^1.4.0",
 		"fast-deep-equal": "^3.1.1",
 		"glob": "^7.1.6",
@@ -44,6 +43,7 @@
 		"babel-eslint": "^10.1.0",
 		"eslint": "^6.8.0",
 		"eslint-plugin-unicorn": "^19.0.1",
+		"prettier-eslint-cli": "^5.0.0",
 		"tap-spec-emoji": "^6.1.1"
 	}
 }

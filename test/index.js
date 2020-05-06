@@ -2,6 +2,8 @@ import Doubt from '../src/index.js'
 import tap_spec from 'tap-spec-emoji'
 import { pipeline } from 'stream'
 
+import './doubt.js'
+
 pipeline(Doubt.stream(), tap_spec(), process.stdout, error => { if (error) console.log(error) })
 
 'hydre/doubt is awesome'.doubt(async () => {
