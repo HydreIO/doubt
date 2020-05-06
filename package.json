@@ -1,6 +1,6 @@
 {
 	"name": "@hydre/doubt",
-	"version": "4.0.1",
+	"version": "4.0.2",
 	"description": "Testing made right",
 	"main": "src/index.js",
 	"type": "module",
@@ -11,8 +11,8 @@
 		"test": "node test/index.js",
 		"format": "prettier-eslint $PWD/\"**/*.js\" --write",
 		"format:check": "prettier-eslint $PWD/\"**/*.js\" --list-different",
-    "lint": "eslint --color .",
-    "lint:fix": "eslint --color . --fix",
+		"lint": "eslint --color .",
+		"lint:fix": "eslint --color . --fix",
 		"postversion": "git push && git push --tags"
 	},
 	"repository": {
