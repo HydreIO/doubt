@@ -42,6 +42,7 @@ class Doubt {
       const second = 2
       const where = new Error().stack.split('at ')[second].trim()
       const given = this
+
       return {
         because(actual) {
           return {
@@ -80,6 +81,7 @@ class Doubt {
       const {
         fn, title,
       } = suite
+
       tap.title(title)
       try {
         await fn()

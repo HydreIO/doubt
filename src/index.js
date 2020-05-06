@@ -1,3 +1,1 @@
-export {
-  default,
-} from './doubt.js'
+export { default } from './doubt.js'

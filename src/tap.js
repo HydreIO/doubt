@@ -1,6 +1,4 @@
-import {
-  PassThrough,
-} from 'stream'
+import { PassThrough } from 'stream'
 
 class Tap {
   tests = 0
@@ -28,7 +26,9 @@ class Tap {
       title, ok, error,
   ) {
     this.tests++
+
     const message = `${ this.tests } ${ title }`
+
     if (ok) {
       this.pass++
       this.log(`ok ${ message }`)
