@@ -1,414 +1,63 @@
-import Tap from './Tap.js'
-import path from 'path'
-import csite from 'callsites'
+/* eslint-disable no-extend-native */
+import tap from './tap.js'
 import equal from 'fast-deep-equal'
 import util from 'util'
 import 'colors'
 import stream from 'stream'
 
-let only
 const pipeline = util.promisify(stream.pipeline)
-const AsyncFunction = Object.getPrototypeOf(async function() { }).constructor
-const is_promise = fn => Promise.resolve(fn) === fn
-const is_async = fn => fn instanceof AsyncFunction || is_promise(fn)
-const to_promise = fn => new Promise(res => { fn().then(res) })
+const WAIT_BEFORE_EXIT = 100
+const inspect = object =>
+  util.inspect(object, {
+    showHidden: false,
+    depth     : 2,
+    colors    : true,
+    compact   : true,
+  })
 
 class Doubt {
-  #doubts = new Map()
+  #suites = new Set()
+  only
   stdout = true
 
   constructor() {
-    const doubts = this.#doubts
+    const suites = this.#suites
+    const self = this
 
     String.prototype.doubt = async function(fn) {
-      const file = path.basename(csite()[1].getFileName())
-      const set = doubts.get(file) || doubts.set(file, new Set()).get(file)
-      set.add({ fn, title: this })
+      suites.add({
+        fn,
+        title: this,
+      })
     }
 
     String.prototype.only = async function(fn) {
-      const file = path.basename(csite()[1].getFileName())
-      only = { file, fn, title: this }
+      self.only = {
+        fn,
+        title: this,
+      }
     }
 
-    String.prototype.because = function(value) {
-      const where = new Error().stack.split('at ')[2].trim()
-      const self = this
-      const tap_fail = error => {
-        if (!error.message) error.message = '~~this error has no message ¯\\_(ツ)_/¯'
-        Tap.test(self, false, {
-          why: `${'an error'.bold.red} was thrown`,
-          cause: error?.message?.magenta?.bold ?? '¯\\_(ツ)_/¯',
-          where
-        })
-      }
+    String.prototype.should = function(should) {
+      const second = 2
+      const where = new Error().stack.split('at ')[second].trim()
+      const given = this
       return {
-        isTrue() {
-          if (is_async(value)) {
-            return to_promise(async () => {
-              try {
-                value = await (value instanceof AsyncFunction ? value() : value)
-                Tap.test(self, !!value, {
-                  why: `${`${inspect(value)}`.bold.red} should be truthy`,
-                  where
-                })
-              } catch (e) { tap_fail(e) }
-            })
-          }
-          Tap.test(self, !!value, {
-            why: `${`${inspect(value)}`.bold.red} should be truthy`,
-            where
-          })
-        },
-        isUndefined() {
-          if (is_async(value)) {
-            return to_promise(async () => {
-              try {
-                value = await (value instanceof AsyncFunction ? value() : value)
-                Tap.test(self, value === undefined, {
-                  why: `${`${inspect(value)}`.bold.red} should be undefined`,
-                  where
-                })
-              } catch (e) { tap_fail(e) }
-            })
-          }
-          Tap.test(self, value === undefined, {
-            why: `${`${inspect(value)}`.bold.red} should be undefined`,
-            where
-          })
-        },
-        isDefined() {
-          if (is_async(value)) {
-            return to_promise(async () => {
-              try {
-                value = await (value instanceof AsyncFunction ? value() : value)
-                Tap.test(self, value !== undefined, {
-                  why: `${`${inspect(value)}`.bold.red} should be defined`,
-                  where
-                })
-              } catch (e) { tap_fail(e) }
-            })
-          }
-          Tap.test(self, value !== undefined, {
-            why: `${`${inspect(value)}`.bold.red} should be defined`,
-            where
-          })
-        },
-        isFalse() {
-          if (is_async(value)) {
-            return to_promise(async () => {
-              try {
-                value = await (value instanceof AsyncFunction ? value() : value)
-                Tap.test(self, !value, {
-                  why: `${`${inspect(value)}`.bold.red} should be falsy`,
-                  where
-                })
-              } catch (e) { tap_fail(e) }
-            })
-          }
-          Tap.test(self, !value, {
-            why: `${`${inspect(value)}`.bold.red} should be falsy`,
-            where
-          })
-        },
-        isEqualTo(b) {
-          if (is_async(value) || is_async(b)) {
-            return to_promise(async () => {
-              try {
-                if (is_async(value)) value = await (value instanceof AsyncFunction ? value() : value)
-                if (is_async(b)) b = await (b instanceof AsyncFunction ? b() : b)
-                Tap.test(self, value === b, {
-                  why: `${`${inspect(value)}`.red.bold} should be strictly equal to ${(inspect(b) + '').green.bold}`,
-                  where
-                })
-              } catch (e) { tap_fail(e) }
-            })
-          }
-          Tap.test(self, value === b, {
-            why: `${`${inspect(value)}`.red.bold} should be strictly equal to ${(inspect(b) + '').green.bold}`,
-            where
-          })
-        },
-        isNotEqualTo(b) {
-          if (is_async(value) || is_async(b)) {
-            return to_promise(async () => {
-              try {
-                if (is_async(value)) value = await (value instanceof AsyncFunction ? value() : value)
-                if (is_async(b)) b = await (b instanceof AsyncFunction ? b() : b)
-                Tap.test(self, value !== b, {
-                  why: `${`${inspect(value)}`.red.bold} should not be equal to ${(inspect(b) + '').green.bold}`,
-                  where
-                })
-              } catch (e) { tap_fail(e) }
-            })
-          }
-          Tap.test(self, value !== b, {
-            why: `${`${inspect(value)}`.red.bold} should not be equal to ${(inspect(b) + '').green.bold}`,
-            where
-          })
-        },
-        isDeeplyEqualTo(b) {
-          if (is_async(value) || is_async(b)) {
-            return to_promise(async () => {
-              try {
-                if (is_async(value)) value = await (value instanceof AsyncFunction ? value() : value)
-                if (is_async(b)) b = await (b instanceof AsyncFunction ? b() : b)
-                Tap.test(self, equal(value, b), {
-                  why: `${'actual'.red.bold} should be deeply equal to ${'expect'.green.bold}`,
-                  actual: inspect(value).bold,
-                  expect: inspect(b).bold,
-                  where
-                })
-              } catch (e) { tap_fail(e) }
-            })
-          }
-          Tap.test(self, equal(value, b), {
-            why: `${'actual'.red.bold} should be deeply equal to ${'expect'.green.bold}`,
-            actual: inspect(value).bold,
-            expect: inspect(b).bold,
-            where
-          })
-        },
-        isAbove(b) {
-          if (is_async(value) || is_async(b)) {
-            return to_promise(async () => {
-              try {
-                if (is_async(value)) value = await (value instanceof AsyncFunction ? value() : value)
-                if (is_async(b)) b = await (b instanceof AsyncFunction ? b() : b)
-                Tap.test(self, value > b, {
-                  why: `${`${inspect(value)}`.bold.red} should be above ${`${inspect(b)}`.bold.green}`,
-                  where
-                })
-              } catch (e) { tap_fail(e) }
-            })
-          }
-          Tap.test(self, value > b, {
-            why: `${`${inspect(value)}`.bold.red} should be above ${`${inspect(b)}`.bold.green}`,
-            where
-          })
-        },
-        isBelow(b) {
-          if (is_async(value) || is_async(b)) {
-            return to_promise(async () => {
-              try {
-                if (is_async(value)) value = await (value instanceof AsyncFunction ? value() : value)
-                if (is_async(b)) b = await (b instanceof AsyncFunction ? b() : b)
-                Tap.test(self, value < b, {
-                  why: `${`${inspect(value)}`.bold.red} should be below ${`${inspect(b)}`.bold.green}`,
-                  where
-                })
-              } catch (e) { tap_fail(e) }
-            })
-          }
-          Tap.test(self, value < b, {
-            why: `${`${inspect(value)}`.bold.red} should be below ${`${inspect(b)}`.bold.green}`,
-            where
-          })
-        },
-        isBetween(b, c) {
-          if (is_async(value) || is_async(b) || is_async(c)) {
-            return to_promise(async () => {
-              try {
-                if (is_async(value)) value = await (value instanceof AsyncFunction ? value() : value)
-                if (is_async(b)) b = await (b instanceof AsyncFunction ? b() : b)
-                if (is_async(c)) c = await (c instanceof AsyncFunction ? c() : c)
-                Tap.test(self, value >= b && value <= c, {
-                  why: `${`${inspect(value)}`.bold.red} should be inclusively in between ${`${inspect(b)}`.bold.green} and ${`${inspect(c)}`.bold.blue}`,
-                  where
-                })
-              } catch (e) { tap_fail(e) }
-            })
-          }
-          Tap.test(self, value >= b && value <= c, {
-            why: `${`${inspect(value)}`.bold.red} should be inclusively in between ${`${inspect(b)}`.bold.green} and ${`${inspect(c)}`.bold.blue}`,
-            where
-          })
-        },
-        isNaN() {
-          if (is_async(value)) {
-            return to_promise(async () => {
-              try {
-                value = await (value instanceof AsyncFunction ? value() : value)
-                Tap.test(self, isNaN(value), {
-                  why: `${`${inspect(value)}`.bold.red} is not NaN`,
-                  where
-                })
-              } catch (e) { tap_fail(e) }
-            })
-          }
-          Tap.test(self, isNaN(value), {
-            why: `${`${inspect(value)}`.bold.red} is not NaN`,
-            where
-          })
-        },
-        isTypeOf(b) {
-          if (is_async(value) || is_async(b)) {
-            return to_promise(async () => {
-              try {
-                if (is_async(value)) value = await (value instanceof AsyncFunction ? value() : value)
-                if (is_async(b)) b = await (b instanceof AsyncFunction ? b() : b)
-                Tap.test(self, typeof value === b, {
-                  why: `${`${inspect(value)}`.bold.red} isn't typeOf ${`${inspect(b)}`.bold.green}`,
-                  where
-                })
-              } catch (e) { tap_fail(e) }
-            })
-          }
-          Tap.test(self, typeof value === b, {
-            why: `${`${inspect(value)}`.bold.red} isn't typeOf ${`${inspect(b)}`.bold.green}`,
-            where
-          })
-        },
-        isInstanceOf(b) {
-          if (is_async(value) || is_async(b)) {
-            return to_promise(async () => {
-              try {
-                if (is_async(value)) value = await (value instanceof AsyncFunction ? value() : value)
-                if (is_async(b)) b = await (b instanceof AsyncFunction ? b() : b)
-                Tap.test(self, value instanceof b, {
-                  why: `${`${inspect(value)}`.bold.red} isn't an instance of ${`${inspect(b)}`.bold.green}`,
-                  where
-                })
-              } catch (e) { tap_fail(e) }
-            })
-          }
-          Tap.test(self, value instanceof b, {
-            why: `${`${inspect(value)}`.bold.red} isn't an instance of ${`${inspect(b)}`.bold.green}`,
-            where
-          })
-        },
-        hasKeys(b) {
-          if (is_async(value) || is_async(b)) {
-            return to_promise(async () => {
-              try {
-                if (is_async(value)) value = await (value instanceof AsyncFunction ? value() : value)
-                if (is_async(b)) b = await (b instanceof AsyncFunction ? b() : b)
-                let missing = []
-                for (let k of b)
-                  if (!value.hasOwnProperty(k)) missing.push(k)
-                Tap.test(self, !missing.length, {
-                  why: `${`${inspect(value)}`.bold.red} is missing properties ${inspect(missing)}`,
-                  where
-                })
-              } catch (e) { tap_fail(e) }
-            })
-          }
-          let missing = []
-          for (let k of b)
-            if (!value.hasOwnProperty(k)) missing.push(k)
-          Tap.test(self, !missing.length, {
-            why: `${`${inspect(value)}`.bold.red} is missing properties ${inspect(missing)}`,
-            where
-          })
-        },
-        pass() {
-          if (typeof value !== 'function') throw new Error(`${value} is not a function`)
-          if (is_async(value)) {
-            return to_promise(async () => {
-              try {
-                await (value instanceof AsyncFunction ? value() : value)
-                Tap.test(self, true)
-              } catch (e) { tap_fail(e) }
-            })
-          }
-          try {
-            value()
-            Tap.test(self, true)
-          } catch (e) { tap_fail(e) }
-        },
-        fails() {
-          if (typeof value !== 'function') throw new Error(`${value} is not a function`)
-          if (is_async(value)) {
-            return to_promise(async () => {
-              try {
-                await value()
-                Tap.test(self, false, {
-                  why: `${`nothing`.bold.red} was thrown`,
-                  where
-                })
-              } catch (e) { Tap.test(self, true) }
-            })
-          }
-          try {
-            value()
-            Tap.test(self, false, {
-              why: `${`nothing`.bold.red} was thrown`,
-              where
-            })
-          } catch { Tap.test(self, true) }
-        },
-        failsWith(b) {
-          if (typeof value !== 'function') throw new Error(`${value} is not a function`)
-          if (is_async(value) || is_async(b)) {
-            return to_promise(async () => {
-              try {
-                // here it's always an async function
-                await value()
-                Tap.test(self, false, {
-                  why: `${'nothing'.bold.red} was thrown`,
-                  where
-                })
-              } catch (e) {
-                if (is_async(b)) b = await b()
-                if (e instanceof Error) e = e.constructor.name
-                if (b instanceof Error) b = b.constructor.name
-                Tap.test(self, e === b, {
-                  why: `${`${inspect(e)}`.bold.magenta} is different from ${`${inspect(b)}`.bold.green}`,
-                  where
-                })
-              }
-            })
-          }
-          try {
-            value()
-            Tap.test(self, false, {
-              why: `${'nothing'.bold.red} was thrown`,
-              where
-            })
-          } catch (e) {
-            if (e instanceof Error) e = e.constructor.name
-            if (b instanceof Error) b = b.constructor.name
-            Tap.test(self, e === b, {
-              why: `${`${inspect(e)}`.bold.magenta} is different from ${`${inspect(b)}`.bold.green}`,
-              where
-            })
-          }
-        },
-        failsWithMessage(b) {
-          if (typeof value !== 'function') throw new Error(`${value} is not a function`)
-          if (is_async(value) || is_async(b)) {
-            return to_promise(async () => {
-              try {
-                // here it's always an async function
-                await value()
-                Tap.test(self, false, {
-                  why: `${`nothing`.bold.red} was thrown`,
-                  where
-                })
-              } catch (e) {
-                if (is_async(b)) b = await b()
-                Tap.test(self, e?.message === b, {
-                  why: 'Messages are different',
-                  found: `${inspect(e.message)}`.magenta.bold,
-                  expect: `${b}`.green,
-                  where
-                })
-              }
-            })
-          }
-          try {
-            value()
-            Tap.test(self, false, {
-              why: `${`nothing`.bold.red} was thrown`,
-              where
-            })
-          } catch (e) {
-            Tap.test(self, e?.message === b, {
-              why: 'Messages are different',
-              found: `${inspect(e.message)}`.magenta.bold,
-              expect: `${b}`.green,
-              where
-            })
+        because(actual) {
+          return {
+            is(expected) {
+              tap.test(
+                  `${ given } ${ `should`.blue.italic } ${ should }`,
+                  equal(actual, expected),
+                  {
+                    'I wanted'  : given,
+                    'to'          : should,
+                    'but found' : `${ `${ inspect(actual) }`.bold }`,
+                    'instead of': `${ `${ inspect(expected) }`.bold }`,
+                    'blame'       : where,
+                  },
+              )
+            },
           }
         },
       }
@@ -417,36 +66,32 @@ class Doubt {
 
   stream() {
     this.stdout = false
-    return Tap
+    return tap.stream()
   }
 
   async run() {
-    try {
-      Tap.version()
-      if (only) {
-        const { file, fn, title } = only
-        Tap.log(`# ${'___________________________________________'.yellow}
-${'RUN..'.bold.black.bgYellow} (only) ${file.white.bold.underline}/${title.white.bold}`)
-        Tap.title(title)
-        if (is_async(fn)) await fn()
-        else fn()
-      } else {
-        for (let [file, set] of this.#doubts.entries()) {
-          Tap.log(`# ${'___________________________________________'.yellow}
-${'RUN..'.bold.black.bgYellow} ${file.white.bold.underline}`)
-          for (let { fn, title } of set) {
-            Tap.title(title)
-            if (is_async(fn)) await fn()
-            else fn()
-          }
-        }
-      }
-      Tap.end()
-      await 100..ms()
-    } catch (e) {
-      console.error(e)
-      process.exit(1)
+    tap.version()
+    if (this.only) {
+      this.#suites.clear()
+      this.#suites.add(this.only)
     }
+
+    for (const suite of this.#suites) {
+      const {
+        fn, title,
+      } = suite
+      tap.title(title)
+      try {
+        await fn()
+      } catch (error) {
+        tap.test(
+            'Unexpected error while executing the suite', false, error,
+        )
+      }
+    }
+
+    tap.end()
+    await new Promise(resolve => setTimeout(resolve, WAIT_BEFORE_EXIT))
   }
 
   async onStart(fn) {
@@ -458,23 +103,26 @@ ${'RUN..'.bold.black.bgYellow} ${file.white.bold.underline}`)
   }
 }
 
-function inspect(obj) {
-  return util.inspect(obj, {
-    showHidden: false,
-    depth: 2,
-    colors: true,
-    compact: true
-  })
-}
-
 const doubt = new Doubt()
 
+let ran = 0
+
 process.on('beforeExit', async () => {
+  if (ran !== 0) {
+    console.error(`[doubt] infinite loop detected, exiting. \
+    The node beforeExit event can't be called multiple times! beware`)
+    process.exit(1)
+  }
+
+  ran++
   await doubt.on_start?.()
   await doubt.run()
-  if (doubt.stdout) await pipeline(Tap, process.stdout)
-  await doubt.on_end?.({ total: Tap.tests, passed: Tap.pass })
-  process.exit(Tap.shouldFail ? 1 : 0)
+  if (doubt.stdout) await pipeline(tap.stream(), process.stdout)
+  await doubt.on_end?.({
+    total : tap.tests,
+    passed: tap.pass,
+  })
+  process.exit(tap.shouldFail ? 1 : 0)
 })
 
 export default doubt
