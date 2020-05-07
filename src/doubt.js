@@ -42,18 +42,18 @@ class Doubt {
       const second = 2
       const where = new Error().stack.split('at ')[second].trim()
       const given = this
+      const should_shadowed = should.replace('%s', () => shadows.shift() || '')
 
       return {
         because(actual) {
           return {
             is(expected) {
               tap.test(
-                  `${ given } ${ `should`.blue.italic } ${ should.replace('%s',
-                      () => shadows.shift() || '') }`,
+                  `${ given } ${ `should`.blue.italic } ${ should_shadowed }`,
                   equal(actual, expected),
                   {
                     'I wanted'  : given,
-                    'to'          : should,
+                    'to'          : should_shadowed,
                     'but found' : `${ `${ inspect(actual) }`.bold }`,
                     'instead of': `${ `${ inspect(expected) }`.bold }`,
                     'blame'       : where,
