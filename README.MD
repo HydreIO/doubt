@@ -87,7 +87,7 @@ And now play with it
 Damn bugs.. run only one set of tests
 
 ```js
-'Oh Боже'.only(()=> {
+'Oh Боже'.only(async ()=> {
   const given = 'spiderman'
 
   given
