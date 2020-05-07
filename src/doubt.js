@@ -112,7 +112,7 @@ let ran = 0
 process.on('beforeExit', async () => {
   if (ran !== 0) {
     console.error(`[doubt] infinite loop detected, exiting. \
-    The node beforeExit event can't be called multiple times! beware`)
+The node beforeExit event can't be called multiple times! beware`)
     process.exit(1)
   }
 
