@@ -92,8 +92,8 @@ Damn bugs.. run only one set of tests
 
   given
     .should('subscribe to pewdiepie')
-    .because([9, 'yo])
-    .is([9, 'yo])
+    .because([9, 'yo'])
+    .is([9, 'yo'])
 })
 ```
 
