@@ -38,7 +38,7 @@ class Doubt {
       }
     }
 
-    String.prototype.should = function(should) {
+    String.prototype.should = function(should, ...shadows) {
       const second = 2
       const where = new Error().stack.split('at ')[second].trim()
       const given = this
@@ -48,7 +48,8 @@ class Doubt {
           return {
             is(expected) {
               tap.test(
-                  `${ given } ${ `should`.blue.italic } ${ should }`,
+                  `${ given } ${ `should`.blue.italic } ${ should.replace('%s',
+                      () => shadows.shift() || '') }`,
                   equal(actual, expected),
                   {
                     'I wanted'  : given,

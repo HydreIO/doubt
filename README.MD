@@ -21,16 +21,14 @@
 
 Test your code and pipe the output to a [consumer](http://testanything.org/consumers.html) like [tape-spec-emoji](https://github.com/Sceat/tap-spec-emoji)
 
+<img align=right height=400 src="https://i.imgur.com/Qj9y57w.png">
+
 <!-- omit in toc -->
 ## Concept
 
 There is no better test than pure deep equality.
 
 > Node 14 required
-
-<p align=center>
-  <img src="https://i.imgur.com/BS9O28H.png">
-</p>
 
 <!-- omit in toc -->
 ## TOC
@@ -61,13 +59,26 @@ node test.js
 And now play with it
 
 ```js
-// Find a nice title
-'Obama is gone'.doubt(async () => {
-  // write cool tests
-  'Obama'
-    .should('be president')
-    .because('thanos')
-    .is('thanos')
+'Testing is simple'.doubt(() => {
+  'roses'
+      .should('be %s', 'red'.red.underline)
+      .because('red')
+      .is('red')
+
+  'violets'
+      .should('be %s', 'blue'.cyan.underline)
+      .because('blue')
+      .is('blue')
+
+  'this library'
+      .should('be amazing')
+      .because({ amazing: true })
+      .is({ amazing: true })
+
+  'your test'
+      .should('be amazing too')
+      .because({ 'using doubt': false })
+      .is({ 'using doubt': true })
 })
 ```
 
@@ -80,9 +91,9 @@ Damn bugs.. run only one set of tests
   const given = 'spiderman'
 
   given
-    .should('watch pokimane')
-    .because([0, 1])
-    .is([0, 1])
+    .should('subscribe to pewdiepie')
+    .because([9, 'yo])
+    .is([9, 'yo])
 })
 ```
 
