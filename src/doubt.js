@@ -87,7 +87,7 @@ class Doubt {
         await fn()
       } catch (error) {
         tap.test(
-            'Unexpected error while executing the suite', false, { blame: error },
+            'Unexpected error while executing suite', false, { blame: error },
         )
       }
     }
