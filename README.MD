@@ -132,6 +132,7 @@ import { pipeline } from 'stream'
 import doubt from '@hydre/doubt'
 import tap_spec from 'tap-spec-emoji'
 
+// this also allows you to not interfere with code coverage output
 pipeline(Doubt.stream(), tap_spec(), process.stdout, error => { if (error) console.log(error) })
 
 'test me'.doubt(()=>{})
