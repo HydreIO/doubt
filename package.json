@@ -9,10 +9,8 @@
 	},
 	"scripts": {
 		"test": "node test/index.js",
+		"lint": "prettier-eslint $PWD/\"**/*.js\" --list-different && eslint --color .",
 		"format": "prettier-eslint $PWD/\"**/*.js\" --write",
-		"format:check": "prettier-eslint $PWD/\"**/*.js\" --list-different",
-		"lint": "eslint --color .",
-		"lint:fix": "eslint --color . --fix",
 		"postversion": "git push && git push --tags"
 	},
 	"repository": {
@@ -38,13 +36,14 @@
 	"dependencies": {
 		"colors": "^1.4.0",
 		"fast-deep-equal": "^3.1.1",
-		"glob": "^7.1.6",
+		"minipass": "^3.1.1",
 		"supports-color": "^7.1.0"
 	},
 	"devDependencies": {
-		"@sidy/eslint-config-sidy": "^1.3.14",
+		"@sidy/eslint-config-sidy": "^1.3.17",
 		"babel-eslint": "^10.1.0",
-		"eslint": "^6.8.0",
+		"casual": "^1.6.2",
+		"eslint": "^7.0.0",
 		"eslint-plugin-unicorn": "^19.0.1",
 		"prettier-eslint-cli": "^5.0.0",
 		"tap-spec-emoji": "^6.1.1"

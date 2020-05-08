@@ -1,23 +1,16 @@
-import '../src/doubt.js'
+import doubt from '../src/index.js'
+import reporter from 'tap-spec-emoji'
+import Suite from './doubt.test.js'
+import { pipeline } from 'stream'
 
-'Testing is simple'.doubt(() => {
-  'roses'
-      .should('be %s', 'red'.red.underline)
-      .because('red')
-      .is('red')
+(async () => {
+  pipeline(
+      await doubt(Suite),
+      reporter(),
+      process.stdout,
+      error => {
+        if (error) console.error(error)
+      },
+  )
+})()
 
-  'violets'
-      .should('be %s', 'blue'.cyan.underline)
-      .because('blue')
-      .is('blue')
-
-  'this library'
-      .should('be amazing')
-      .because({ amazing: true })
-      .is({ amazing: true })
-
-  'your test'
-      .should('be amazing too')
-      .because({ 'using doubt': true })
-      .is({ 'using doubt': true })
-})
