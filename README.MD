@@ -27,8 +27,8 @@ Test your code and pipe the output to a [consumer](http://testanything.org/consu
 - Doubt is just an async iterator, you can
   do whatever you want with the output
 
-<img align=right height=700 src="https://i.imgur.com/NNycOhi.png">
-
+*(pic too large on npm ? see the [github repo](https://github.com/HydreIO/doubt))*
+<img align=right height=600 src="https://i.imgur.com/NNycOhi.png">
 <!-- omit in toc -->
 ## Concept
 
@@ -51,15 +51,13 @@ npm i -D @hydre/doubt
 
 ## Use
 
-Just import ! hulk u morron
+You will need at least node <kbd>14.2</kbd>
 
-```js
-import '@hydre/doubt'
-```
-```sh
-node test.js
-```
+As doubt doesn't pollute the standart output, it is compatible
+out of the box with any test coverage tool!
+
 Write clear and concise tests in separate files
+
 
 ```js
 // doubt.test.js
