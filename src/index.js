@@ -86,7 +86,9 @@ ${ `${ inspect(because) }`.bold }`)
 ${ `${ inspect(is) }`.bold }`)
             tap.log(`${ 'blame:'.white.italic } \
 ${ `[${ test_name }]`.bold } \
-${ stack.slice(stack.lastIndexOf('/')).trim()
+${ stack
+      .slice(stack.lastIndexOf('/'))
+      .trim()
       .slice(1, -1) }`)
             tap.log('...')
             tap.groupEnd()

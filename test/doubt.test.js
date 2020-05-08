@@ -38,7 +38,7 @@ export default class {
       that   : casual.country,
       should : `be a ${ this.#awesome() }`,
       because: { 'using doubt': true },
-      is     : { 'using doubt': false },
+      is     : { 'using doubt': true },
     })
   }
 }
