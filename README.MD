@@ -27,7 +27,6 @@ Test your code and pipe the output to a [consumer](http://testanything.org/consu
 - Doubt is just an async iterator, you can
   do whatever you want with the output
 
-*(pic too large on npm ? see the [github repo](https://github.com/HydreIO/doubt))*
 <img align=right height=600 src="https://i.imgur.com/NNycOhi.png">
 <!-- omit in toc -->
 ## Concept
