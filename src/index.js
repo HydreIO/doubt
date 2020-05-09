@@ -25,8 +25,8 @@ export default async function *(...suites) {
     await Promise.all(SubSuites.map(async SubSuite => {
       const sub_suite = new SubSuite()
 
-      await sub_suite[k_execute]()
-      await sub_suite[k_cleanup]()
+      await sub_suite[k_execute]?.()
+      await sub_suite[k_cleanup]?.()
     }))
   }
 

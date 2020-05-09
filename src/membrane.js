@@ -17,46 +17,58 @@ const extract_functions = Clazz => {
 }
 const create_handle = (
     loop_index, test_name, membrane,
-) => ({
-  construct(Target) {
-    let cleanup = noop
+) => {
+  const fail = error => {
+    const head = `not ok ${ membrane.test_count++ } ${ unexpected_error }`
 
-    const suite = new Target(fn => {
-      cleanup = fn
-    })
-    const test = suite[test_name] ?? Target[test_name]
+    membrane.fail()
+    membrane.tap.log(head)
+    membrane.tap.group()
+    membrane.tap.log('---')
+    membrane.tap.log(`test: ${ test_name }`)
+    membrane.tap.log(`error: ${ error }`)
+    membrane.tap.log('...')
+    membrane.tap.groupEnd()
+  }
 
-    suite[k_cleanup] = cleanup
-    suite[k_execute] = async () => {
+  return {
+    construct(Target) {
+      let cleanup = noop
+
       try {
-        await Reflect.apply(
-            test, suite, [
-              affirmation({
-                test_count: ++membrane.test_count,
-                test_name,
-                loop_index,
-                tap       : membrane.tap,
-                fails     : membrane.fail.bind(membrane),
-              }),
-            ],
-        )
+        const suite = new Target(fn => {
+          cleanup = fn
+        })
+        const test = suite[test_name] ?? Target[test_name]
+
+        suite[k_cleanup] = cleanup
+        suite[k_execute] = async () => {
+          try {
+            await Reflect.apply(
+                test, suite, [
+                  affirmation({
+                    test_count: ++membrane.test_count,
+                    test_name,
+                    loop_index,
+                    tap       : membrane.tap,
+                    fails     : membrane.fail.bind(membrane),
+                  }),
+                ],
+            )
+          } catch (error) {
+            fail(error)
+          }
+        }
+
+        return suite
       } catch (error) {
-        const head = `not ok ${ this.test_count++ } ${ unexpected_error }`
-
-        membrane.fail()
-        membrane.tap.log(head)
-        membrane.tap.group()
-        membrane.tap.log('---')
-        membrane.tap.log(`test: ${ test_name }`)
-        membrane.tap.log(`error: ${ error }`)
-        membrane.tap.log('...')
-        membrane.tap.groupEnd()
+        fail(error)
       }
-    }
 
-    return suite
-  },
-})
+      return Object.create(null)
+    },
+  }
+}
 
 export default class {
   test_count = 0
