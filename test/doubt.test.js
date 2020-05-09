@@ -4,13 +4,6 @@ export default class {
   static name = 'Testing is simple'
   static loop = 1
 
-  constructor(cleanup) {
-    throw 1
-    cleanup(async () => {
-      throw 2
-    })
-  }
-
   static roses(affirm) {
     affirm({
       that   : 'Roses',
@@ -32,7 +25,6 @@ export default class {
   #awesome = () => casual.catch_phrase
 
   doubt(affirm) {
-    throw 0
     affirm({
       that   : casual.country,
       should : `be a ${ this.#awesome() }`,
