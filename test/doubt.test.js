@@ -2,7 +2,7 @@ import casual from 'casual'
 
 export default class {
   static name = 'Testing is simple'
-  static loop = 2
+  static loop = 10
 
   static roses(affirm) {
     affirm({
@@ -34,6 +34,7 @@ export default class {
   }
 
   async ['use me'](affirm) {
+    await new Promise(resolve => setTimeout(resolve, casual.integer(10, 100)))
     affirm({
       that   : casual.country,
       should : `be a ${ this.#awesome() }`,

@@ -37,12 +37,12 @@
 		"supports-color": "^7.1.0"
 	},
 	"devDependencies": {
-		"@sidy/eslint-config-sidy": "^1.3.17",
+		"@sidy/eslint-config-sidy": "^1.4.1",
 		"babel-eslint": "^10.1.0",
 		"casual": "^1.6.2",
 		"eslint": "^7.0.0",
 		"eslint-plugin-unicorn": "^19.0.1",
 		"prettier-eslint-cli": "^5.0.0",
-		"tap-spec-emoji": "^6.1.1"
+		"tap-spec-emoji": "^6.1.2"
 	}
 }

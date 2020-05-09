@@ -15,23 +15,23 @@
   <a/>
 </p>
 
-<h3 align=center>An elegant <a href="http://testanything.org/tap-version-13-specification.html">TAP 13</a> compliant testing library</h3>
+<h3 align=center>An elegant and minimal <a href="http://testanything.org/tap-version-13-specification.html">TAP 13</a> compliant testing library</h3>
 
 > Tester c'est douter
 
 Test your code and pipe the output to a [consumer](http://testanything.org/consumers.html) like [tape-spec-emoji](https://github.com/Sceat/tap-spec-emoji)
 
-- Doubt is **really** small (~100 lines of code)
-- The only assertion is a fast deep equality
+- Doubt is an asyncGenerator
+- Input your test suites, it will transform them into Tap
+- The only assertion is a [fast deep equality](https://github.com/epoberezkin/fast-deep-equal)
 - Writing test is trivial
-- Doubt is just an async iterator, you can
-  do whatever you want with the output
+- Tests are parralelized inside a suite
 
 <img align=right height=600 src="https://i.imgur.com/NNycOhi.png">
 <!-- omit in toc -->
 ## Concept
 
-There is no better test than pure deep equality.
+No fugazzi here, just equality
 
 > Node 14.2 required
 
@@ -41,6 +41,7 @@ There is no better test than pure deep equality.
 - [Install](#install)
 - [Use](#use)
 - [Suites](#suites)
+- [Cleanup](#cleanup)
 
 ## Install
 
@@ -57,12 +58,11 @@ out of the box with any test coverage tool!
 
 Write clear and concise tests in separate files
 
-
 ```js
 // doubt.test.js
 export default class {
   static name = 'Testing is simple' // the name of the suite
-  static loop = 2 // 1 by default
+  static loop = 2 // default to 1, allows to test multiple times
 
   #add = a => b => a + b
 
@@ -104,10 +104,12 @@ import { pipeline } from 'stream'
 A suite is a Class where each function (static or simple)
 is a test.
 
-Each function will be extracted and ran inside its own
-instance of the class
+**Each function will be extracted and ran inside its own
+instance of the class** with no order guarantee, your
+tests have to be independant and you should not use any **IO**.
+If you do, learn to unlearn.
 
-Use private fields to deleguate logic inside your suite
+Use private fields to deleguate logic inside your suites
 
 ```js
 import { CallTracker } from 'assert'
@@ -147,7 +149,7 @@ export default class {
       because: this.#array.length,
       is     : 2,
     })
-    
+
     const tracked_affirm = this.tracker.calls(affirm)
 
     try {
@@ -162,5 +164,29 @@ export default class {
     } finally {
       this.tracker.verify()
     }
+  }
+```
+
+## Cleanup
+
+The constructor of each suite gives you a callback that will be called
+to cleanup ressources after each test. **You shouldn't have IO inside
+your tests** but in case you need to cleanup some
+ressources before running another **Suite** you can here.
+
+```js
+export class Suite {
+  #server
+  #stream
+  constructor(cleanup) {
+    // note that a unique server and stream will be created for
+    // each test but you may want to
+    // close them to not pollute your runner
+    this.#server = http.createServer()
+    this.#stream = new PassThrough()
+    cleanup(async () => {
+      this.#server.close()
+      this.#stream.end()
+    })
   }
 ```
