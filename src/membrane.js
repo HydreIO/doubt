@@ -41,7 +41,16 @@ const create_handle = (
         })
         const test = suite[test_name] ?? Target[test_name]
 
-        suite[k_cleanup] = cleanup
+        suite[k_cleanup] = async () => {
+          try {
+            await Reflect.apply(
+                cleanup, suite, [],
+            )
+          } catch (error) {
+            fail(error)
+          }
+        }
+
         suite[k_execute] = async () => {
           try {
             await Reflect.apply(
