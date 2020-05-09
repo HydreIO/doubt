@@ -110,6 +110,8 @@ instance of the class
 Use private fields to deleguate logic inside your suite
 
 ```js
+import { CallTracker } from 'assert'
+
 export default class {
   static name = 'Testing arrays'
 
@@ -120,10 +122,12 @@ export default class {
 
   constructor() {
     this.#array = [1, 2]
+    this.tracker = new CallTracker()
   }
 
   async ['a test'](affirm) {
     this.#init_array()
+
     affirm({
       that   : 'the array',
       should : 'contains 3 elements',
@@ -143,5 +147,20 @@ export default class {
       because: this.#array.length,
       is     : 2,
     })
+    
+    const tracked_affirm = this.tracker.calls(affirm)
+
+    try {
+
+    } catch (error) {
+      tracked_affirm({
+        that   : 'an error',
+        should : 'should be thrown',
+        because: error.message,
+        is     : '',
+      })
+    } finally {
+      this.tracker.verify()
+    }
   }
 ```
