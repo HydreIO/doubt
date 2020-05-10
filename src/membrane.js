@@ -4,7 +4,6 @@ export const k_cleanup = Symbol('cleanup')
 export const k_execute = Symbol('execute')
 
 const noop = () => {}
-const unexpected_error = 'Unexpected error while executing suite'.bold
 const extract_functions = Clazz => {
   const properties = Object.getOwnPropertyNames(Clazz.prototype)
   const static_properties = Object.getOwnPropertyNames(Clazz)
@@ -19,14 +18,17 @@ const create_handle = (
     loop_index, test_name, membrane,
 ) => {
   const fail = error => {
+    const begin = ''.reset.red
+    const name = test_name.white.italic.bold.reset.red
+    const unexpected_error = `${ begin }\
+Unexpected error while executing [${ name }]`
     const head = `not ok ${ membrane.test_count++ } ${ unexpected_error }`
 
     membrane.fail()
     membrane.tap.log(head)
     membrane.tap.group()
     membrane.tap.log('---')
-    membrane.tap.log(`test: ${ test_name }`)
-    membrane.tap.log(`error: ${ error }`)
+    membrane.tap.log(error)
     membrane.tap.log('...')
     membrane.tap.groupEnd()
   }
