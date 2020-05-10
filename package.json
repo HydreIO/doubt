@@ -33,7 +33,6 @@
 	"dependencies": {
 		"colors": "^1.4.0",
 		"fast-deep-equal": "^3.1.1",
-		"minipass": "^3.1.1",
 		"supports-color": "^7.1.0"
 	},
 	"devDependencies": {

@@ -1,4 +1,4 @@
-import PassThrough from 'minipass'
+import { PassThrough } from 'stream'
 import { Console } from 'console'
 import Membrane, {
   k_cleanup, k_execute,
