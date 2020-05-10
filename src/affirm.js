@@ -22,7 +22,7 @@ const instead_of = 'instead of:'.white.italic
 const blame = 'blame:'.white.italic
 
 export default ({
-  test_count, test_name, loop_index, tap, fails,
+  increment_test, test_name, loop_index, tap, fails,
 }) => ({
   that,
   should,
@@ -30,7 +30,7 @@ export default ({
   is,
 } = default_assertion) => {
   const test_is_correct = equal(because, is)
-  const message = `${ test_count } - \
+  const message = `${ increment_test() } - \
 [${ `${ loop_index }`.yellow }] ${ test_name.italic.bold } - ${ that } \
 ${ `should`.blue.italic } ${ should }`
 

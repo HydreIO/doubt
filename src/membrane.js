@@ -65,11 +65,11 @@ Unexpected error while executing [${ name }]`
               Reflect.apply(
                   test, suite, [
                     affirmation({
-                      test_count: ++membrane.test_count,
+                      increment_test: () => ++membrane.test_count,
                       test_name,
                       loop_index,
-                      tap       : membrane.tap,
-                      fails     : membrane.fail.bind(membrane),
+                      tap           : membrane.tap,
+                      fails         : membrane.fail.bind(membrane),
                     }),
                   ],
               ),
