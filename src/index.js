@@ -4,8 +4,6 @@ import Membrane, {
   k_cleanup, k_execute,
 } from './membrane.js'
 
-const FLUSH = 100
-
 export default async function *(...suites) {
   if (suites.some(suite => typeof suite !== 'function'))
     throw new Error('All suites must be Classes')
@@ -33,8 +31,9 @@ export default async function *(...suites) {
   tap.log(`1..${ membrane.test_count }`)
   process.on('beforeExit', async () => {
     stdout.end()
-    await new Promise(resolve => setTimeout(resolve, FLUSH))
-    process.exit(membrane.failed ? 1 : 0)
+    setImmediate(() => {
+      process.exit(membrane.failed ? 1 : 0)
+    })
   })
 
   yield* stdout
