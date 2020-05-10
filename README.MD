@@ -28,6 +28,7 @@ Test your code and pipe the output to a [consumer](http://testanything.org/consu
 - Tests are parralelized inside a suite
 
 <img align=right src="https://i.imgur.com/yLOIKeb.png">
+
 <!-- omit in toc -->
 ## Concept
 
