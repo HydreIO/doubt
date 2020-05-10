@@ -4,6 +4,12 @@ export const k_cleanup = Symbol('cleanup')
 export const k_execute = Symbol('execute')
 
 const noop = () => {}
+const race = timeout =>
+  new Promise((_, reject) => {
+    setTimeout(() => {
+      reject(new Error(`Too slow! the test took more than ${ timeout }ms`))
+    }, timeout)
+  })
 const extract_functions = Clazz => {
   const properties = Object.getOwnPropertyNames(Clazz.prototype)
   const static_properties = Object.getOwnPropertyNames(Clazz)
@@ -14,9 +20,9 @@ const extract_functions = Clazz => {
 
   return [...functions, ...static_functions]
 }
-const create_handle = (
-    loop_index, test_name, membrane,
-) => {
+const create_handle = ({
+  loop_index, test_name, membrane, timeout,
+}) => {
   const fail = error => {
     const begin = ''.reset.red
     const name = test_name.white.italic.bold.reset.red
@@ -55,17 +61,22 @@ Unexpected error while executing [${ name }]`
 
         suite[k_execute] = async () => {
           try {
-            await Reflect.apply(
-                test, suite, [
-                  affirmation({
-                    test_count: ++membrane.test_count,
-                    test_name,
-                    loop_index,
-                    tap       : membrane.tap,
-                    fails     : membrane.fail.bind(membrane),
-                  }),
-                ],
-            )
+            const values = [
+              Reflect.apply(
+                  test, suite, [
+                    affirmation({
+                      test_count: ++membrane.test_count,
+                      test_name,
+                      loop_index,
+                      tap       : membrane.tap,
+                      fails     : membrane.fail.bind(membrane),
+                    }),
+                  ],
+              ),
+            ]
+
+            if (timeout) values.push(race(timeout))
+            await Promise.race(values)
           } catch (error) {
             fail(error)
           }
@@ -97,7 +108,7 @@ export default class {
     const functions = extract_functions(Suite)
     const self = this
     const {
-      name = 'unnamed', loop = 1,
+      name = 'unnamed', loop = 1, timeout = false,
     } = Suite
 
     this.tap.log(`# ${ name } ${ `(x${ loop })`.yellow.bold }`)
@@ -105,8 +116,13 @@ export default class {
     return Array.from({ length: loop })
         .fill(0)
         .flatMap((_, index) =>
-          functions.map(test_name => new Proxy(Suite, create_handle(
-              index, test_name, self,
-          ))))
+          functions.map(test_name =>
+            new Proxy(Suite,
+                create_handle({
+                  loop_index: index,
+                  test_name,
+                  membrane  : self,
+                  timeout,
+                }))))
   }
 }

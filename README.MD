@@ -62,8 +62,15 @@ Write clear and concise tests in separate files
 ```js
 // doubt.test.js
 export default class {
-  static name = 'Testing is simple' // the name of the suite
-  static loop = 2 // default to 1, allows to test multiple times
+
+  // the name of the suite
+  static name = 'Testing is simple'
+
+  // run each test `n` times
+  static loop = 1
+
+  // enforce each test to complete in less than `n` ms
+  static timeout = 0
 
   #add = a => b => a + b
 
