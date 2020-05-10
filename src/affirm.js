@@ -30,7 +30,8 @@ export default ({
   is,
 } = default_assertion) => {
   const test_is_correct = equal(because, is)
-  const message = `${ test_count } - [${ loop_index }] ${ that } \
+  const message = `${ test_count } - \
+[${ `${ loop_index }`.yellow }] ${ test_name.italic.bold } - ${ that } \
 ${ `should`.blue.italic } ${ should }`
 
   if (test_is_correct) tap.log(`ok ${ message }`)
