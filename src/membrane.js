@@ -1,14 +1,19 @@
 import affirmation from './affirm.js'
+import { CallTracker } from 'assert'
 
 export const k_cleanup = Symbol('cleanup')
 export const k_execute = Symbol('execute')
 
 const noop = () => {}
 const race = timeout =>
-  new Promise((_, reject) => {
-    setTimeout(() => {
-      reject(new Error(`Too slow! the test took more than ${ timeout }ms`))
-    }, timeout)
+  new Promise((
+      _, reject,
+  ) => {
+    setTimeout(
+        () => {
+          reject(new Error(`Too slow! the test took more than ${ timeout }ms`))
+        }, timeout,
+    )
   })
 const extract_functions = Clazz => {
   const properties = Object.getOwnPropertyNames(Clazz.prototype)
@@ -18,7 +23,8 @@ const extract_functions = Clazz => {
     return typeof Clazz[property] === 'function'
   })
 
-  return [...functions, ...static_functions]
+  return [...functions,
+    ...static_functions]
 }
 const create_handle = ({
   loop_index, test_name, membrane, timeout,
@@ -48,12 +54,30 @@ Unexpected error while executing [${ name }]`
           cleanup = fn
         })
         const test = suite[test_name] ?? Target[test_name]
+        const tracker = new CallTracker()
 
         suite[k_cleanup] = async () => {
           try {
             await Reflect.apply(
                 cleanup, suite, [],
             )
+
+            const [untracked] = tracker
+                .report()
+                .filter(({
+                  actual, expected,
+                }) => actual !== expected)
+
+            if (untracked) {
+              const violation = 'Tracker violation'.yellow.bold
+              const arrow = '->'.white.bold
+              const actual = `${ untracked.actual }`.yellow.bold
+              const expected = `${ untracked.expected }`.yellow.bold
+              const time = untracked.actual === 1 ? 'time' : 'times'
+
+              throw `${ violation } ${ arrow } affirm was called \
+${ actual } ${ time } instead of ${ expected }`
+            }
           } catch (error) {
             fail(error)
           }
@@ -70,6 +94,7 @@ Unexpected error while executing [${ name }]`
                       loop_index,
                       tap           : membrane.tap,
                       fails         : membrane.fail.bind(membrane),
+                      tracker,
                     }),
                   ],
               ),
@@ -115,14 +140,18 @@ export default class {
 
     return Array.from({ length: loop })
         .fill(0)
-        .flatMap((_, index) =>
+        .flatMap((
+            _, index,
+        ) =>
           functions.map(test_name =>
-            new Proxy(Suite,
+            new Proxy(
+                Suite,
                 create_handle({
                   loop_index: index,
                   test_name,
                   membrane  : self,
                   timeout,
-                }))))
+                }),
+            )))
   }
 }

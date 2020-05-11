@@ -29,12 +29,14 @@ export default async function *(...suites) {
   }
 
   tap.log(`1..${ membrane.test_count }`)
-  process.on('beforeExit', async () => {
-    stdout.end()
-    setImmediate(() => {
-      process.exit(membrane.failed ? 1 : 0)
-    })
-  })
+  process.on(
+      'beforeExit', async () => {
+        stdout.end()
+        setImmediate(() => {
+          process.exit(membrane.failed ? 1 : 0)
+        })
+      },
+  )
 
   yield* stdout
 }

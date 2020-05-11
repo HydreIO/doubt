@@ -36,7 +36,7 @@
 		"supports-color": "^7.1.0"
 	},
 	"devDependencies": {
-		"@sidy/eslint-config-sidy": "^1.4.1",
+		"@sidy/eslint-config-sidy": "^1.4.2",
 		"babel-eslint": "^10.1.0",
 		"eslint": "^7.0.0",
 		"eslint-plugin-unicorn": "^19.0.1",

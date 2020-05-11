@@ -41,6 +41,8 @@ No fugazzi here, just equality
 
 - [Install](#install)
 - [Use](#use)
+  - [Unexpected errors](#unexpected-errors)
+  - [CallTracker](#calltracker)
 - [Suites](#suites)
 - [Cleanup](#cleanup)
 
@@ -106,6 +108,30 @@ import { pipeline } from 'stream'
   )
 })()
 ```
+
+### Unexpected errors
+
+Doubt also track errors that you didn't expected
+inside your tests
+
+![](https://i.imgur.com/Oe1EwaR.png)
+
+### CallTracker
+
+Affirmations should run a defined number of time.
+Doubt is using the new `assert.CallTracker` from node 14.2
+
+```js
+class {
+
+  test(affirmation) {
+    const affirm = affirmation(2)
+    affirm()
+  }
+}
+```
+
+![](https://i.imgur.com/JTbMZSx.png)
 
 ## Suites
 

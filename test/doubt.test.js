@@ -2,7 +2,9 @@ export default class {
   static name = 'Testing is simple'
   static loop = 1
 
-  static ['foo'](affirm) {
+  static ['foo'](affirmation) {
+    const affirm = affirmation(1)
+
     affirm({
       that   : 'Roses',
       should : 'be red'.red.underline,
@@ -11,7 +13,9 @@ export default class {
     })
   }
 
-  static ['bar'](affirm) {
+  static ['bar'](affirmation) {
+    const affirm = affirmation(1)
+
     affirm({
       that   : 'Violets',
       should : 'be blue'.cyan.underline,
@@ -20,7 +24,9 @@ export default class {
     })
   }
 
-  static ['baz'](affirm) {
+  static ['baz'](affirmation) {
+    const affirm = affirmation(1)
+
     affirm({
       that   : 'doubt',
       should : `be awesome`,
@@ -29,7 +35,9 @@ export default class {
     })
   }
 
-  static ['toz'](affirm) {
+  static ['toz'](affirmation) {
+    const affirm = affirmation(1)
+
     affirm({
       that   : 'your tests',
       should : `be too`,
