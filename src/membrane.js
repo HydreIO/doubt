@@ -108,7 +108,7 @@ export default class {
     const functions = extract_functions(Suite)
     const self = this
     const {
-      name = 'unnamed', loop = 1, timeout = false,
+      name = 'unnamed', loop = 1, timeout = 50,
     } = Suite
 
     this.tap.log(`# ${ name } ${ `(x${ loop })`.yellow.bold }`)

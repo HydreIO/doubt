@@ -70,7 +70,7 @@ export default class {
   static loop = 1
 
   // enforce each test to complete in less than `n` ms
-  static timeout = 0
+  static timeout = 50
 
   #add = a => b => a + b
 
