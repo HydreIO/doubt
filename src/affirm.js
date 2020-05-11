@@ -43,7 +43,7 @@ ${ `should`.blue.italic } ${ should }`
         else {
           fails()
 
-          const [, , stack] = new Error().stack.split('at ')
+          const [, , , stack] = new Error().stack.split('at ')
           const found = `${ inspect(because) }`.bold
           const instead = `${ inspect(is) }`.bold
           const prepend_name = `[${ test_name }]`.bold
