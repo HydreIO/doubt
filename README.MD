@@ -76,7 +76,8 @@ export default class {
 
   #add = a => b => a + b
 
-  roses(affirm) {
+  roses(affirmation) {
+    const affirm = affirmation()
     const add_1 = this.#add(1)
     affirm({
       that   : 'Roses',
@@ -146,8 +147,6 @@ If you do, learn to unlearn.
 Use private fields to deleguate logic inside your suites
 
 ```js
-import { CallTracker } from 'assert'
-
 export default class {
   static name = 'Testing arrays'
 
@@ -158,10 +157,10 @@ export default class {
 
   constructor() {
     this.#array = [1, 2]
-    this.tracker = new CallTracker()
   }
 
-  async ['a test'](affirm) {
+  async ['a test'](affirmation) {
+    const affirm = affirmation()
     this.#init_array()
 
     affirm({
@@ -175,8 +174,9 @@ export default class {
   // here we use the array but
   // we are in a different instance of the class
   // so this test is true
-  async anotherTest(affirm) {
-    // this.#init_array()
+  async anotherTest(affirmation) {
+    const affirm = affirmation(2)
+
     affirm({
       that   : 'the array',
       should : 'contains 2 elements',
@@ -184,19 +184,15 @@ export default class {
       is     : 2,
     })
 
-    const tracked_affirm = this.tracker.calls(affirm)
-
     try {
 
     } catch (error) {
-      tracked_affirm({
+      affirm({
         that   : 'an error',
         should : 'should be thrown',
         because: error.message,
         is     : '',
       })
-    } finally {
-      this.tracker.verify()
     }
   }
 ```

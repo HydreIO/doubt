@@ -25,7 +25,7 @@ export default class {
   }
 
   static ['baz'](affirmation) {
-    const affirm = affirmation(1)
+    const affirm = affirmation()
 
     affirm({
       that   : 'doubt',
