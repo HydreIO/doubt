@@ -39,7 +39,7 @@
 		"@sidy/eslint-config-sidy": "^1.4.2",
 		"babel-eslint": "^10.1.0",
 		"eslint": "^7.0.0",
-		"eslint-plugin-unicorn": "^19.0.1",
+		"eslint-plugin-unicorn": "^20.0.0",
 		"prettier-eslint-cli": "^5.0.0",
 		"tap-spec-emoji": "^6.1.2"
 	}
