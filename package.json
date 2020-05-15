@@ -1,6 +1,6 @@
 {
 	"name": "@hydre/doubt",
-	"version": "6.0.3",
+	"version": "6.0.4",
 	"description": "Testing made right",
 	"main": "src/index.js",
 	"type": "module",
