@@ -1,13 +1,13 @@
 {
 	"name": "@hydre/doubt",
-	"version": "6.0.2",
+	"version": "6.0.3",
 	"description": "Testing made right",
 	"main": "src/index.js",
 	"type": "module",
 	"scripts": {
-    "test": "node test/index.js",
-    "lint": "prettier-eslint $PWD/\"**/*.js\" --print-width 60 --list-different && eslint --color .",
-    "format": "prettier-eslint $PWD/\"**/*.js\" --print-width 60 --write",
+		"test": "node test/index.js",
+		"lint": "prettier-eslint $PWD/\"**/*.js\" --print-width 60 --list-different && eslint --color .",
+		"format": "prettier-eslint $PWD/\"**/*.js\" --print-width 60 --write",
 		"postversion": "git push && git push --tags"
 	},
 	"repository": {
