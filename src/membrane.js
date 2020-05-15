@@ -12,7 +12,8 @@ const race = timeout =>
     setTimeout(
         () => {
           reject(new Error(`Too slow! the test took more than ${ timeout }ms`))
-        }, timeout,
+        },
+        timeout,
     )
   })
 const extract_functions = Clazz => {
@@ -27,7 +28,10 @@ const extract_functions = Clazz => {
     ...static_functions]
 }
 const create_handle = ({
-  loop_index, test_name, membrane, timeout,
+  loop_index,
+  test_name,
+  membrane,
+  timeout,
 }) => {
   const fail = error => {
     const begin = ''.reset.red
@@ -59,21 +63,28 @@ Unexpected error while executing [${ name }]`
         suite[k_cleanup] = async () => {
           try {
             await Reflect.apply(
-                cleanup, suite, [],
+                cleanup,
+                suite,
+                [],
             )
 
             const [untracked] = tracker
                 .report()
                 .filter(({
                   actual, expected,
-                }) => actual !== expected)
+                }) =>
+                  actual !== expected)
 
             if (untracked) {
-              const violation = 'Tracker violation'.yellow.bold
+              const violation = 'Tracker violation'.yellow
+                  .bold
               const arrow = '->'.white.bold
-              const actual = `${ untracked.actual }`.yellow.bold
-              const expected = `${ untracked.expected }`.yellow.bold
-              const time = untracked.actual === 1 ? 'time' : 'times'
+              const actual = `${ untracked.actual }`.yellow
+                  .bold
+              const expected = `${ untracked.expected }`
+                  .yellow.bold
+              const time
+                = untracked.actual === 1 ? 'time' : 'times'
 
               throw `${ violation } ${ arrow } affirm was called \
 ${ actual } ${ time } instead of ${ expected }`
@@ -87,13 +98,16 @@ ${ actual } ${ time } instead of ${ expected }`
           try {
             const values = [
               Reflect.apply(
-                  test, suite, [
+                  test,
+                  suite,
+                  [
                     affirmation({
-                      increment_test: () => ++membrane.test_count,
+                      increment_test: () =>
+                        ++membrane.test_count,
                       test_name,
                       loop_index,
-                      tap           : membrane.tap,
-                      fails         : membrane.fail.bind(membrane),
+                      tap  : membrane.tap,
+                      fails: membrane.fail.bind(membrane),
                       tracker,
                     }),
                   ],
@@ -133,7 +147,9 @@ export default class {
     const functions = extract_functions(Suite)
     const self = this
     const {
-      name = 'unnamed', loop = 1, timeout = 50,
+      name = 'unnamed',
+      loop = 1,
+      timeout = 50,
     } = Suite
 
     this.tap.log(`# ${ name } ${ `(x${ loop })`.yellow.bold }`)

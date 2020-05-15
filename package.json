@@ -5,9 +5,9 @@
 	"main": "src/index.js",
 	"type": "module",
 	"scripts": {
-		"test": "node test/index.js",
-		"lint": "prettier-eslint $PWD/\"**/*.js\" --list-different && eslint --color .",
-		"format": "prettier-eslint $PWD/\"**/*.js\" --write",
+    "test": "node test/index.js",
+    "lint": "prettier-eslint $PWD/\"**/*.js\" --print-width 60 --list-different && eslint --color .",
+    "format": "prettier-eslint $PWD/\"**/*.js\" --print-width 60 --write",
 		"postversion": "git push && git push --tags"
 	},
 	"repository": {
@@ -36,10 +36,10 @@
 		"supports-color": "^7.1.0"
 	},
 	"devDependencies": {
-		"@sidy/eslint-config-sidy": "^1.4.2",
+		"@sidy/eslint-config-sidy": "^1.4.6",
 		"babel-eslint": "^10.1.0",
 		"eslint": "^7.0.0",
-		"eslint-plugin-unicorn": "^19.0.1",
+		"eslint-plugin-unicorn": "^20.0.0",
 		"prettier-eslint-cli": "^5.0.0",
 		"tap-spec-emoji": "^6.1.2"
 	}

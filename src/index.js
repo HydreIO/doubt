@@ -1,7 +1,8 @@
 import { PassThrough } from 'stream'
 import { Console } from 'console'
 import Membrane, {
-  k_cleanup, k_execute,
+  k_cleanup,
+  k_execute,
 } from './membrane.js'
 
 export default async function *(...suites) {
@@ -30,7 +31,8 @@ export default async function *(...suites) {
 
   tap.log(`1..${ membrane.test_count }`)
   process.on(
-      'beforeExit', async () => {
+      'beforeExit',
+      async () => {
         stdout.end()
         setImmediate(() => {
           process.exit(membrane.failed ? 1 : 0)

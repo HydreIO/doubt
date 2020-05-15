@@ -4,7 +4,8 @@ import 'colors'
 
 const inspect = object =>
   util.inspect(
-      object, {
+      object,
+      {
         showHidden: false,
         depth     : 2,
         colors    : true,
@@ -27,16 +28,16 @@ export default ({
 }) => (call_count = 1) =>
   tracker.calls(
       ({
-        that = 'that is not defined'.bgRed.white.bold,
-        should = 'should is not defined'.bgRed.white.bold,
-        because = 'because is not defined'.bgRed.white.bold,
-        is = 'is is not defined'.bgRed.white.bold,
+        that, should, because, is,
       }) => {
         const test_is_correct = equal(
-            because, is,
+            because,
+            is,
         )
         const message = `${ increment_test() } - \
-[${ `${ loop_index }`.yellow }] ${ test_name.italic.bold } - ${ that } \
+[${ `${ loop_index }`.yellow }] ${
+  test_name.italic.bold
+} - ${ that } \
 ${ `should`.blue.italic } ${ should }`
 
         if (test_is_correct) tap.log(`ok ${ message }`)
@@ -51,7 +52,8 @@ ${ `should`.blue.italic } ${ should }`
               .slice(stack.lastIndexOf('/'))
               .trim()
               .slice(
-                  1, -1,
+                  1,
+                  -1,
               )
 
           tap.log(`not ok ${ message }`)
