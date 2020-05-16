@@ -5,17 +5,25 @@ export const k_cleanup = Symbol('cleanup')
 export const k_execute = Symbol('execute')
 
 const noop = () => {}
-const race = timeout =>
-  new Promise((
+const race = timeout => {
+  let timer = -1
+
+  const promise = new Promise((
       _, reject,
   ) => {
-    setTimeout(
+    timer = setTimeout(
         () => {
           reject(new Error(`Too slow! the test took more than ${ timeout }ms`))
         },
         timeout,
     )
   })
+
+  return {
+    cancel: () => clearTimeout(timer),
+    promise,
+  }
+}
 const extract_functions = Clazz => {
   const properties = Object.getOwnPropertyNames(Clazz.prototype)
   const static_properties = Object.getOwnPropertyNames(Clazz)
@@ -96,7 +104,7 @@ ${ actual } ${ time } instead of ${ expected }`
 
         suite[k_execute] = async () => {
           try {
-            const values = [
+            const execution = async () =>
               Reflect.apply(
                   test,
                   suite,
@@ -111,11 +119,13 @@ ${ actual } ${ time } instead of ${ expected }`
                       tracker,
                     }),
                   ],
-              ),
-            ]
+              )
+            const timed_out = race(timeout)
 
-            if (timeout) values.push(race(timeout))
-            await Promise.race(values)
+            await Promise.race([
+              execution().then(timed_out.cancel),
+              timed_out.promise,
+            ])
           } catch (error) {
             fail(error)
           }
