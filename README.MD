@@ -21,30 +21,21 @@
 
 Test your code and pipe the output to a [consumer](http://testanything.org/consumers.html) like [tape-spec-emoji](https://github.com/Sceat/tap-spec-emoji)
 
-- Doubt is an asyncGenerator
-- Input your test suites, it will transform them into Tap
 - The only assertion is a [fast deep equality](https://github.com/epoberezkin/fast-deep-equal)
-- Writing test is trivial
-- Tests are parralelized inside a suite
 
-<img align=right src="https://i.imgur.com/yLOIKeb.png">
+<img align=right src="https://i.imgur.com/u8oN5NI.png">
 
 <!-- omit in toc -->
 ## Concept
 
 No fugazzi here, just equality
 
-> Node 14.2 required
-
 <!-- omit in toc -->
-## TOC
+## Toc
 
 - [Install](#install)
 - [Use](#use)
-  - [Unexpected errors](#unexpected-errors)
-  - [CallTracker](#calltracker)
-- [Suites](#suites)
-- [Cleanup](#cleanup)
+- [Format](#format)
 
 ## Install
 
@@ -54,169 +45,72 @@ npm i -D @hydre/doubt
 
 ## Use
 
-You will need at least node <kbd>14.2</kbd>
+Usage is trivial
 
-As doubt doesn't pollute the standart output, it is compatible
-out of the box with any test coverage tool!
-
-Write clear and concise tests in separate files
+- `stdout` - Doubt doesn't pollute the standard output, use any stream
+- `title` - Test suite title
+- `calls` - Enforce how many tests you want, it will fails if the count doesn't match
+- `timeout` - Enforce a maximum execution time, (note that this will not exit the program, it only is a check)
 
 ```js
-// doubt.test.js
-export default class {
+import Doubt from '@hydre/doubt'
 
-  // the name of the suite
-  static name = 'Testing is simple'
-
-  // run each test `n` times
-  static loop = 1
-
-  // enforce each test to complete in less than `n` ms
-  static timeout = 50
-
-  #add = a => b => a + b
-
-  roses(affirmation) {
-    const affirm = affirmation()
-    const add_1 = this.#add(1)
-    affirm({
-      that   : 'Roses',
-      should : 'be red'.red.underline,
-      because: add_1(1),
-      is     : 2,
-    })
-  }
+const doubt = Doubt({
+  stdout : process.stdout,
+  title  : 'Testing is simple',
+  calls  : 1,
+  timeout: 50,
+})
 ```
 
-And now run it !
+And then write some tests
 
 ```js
-import doubt from '../src/index.js'
+doubt['Roses are red']({
+  because: 'red',
+  is     : 'red',
+})
+```
+
+## Format
+
+```js
+import Doubt from '@hydre/doubt'
 import reporter from 'tap-spec-emoji'
-import Suite from './doubt.test.js'
-import { pipeline } from 'stream'
+import { pipeline, PassThrough } from 'stream'
 
-(async () => {
-  pipeline(
-      // await doubt(Suite, Suite, Suite)
-      // await doubt(...[suites])
-      await doubt(Suite), // doubt is a promise of an asyncGenerator
-      reporter(),
-      process.stdout,
-      error => {
-        if (error) console.error(error)
-      },
-  )
-})()
-```
+const through = new PassThrough()
 
-### Unexpected errors
+pipeline(
+    through,
+    reporter(),
+    process.stdout,
+    () => {},
+)
 
-Doubt also track errors that you didn't expected
-inside your tests
+const doubt = Doubt({
+  stdout : through,
+  title  : 'Testing is simple',
+  calls  : 4,
+})
 
-![](https://i.imgur.com/Oe1EwaR.png)
+doubt['Roses are red']({
+  because: 'red',
+  is     : 'red',
+})
 
-### CallTracker
+doubt['Violets are blue']({
+  because: 'blue',
+  is     : 'blue',
+})
 
-Affirmations should run a defined number of time.
-Doubt is using the new `assert.CallTracker` from node 14.2
+doubt['Doubt is awesome']({
+  because: { amazing: true },
+  is     : { amazing: true },
+})
 
-```js
-class {
-
-  test(affirmation) {
-    const affirm = affirmation(2)
-    affirm()
-  }
-}
-```
-
-![](https://i.imgur.com/JTbMZSx.png)
-
-## Suites
-
-A suite is a Class where each function (static or simple)
-is a test.
-
-**Each function will be extracted and ran inside its own
-instance of the class** with no order guarantee, your
-tests have to be independant and you should not use any **IO**.
-If you do, learn to unlearn.
-
-Use private fields to deleguate logic inside your suites
-
-```js
-export default class {
-  static name = 'Testing arrays'
-
-  #array
-  #init_array = async () => {
-    this.#array.push(3)
-  }
-
-  constructor() {
-    this.#array = [1, 2]
-  }
-
-  async ['a test'](affirmation) {
-    const affirm = affirmation()
-    this.#init_array()
-
-    affirm({
-      that   : 'the array',
-      should : 'contains 3 elements',
-      because: this.#array.length,
-      is     : 3,
-    })
-  }
-
-  // here we use the array but
-  // we are in a different instance of the class
-  // so this test is true
-  async anotherTest(affirmation) {
-    const affirm = affirmation(2)
-
-    affirm({
-      that   : 'the array',
-      should : 'contains 2 elements',
-      because: this.#array.length,
-      is     : 2,
-    })
-
-    try {
-
-    } catch (error) {
-      affirm({
-        that   : 'an error',
-        should : 'should be thrown',
-        because: error.message,
-        is     : '',
-      })
-    }
-  }
-```
-
-## Cleanup
-
-The constructor of each suite gives you a callback that will be called
-to cleanup ressources after each test. **You shouldn't have IO inside
-your tests** but in case you need to cleanup some
-ressources before running another **Suite** you can here.
-
-```js
-export class Suite {
-  #server
-  #stream
-  constructor(cleanup) {
-    // note that a unique server and stream will be created for
-    // each test but you may want to
-    // close them to not pollute your runner
-    this.#server = http.createServer()
-    this.#stream = new PassThrough()
-    cleanup(async () => {
-      this.#server.close()
-      this.#stream.end()
-    })
-  }
+doubt['Your tests should be too']({
+  because: { 'using doubt': true },
+  is     : { 'using doubt': false },
+})
 ```

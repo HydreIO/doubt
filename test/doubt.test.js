@@ -1,48 +1,34 @@
-export default class {
-  static name = 'Testing is simple'
-  static loop = 1
+import Doubt from '../src/index.js'
+import reporter from 'tap-spec-emoji'
+import { pipeline, PassThrough } from 'stream'
 
-  static ['foo'](affirmation) {
-    const affirm = affirmation(1)
+const through = new PassThrough()
 
-    affirm({
-      that   : 'Roses',
-      should : 'be red'.red.underline,
-      because: 'red',
-      is     : 'red',
-    })
-  }
+pipeline(through, reporter(), process.stdout, () => {})
 
-  static ['bar'](affirmation) {
-    const affirm = affirmation(1)
+const doubt = Doubt({
+  stdout : through,
+  title  : 'Testing is simple',
+  calls  : 4,
+  timeout: 50,
+})
 
-    affirm({
-      that   : 'Violets',
-      should : 'be blue'.cyan.underline,
-      because: 'blue',
-      is     : 'blue',
-    })
-  }
+doubt['Roses are red']({
+  because: 'red',
+  is     : 'red',
+})
 
-  static ['baz'](affirmation) {
-    const affirm = affirmation()
+doubt['Violets are blue']({
+  because: 'blue',
+  is     : 'blue',
+})
 
-    affirm({
-      that   : 'doubt',
-      should : `be awesome`,
-      because: { amazing: true },
-      is     : { amazing: true },
-    })
-  }
+doubt['Doubt is awesome']({
+  because: { amazing: true },
+  is     : { amazing: true },
+})
 
-  static ['toz'](affirmation) {
-    const affirm = affirmation(1)
-
-    affirm({
-      that   : 'your tests',
-      should : `be too`,
-      because: { 'using doubt': true },
-      is     : { 'using doubt': true },
-    })
-  }
-}
+doubt['Your tests should be too']({
+  because: { 'using doubt': true },
+  is     : { 'using doubt': true },
+})
