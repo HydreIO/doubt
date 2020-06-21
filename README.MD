@@ -50,7 +50,6 @@ Usage is trivial
 - `stdout` - Doubt doesn't pollute the standard output, use any stream
 - `title` - Test suite title
 - `calls` - Enforce how many tests you want, it will fails if the count doesn't match
-- `timeout` - Enforce a maximum execution time, (note that this will not exit the program, it only is a check)
 
 ```js
 import Doubt from '@hydre/doubt'
@@ -59,7 +58,6 @@ const doubt = Doubt({
   stdout : process.stdout,
   title  : 'Testing is simple',
   calls  : 1,
-  timeout: 50,
 })
 ```
 

@@ -7,10 +7,9 @@ const through = new PassThrough()
 pipeline(through, reporter(), process.stdout, () => {})
 
 const doubt = Doubt({
-  stdout : through,
-  title  : 'Testing is simple',
-  calls  : 4,
-  timeout: 50,
+  stdout: through,
+  title : 'Testing is simple',
+  calls : 4,
 })
 
 doubt['Roses are red']({

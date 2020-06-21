@@ -41,7 +41,6 @@ process.on('beforeExit', () => {
       title,
       calls,
       stats,
-      timeout,
     } = call_stats()
 
     if (calls !== stats.called) {
@@ -50,13 +49,6 @@ process.on('beforeExit', () => {
           title,
           stats.called + 1,
           `Called ${ stats.called } times instead of ${ calls }`,
-      )
-    } else if (stats.ended - stats.started > timeout) {
-      fail(
-          tap,
-          title,
-          stats.called + 1,
-          `Took more than ${ timeout }ms to complete`,
       )
     }
 
@@ -70,7 +62,6 @@ process.on('beforeExit', () => {
 export default ({
   title = 'Anonymous test',
   calls = 1,
-  timeout = 50,
   stdout = process.stdout,
 } = {}) => {
   const tap = new Console({
@@ -93,7 +84,6 @@ export default ({
     stdout,
     title,
     calls,
-    timeout,
     stats,
   }))
   tap.log('TAP version 13')
