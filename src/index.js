@@ -71,7 +71,7 @@ export default ({
   const stats = {
     called : 0,
     started: Date.now(),
-    ended  : Infinity,
+    ended  : Number.POSITIVE_INFINITY,
     call   : () => {
       stats.called++
       if (stats.called === calls) stats.ended = Date.now()
@@ -100,7 +100,7 @@ export default ({
           else {
             failed = true
 
-            const [, , stack] = new Error().stack.split('at ')
+            const [, , stack] = new Error('_').stack.split('at ')
             const found = `${ inspect(because) }`.bold
             const instead = `${ inspect(is) }`.bold
             const trace = stack
